@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+		}
+		.login-box {
+			width: 500px;
+			background-color: white;
+			border: 1px solid #d4d4d4;
+			border-radius: 5px;
+			margin: 100px auto;
+			padding: 30px;
+			text-align: center;
+		}
+		.login-box h1 {
+			font-size: 32px;
+			margin-bottom: 20px;
+		}
+		.login-box h3 {
+			font-size: 20px;
+			margin-bottom: 20px;
+            font-weight: lighter;
+		}
+		.login-box input[type="text"], .login-box input[type="password"] {
+			width: 90%;
+			padding: 12px;
+			border: 1px solid #d4d4d4;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			font-size: 16px;
+		}
+		.login-box input[type="submit"] {
+			background-color: #085d96;
+			color: white;
+			border: 0;
+			padding: 12px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.login-box a {
+			color: #0095f6;
+			font-size: 12px;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="login-box">
+		<h3>Enter Employee ID </h3>
+		<form action="{% url 'checkId' %}" method="post">
+			{% csrf_token %}
+			<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" required>
+			<!-- <input type="password" name="password" placeholder="Password" required> -->
+			<input type="submit" value="Submit">
+		</form>
+		<!-- <a href="#">Forgot password?</a> -->
+	</div>
+</body>
+</html>

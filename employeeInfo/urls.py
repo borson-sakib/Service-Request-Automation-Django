@@ -11,6 +11,8 @@ from django.contrib.auth.middleware import AuthenticationMiddleware
 urlpatterns = [
 
     path('', index, name="index"),
+    path('login', login, name="login"),
+    path('checkId', checkId, name="checkId"),
     
 
 
