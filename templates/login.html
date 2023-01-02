@@ -16,6 +16,15 @@
 			padding: 30px;
 			text-align: center;
 		}
+		.alerts {
+			width: auto;
+			background-color: rgb(145, 6, 6);
+			border: 1px solid #d4d4d4;
+			border-radius: 5px;
+			margin: 100px auto;
+			padding: 1px;
+			text-align: center;
+		}
 		.login-box h1 {
 			font-size: 32px;
 			margin-bottom: 20px;
@@ -24,6 +33,11 @@
 			font-size: 20px;
 			margin-bottom: 20px;
             font-weight: lighter;
+		}
+		.login-box p {
+			font-size: 15px;
+			margin-bottom: 20px;
+			color: rgb(250, 0, 0);
 		}
 		.login-box input[type="text"], .login-box input[type="password"] {
 			width: 90%;
@@ -50,14 +64,25 @@
 	</style>
 </head>
 <body>
+	
+		
 	<div class="login-box">
+		
 		<h3>Enter Employee ID </h3>
 		<form action="{% url 'checkId' %}" method="post">
 			{% csrf_token %}
 			<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" required>
-			<!-- <input type="password" name="password" placeholder="Password" required> -->
+			<input type="password" name="password" placeholder="Password" required>
 			<input type="submit" value="Submit">
+			<a href="create_profile" type="button" value="Create Profile">Create Profile</a>
 		</form>
+		{% if messages %}
+				
+			{% for message in messages %}
+					<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+			{% endfor %}
+				
+		{% endif %}
 		<!-- <a href="#">Forgot password?</a> -->
 	</div>
 </body>

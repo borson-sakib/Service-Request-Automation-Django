@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f4f4f4;
+		}
+		.registration-box {
+			width: 500px;
+			background-color: white;
+			border: 1px solid #d4d4d4;
+			border-radius: 5px;
+			margin: 100px auto;
+			padding: 30px;
+			text-align: center;
+		}
+		.registration-box h1 {
+			font-size: 32px;
+			margin-bottom: 20px;
+		}
+		.registration-box input[type="text"], .registration-box input[type="email"], .registration-box input[type="password"] {
+			width: 90%;
+			padding: 6px;
+			border: 1px solid #d4d4d4;
+			border-radius: 0px;
+			margin-bottom: 20px;
+			font-size: 14px;
+		}
+		.registration-box input[type="submit"] {
+			background-color: #0095f6;
+			color: white;
+			border: 0;
+			padding: 12px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="registration-box">
+		<h1>Registration</h1>
+		<form action="register.php" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+			<input type="text" name="userID" placeholder="UserID" required>
+			<input type="password" name="password" placeholder="Password" required>
+			<input type="password" name="password" placeholder="Re-type Password" required>
+            <br>
+            <div style="background-color: #d4d4d4;">
+                <label for="image">Select image:</label>
+                <img id="preview" src="#" alt="Image preview" style="display: none;" width=100;>
+                <input type="file" id="image" name="image" accept="image/*">
+                <br>
+                
+                <br>
+            </div>
+            
+            <!-- <input type="submit" value="Upload"> -->
+           
+			<input type="submit" value="Sign up">
+		</form>
+       
+          
+	</div>
+</body>
+
+<script>
+    const input = document.querySelector('input[type="file"]');
+    const preview = document.querySelector('#preview');
+
+    input.addEventListener('change', updateImageDisplay);
+
+    function updateImageDisplay() {
+        while(preview.firstChild) {
+            preview.removeChild(preview.firstChild);
+        }
+
+        const curFiles = input.files;
+        if(curFiles.length === 0) {
+            const para = document.createElement('p');
+            para.textContent = 'No files currently selected for upload';
+            preview.appendChild(para);
+        } else {
+            const image = document.createElement('img');
+            image.src = URL.createObjectURL(curFiles[0]);
+
+            preview.appendChild(image);
+            preview.style.display = 'block';
+            preview.src= image.src
+        }
+    }
+</script>
+</html>
