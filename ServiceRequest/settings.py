@@ -61,6 +61,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ServiceRequest.urls'
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+AUTH_USER_MODEL = 'employeeInfo.User'
+LOGIN_URL = "login/"
+LOGIN_REDIRECT_URL = '/index'
+LOGOUT_REDIRECT_URL ='/'
 
 
 TEMPLATES = [
@@ -96,7 +100,7 @@ WSGI_APPLICATION = 'ServiceRequest.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "mssql",
-        "NAME": "db_abdulJalilScholarship",
+        "NAME": "db_service_request_automation",
         "USER": "borson_new",
         "PASSWORD": "1234",
         "HOST": "HO-IT-110\SQLEXPRESS",

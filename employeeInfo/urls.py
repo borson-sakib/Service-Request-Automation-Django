@@ -12,7 +12,8 @@ urlpatterns = [
 
     path('', index, name="index"),
     path('create_profile', create_profile, name="create_profile"),
-    path('login', login, name="login"),
+    path('login', loginView, name="login"),
+    path('logout', auth_views.LogoutView.as_view(), name='logout'),
     path('checkId', checkId, name="checkId"),
     
 

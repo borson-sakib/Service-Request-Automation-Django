@@ -69,7 +69,7 @@
 	<div class="login-box">
 		
 		<h3>Enter Employee ID </h3>
-		<form action="{% url 'checkId' %}" method="post">
+		<form action="{% url 'login' %}" method="post">
 			{% csrf_token %}
 			<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" required>
 			<input type="password" name="password" placeholder="Password" required>
