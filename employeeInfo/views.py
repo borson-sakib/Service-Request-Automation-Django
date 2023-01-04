@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from .forms import *
 
 from .models import *
 
@@ -49,7 +50,9 @@ def create_profile(request):
             print(request.POST["employeeId"])
             # Get the uploaded file
             
-
+            form = ImageForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
             # Do something with the file...
             
             funcDesig="others"

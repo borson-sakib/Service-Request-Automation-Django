@@ -11,6 +11,8 @@ class User(AbstractUser):
     EmpFunctionalDesignation = models.CharField(max_length=200)
     Placeofposting = models.CharField(max_length=200)
     EmployeeID = models.CharField(unique=True,max_length=11,primary_key=True)
+    image1 = models.CharField(max_length=255,default='others')
+    imagelocation = models.ImageField(upload_to='images/',default='others')
     # username = None
     # email = None
     first_name = None
