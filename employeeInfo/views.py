@@ -21,7 +21,7 @@ FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FO
 
 @login_required(login_url='/login')
 def index(request):
-    return render(request,'employee_registration.html')
+    return render(request,'access_request_form.html')
 
 def loginView(request):
     if (request.method == "POST"):
@@ -50,9 +50,13 @@ def create_profile(request):
             print(request.POST["employeeId"])
             # Get the uploaded file
             
-            form = ImageForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
+            uploaded_file = request.FILES['image1']
+            # Create a Photo instance using the uploaded file
+            # photo = Photo(image=uploaded_file, caption='My photo')
+            # photo.save()
+            # form = ImageForm(request.POST, request.FILES)
+            # if form.is_valid():
+            #     form.save()
             # Do something with the file...
             
             funcDesig="others"
@@ -66,7 +70,9 @@ def create_profile(request):
                 EmpFunctionalDesignation=funcDesig,
                 Placeofposting=response["POP"],
                 EmployeeID=response["EmployeeID"],
-                password=request.POST['password']
+                password=request.POST['password'],
+                imagelocation=uploaded_file,
+                image1=request.POST['employeeId']
                 )
                 
             messages.success(request, 'User Creation Successful')
