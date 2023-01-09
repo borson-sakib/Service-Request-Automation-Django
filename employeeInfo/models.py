@@ -11,8 +11,13 @@ class User(AbstractUser):
     EmpFunctionalDesignation = models.CharField(max_length=200)
     Placeofposting = models.CharField(max_length=200)
     EmployeeID = models.CharField(unique=True,max_length=11,primary_key=True)
-    image1 = models.CharField(max_length=255,blank=True)
-    imagelocation = models.ImageField(upload_to='images/',blank=True)
+    signature = models.ImageField(upload_to='images/signatures',blank=True)
+    pi = models.ImageField(upload_to='images/pi',blank=True)
+
+    def save(self, *args, **kwargs):
+        self.signature.name = self.EmployeeID + '_signature.jpg'
+        self.pi.name = self.EmployeeID + '_pi.jpg'
+        super().save(*args, **kwargs)
     # username = None
     # email = None
     first_name = None

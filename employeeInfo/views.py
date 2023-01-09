@@ -50,7 +50,8 @@ def create_profile(request):
             print(request.POST["employeeId"])
             # Get the uploaded file
             
-            uploaded_file = request.FILES['image1']
+            uploaded_file1 = request.FILES['signature']
+            uploaded_file2 = request.FILES['pi']
             # Create a Photo instance using the uploaded file
             # photo = Photo(image=uploaded_file, caption='My photo')
             # photo.save()
@@ -71,8 +72,8 @@ def create_profile(request):
                 Placeofposting=response["POP"],
                 EmployeeID=response["EmployeeID"],
                 password=request.POST['password'],
-                imagelocation=uploaded_file,
-                image1=request.POST['employeeId']
+                signature=uploaded_file1,
+                pi=uploaded_file2,
                 )
                 
             messages.success(request, 'User Creation Successful')

@@ -119,13 +119,13 @@
       <li>Menu item 3</li>
       <li>Menu item 4</li>
     </ul>
+    <a href="{% url 'logout' %}">Logout</a>
+
   </div>
 
   <!-- Add the main content -->
   <div class="main">
-    <h1>Welcome to my landing page</h1>
-    <p>This is the main content of the page</p>
-
+  
     {% block content %}
 
     {% endblock content %}
