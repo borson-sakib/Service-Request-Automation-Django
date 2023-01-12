@@ -15,13 +15,19 @@ import requests
 import json
 import environ
 
+# from bs4 import BeautifulSoup
+
+
+
 employeeURL= settings.APIURL
 
 FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE"]
 
 @login_required(login_url='/login')
 def index(request):
-    return render(request,'access_request_form.html')
+    form = RequestForm()
+
+    return render(request,'test.html',{'form': form})
 
 def loginView(request):
     if (request.method == "POST"):
@@ -42,6 +48,7 @@ def loginView(request):
 
 def create_profile(request):
     if request.method == 'POST':
+        print(request.POST)
         url = str(employeeURL) + str(request.POST["employeeId"])
         response = requests.post(url)
         response = response.json()
@@ -98,4 +105,3 @@ def checkId(request):
         # return redirect('login')
         # if(request.POST["employeeId"] == "1111"):
         #     return render(request,'employee_registration.html')
-

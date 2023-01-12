@@ -1,37 +1,55 @@
 {% extends 'base.html' %}  
   
 {% block content %}  
-     <h3>Access/Service Request Form</h3>
+     <!-- <h3>Access/Service Request Form</h3> -->
+     <!-- <h2>Access/Service Request Form <span class="badge badge-secondary"></span></h2> -->
+
+     <div class="row">
+        <div class="col-md-4">
+            <div id="logo" class="logo-container">
+                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="jumbotron" style="margin: 10px auto;">
+                <h3 class="display-8">Access/Service Request Form </h3>
+              
+                
+              
+              
+              </div>
+        </div>
+        <hr class="my-3">
+     </div>
+  
   
     <div class="row ">
      
-          <div class="col-sm-10">
              <div class="container content-padding">
                  <form action="validation.html" action="authenticate" method='get' name='process'>
                      <div class="card">
                          <div class="col-sm-12 card-padding">
                              <form role="form">
-                                 <div class="row">
+                                <div class="row">
                                      <div class="col-sm-7">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;">Request No:</span>
-                                             <input type="text" class="form-control form-control-sm" placeholder="Please enter request no." aria-label="LabelRequestNo" aria-describedby="addon-wrapping">
+                                             {{form.request_no}}
                                          </div>
                                      </div>
 
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Date:</span>
-                                             <input type="text" class="form-control" placeholder="Please enter date" aria-label="LabelDate" aria-describedby="addon-wrapping">
+                                             {{form.date}}
                                          </div>
                                      </div>
-                                 </div>
+                                    </div>
 
-                                 <div class="row">
+                                    <div class="row">
                                     <div class="col-sm-7">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Employee Name:</span>
-                                            <input type="text" class="form-control" placeholder="Please enter employee name" aria-label="LabelEmployeeName" aria-describedby="addon-wrapping">
+                                            {{form.employee_name}}
                                         </div>
                                     </div>
                                     
@@ -39,23 +57,22 @@
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Branch Code:</span>
-                                             <input type="text" class="form-control" placeholder="Please enter branch code" aria-label="LabelBranchCode" aria-describedby="addon-wrapping">
+                                             {{form.branch_code}}
                                          </div>
                                      </div>
-                                 </div>
-
+                                    </div>
                                  <div class="row">
                                      
                                     <div class="col-sm-7">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Department:</span>
-                                            <input type="text" class="form-control" placeholder="Please enter department" aria-label="LabelDepartment" aria-describedby="addon-wrapping">
+                                            {{form.department}}
                                         </div>
                                     </div>
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Mobile No:</span>
-                                             <input type="text" class="form-control" placeholder="Please enter mobile no." aria-label="LabelMobileNo" aria-describedby="addon-wrapping">
+                                             {{form.mobile_no}}
                                          </div>
                                      </div>
                                  </div>
@@ -67,13 +84,13 @@
                                     <div class="col-sm-7">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Designation:</span>
-                                            <input type="text" class="form-control" placeholder="Please enter designation" aria-label="LabelDesignation" aria-describedby="addon-wrapping">
+                                            {{form.designation}}
                                         </div>
                                     </div>
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Employee ID:</span>
-                                             <input type="text" class="form-control" placeholder="Please enter employee id" aria-label="LabelEmployeeID" aria-describedby="addon-wrapping">
+                                             {{form.employee_id}}
                                              <!-- <button class="btn btn-primary" type="submit" id="article-update-button">Update</button> -->
                                          </div>
                                      </div>
@@ -84,13 +101,13 @@
                                     <div class="col-sm-7">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Branch/Division Name:</span>
-                                            <input type="text" class="form-control" placeholder="Please enter branch/ division name" aria-label="LabelBranchDivisionName" aria-describedby="addon-wrapping">
+                                            {{form.branch_division_name}}
                                         </div>
                                     </div>
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
                                              <span class="input-group-text" id="addon-wrapping" style="width: 44%;">PA No (if any):</span>
-                                             <input type="text" class="form-control" placeholder="Please enter PA No." aria-label="LabelPANo" aria-describedby="addon-wrapping">
+                                             {{form.pa_no}}
                                          </div>
                                      </div>
                                  </div>
@@ -100,7 +117,7 @@
                                          <div class="input-group input-group-sm">
                                              <div class="input-group input-group-sm">
                                                  <span class="input-group-text" id="addon-wrapping" style="width: 33%;">PC IP Address:</span>
-                                                 <input type="text" class="form-control" placeholder="Please enter IP Address" aria-label="LabelEmail" aria-describedby="addon-wrapping">
+                                                 {{form.ip_address}}
                                              </div>
                                          </div>
                                      </div>
@@ -108,7 +125,7 @@
                                      <div class="col-sm-5">
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Email</span>
-                                            <input type="text" class="form-control" placeholder="Please enter Email" aria-label="LabelPANo" aria-describedby="addon-wrapping">
+                                            {{form.email}}
                                         </div>
                                     </div>
                                  </div>
@@ -117,93 +134,76 @@
                      </div>
                         <br>
                      <div class="card">
-                        <div class="col-sm-12 card-padding">
                             <form role="form">
                             <div class="row">
 
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 100%;">Requested For:</span>
-
-                                </div>
-
-
-                            </div>
-
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-                                             <input type="radio" id="self" name="self" value="self"><label>&nbsp; Self &nbsp;</label> 
-                            <input type="radio" id="self" name="self" value="Selfwithservice">&nbsp; Selfwithservice &nbsp;
-                            <input type="radio" id="self" name="self" value="serviceprovider">&nbsp; serviceprovider &nbsp;
-                            <input type="radio" id="self" name="self" value="team">&nbsp; team &nbsp;
-                            <input type="radio" id="self" name="self" value="visitor">&nbsp; visitor &nbsp;
-                           
-                                </div>
-                   
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 100%;">Date Duration:</span>
-
-                                </div>
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-                                    From: &nbsp;&nbsp;<input type="date" name="from-date">
-                                    To: &nbsp;&nbsp;<input type="date" name="to-date" id="to-date"> &nbsp; <input type="checkbox" name="to-date-check" id="to-date-check"> Continuous
-                                </div>
-                              
-                            </div>
-               
-                            <div class="col-sm-4">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 100%;">Time Duration:</span>
-
-                                </div>
-                            </div>
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-
-                                    From: &nbsp; &nbsp;<input type="time" name="from-time" id="from-time">&nbsp;
-                                    To: &nbsp; &nbsp;<input type="time" name="to-time" id="to-time"> &nbsp; <input type="checkbox" name="to-time-check" id="to-time-check"> Continuous
-                                </div>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Requested For:</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 69%;background-color: white;">
+                                    
+                                        {% for choice in form.self_type %}
+                                    <div class="form-check form-check-inline">
+                                        {{ choice.tag }}
+                                        <label class="form-check-label" for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                                    </div>
+                                {% endfor %}
+                                    
+                                    </span>
                                 
+                                </div>
+
+
                             </div>
+
+                         
+
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Date Duration:</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%; background-color: white;">From: &nbsp;&nbsp;{{form.from_date}}</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">                                    To: &nbsp;&nbsp;{{form.to_date}}&nbsp;&nbsp;{{form.to_date_check}}&nbsp;&nbsp;Continuous
+                                    </span>
+                                    
+                                
+                                </div>
+                            </div>
+                          
+               
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Time Duration:</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;background-color: white;">From: &nbsp; &nbsp;{{form.from_time}}</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp; &nbsp;{{form.to_time}} &nbsp;&nbsp; {{form.to_time_check}}&nbsp;&nbsp;Continuous</span>
+
+                                </div>
+                            </div>
+                      
                      
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 100%;">Reason of Request:</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Reason of Request:</span>
+                                    <span style="width: 69%;">{{form.reason}}</span>
+                                    
+                                </div>
+                            </div>
+
+      
+                            <div class="col-sm-12">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Details of Access/Service:</span>
+                                    <span style="width: 69%;">{{form.details}}</span>
 
                                 </div>
                             </div>
 
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="reason of request">
-
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 100%;">Details of Access/Service:</span>
-
-                                </div>
-                            </div>
-
-                            <div class="col-sm-8">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="Details of Access/Service">
-
-                                </div>
-                            </div>
+                        
                             </div>
 
                      
                             </form>
 
                   
-                        </div>
                         
 
 
@@ -211,11 +211,19 @@
                      </div>
                      <br>
 
-                     <div class="card">
-                        <div class="card-title" >
-                        <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;"><strong>Vendor  Engagement</strong> </span>
-
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="jumbotron" style="margin: 10px auto;">
+                                <!-- <h4 class="display-8">Vendor  Engagement</h4> -->
+                              
+                                   <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;"><strong>Vendor  Engagement</strong> </span>
+                              
+                              
+                              </div>
                         </div>
+                     </div>
+                     <div class="card">
+ 
                         <div class="col-sm-12 card-padding">
                         <form role="form">
 
@@ -223,17 +231,17 @@
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Name</span>
-                                        <input type="text" class="form-control form-control-sm" placeholder="Please enter Vendor Name" aria-label="LabelRequestNo" aria-describedby="addon-wrapping">
+                                        {{form.vendor_name}}
                                         <!-- <button class="btn btn-primary" type="submit" id="article-update-button">Update</button> -->
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Assigned Person</span>
-                                        <input type="text" class="form-control form-control-sm" placeholder="Name">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Contact Number">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Name">
-                                        <input type="text" class="form-control form-control-sm" placeholder="Contact Number">
+                                        {{form.name1}}
+                                        {{form.contact_number1}}
+                                        {{form.name2}}
+                                        {{form.contact_number2}}
                                         <!-- <button class="btn btn-primary" type="submit" id="article-update-button">Update</button> -->
                                     </div>
                                 </div>
@@ -248,7 +256,7 @@
 
                  </form>
              </div>
-         </div>
+
        
   
     </div>
