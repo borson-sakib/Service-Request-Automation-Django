@@ -25,6 +25,7 @@ FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FO
 
 @login_required(login_url='/login')
 def index(request):
+
     form = RequestForm()
 
     return render(request,'test.html',{'form': form})
@@ -105,3 +106,116 @@ def checkId(request):
         # return redirect('login')
         # if(request.POST["employeeId"] == "1111"):
         #     return render(request,'employee_registration.html')
+
+
+
+def service_request(request):
+    if(request.method == "POST"):
+
+        print(request.POST)
+
+        Service_request_OBJ = Service_request(
+            request_no=request.POST['request_no'],
+            date=request.POST['date'],
+            employee_name=request.POST['employee_name'],
+            branch_code=request.POST['branch_code'],
+            department=request.POST['department'],
+            mobile_no=request.POST['mobile_no'],
+            designation=request.POST['designation'],
+            employee_id=request.POST['employee_id'],
+            branch_division_name=request.POST['branch_division_name'],
+            pa_no=request.POST['pa_no'],
+            ip_address=request.POST['ip_address'],
+            email=request.POST['email'],
+            # from_date = request.POST['from_date'],
+            self_type = request.POST['self_type'],
+            # to_date = request.POST['to_date'],
+            # from_time = request.POST['from_time'],
+            # to_time = request.POST['to_time'],
+            reason = request.POST['reason'],
+            details = request.POST['details'],
+            vendor_name = request.POST['vendor_name'],
+            name1 = request.POST['name1'],
+            contact_number1 = request.POST['contact_number1'],
+            name2 = request.POST['name2'],
+            contact_number2 = request.POST['contact_number2'],
+            # to_date_check = request.POST['to_date_check'],
+            # to_time_check = request.POST['to_time_check']
+        )
+
+        try:
+            Service_request_OBJ.to_date=request.POST['to_date']
+        except:
+            pass
+        
+        try:
+            Service_request_OBJ.to_date_check=request.POST['to_date_check']
+        except:
+            pass
+    
+        try:
+            Service_request_OBJ.from_time=request.POST['from_time']
+        except:
+            pass
+    
+        try:
+            Service_request_OBJ.to_time=request.POST['to_time']
+        except:
+            pass
+      
+        try:
+            Service_request_OBJ.to_time_check=request.POST['to_time_check']
+        except:
+            pass
+      
+        try:
+            Service_request_OBJ.from_date=request.POST['from_date']
+        except:
+            pass
+
+        Service_request_OBJ.save()
+
+        print(request.POST)
+
+        return HttpResponse('Successful')
+
+        # form = RequestForm(request.POST)
+
+        # print(form.data)
+        # form.save()
+
+        # if form.is_valid():
+        #     print(form.is_valid)
+        #     form.save()
+
+
+    return redirect('index')    
+
+
+
+    # request_no;
+    # date;
+    # employee_name;
+    # branch_code;
+    # department;
+    # mobile_no;
+    # designation;
+    # employee_id;
+    # branch_division_name;
+    # pa_no;
+    # ip_address;
+    # email;
+    # self_type;
+    # from_date;
+    # to_date;
+    # from_time;
+    # to_time;
+    # reason;
+    # details;
+    # vendor_name;
+    # name1;
+    # contact_number1;
+    # name2;
+    # contact_number2;
+    # to_date_check;
+    # to_time_check

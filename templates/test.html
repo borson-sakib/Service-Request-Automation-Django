@@ -25,10 +25,10 @@
     <div class="row ">
      
              <div class="container content-padding">
-                 <form action="validation.html" action="authenticate" method='get' name='process'>
+                 <form action="{% url 'service_request' %}" method="post">
+                    {% csrf_token %}
                      <div class="card">
                          <div class="col-sm-12 card-padding">
-                             <form role="form">
                                 <div class="row">
                                      <div class="col-sm-7">
                                          <div class="input-group input-group-sm">
@@ -129,12 +129,10 @@
                                         </div>
                                     </div>
                                  </div>
-                             </form>
                          </div>
                      </div>
                         <br>
                      <div class="card">
-                            <form role="form">
                             <div class="row">
 
                             <div class="col-sm-12">
@@ -201,7 +199,6 @@
                             </div>
 
                      
-                            </form>
 
                   
                         
@@ -224,8 +221,6 @@
                      </div>
                      <div class="card">
  
-                        <div class="col-sm-12 card-padding">
-                        <form role="form">
 
                             <div class="row">
                                 <div class="col-sm-12">
@@ -246,13 +241,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                         
-                        </div>
 
                      </div>
 
+                     <div style="display: flex; justify-content: center; align-items: center;">
+                        <input class='btn btn-success' style='width: 50%; margin: 20px auto; justify-self: center;' type="submit" value="Submit">             
+                       </div>
               
+                  
 
                  </form>
              </div>
