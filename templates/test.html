@@ -172,7 +172,7 @@
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Time Duration:</span>
                                     <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;background-color: white;">From: &nbsp; &nbsp;{{form.from_time}}</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp; &nbsp;{{form.to_time}} &nbsp;&nbsp; {{form.to_time_check}}&nbsp;&nbsp;Continuous</span>
+                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp; &nbsp;{{form.to_time}}</span>
 
                                 </div>
                             </div>
@@ -260,11 +260,13 @@
 
     <script>
     document.getElementById('to-date-check').onchange = function() {
+    document.getElementById('to-date-check').value = 'True';
     document.getElementById('to-date').disabled = this.checked;
     document.getElementById('from-time').disabled = this.checked;
     document.getElementById('to-time').disabled = this.checked;
     document.getElementById('to-time').disabled = this.checked;
     document.getElementById('to-time-check').disabled = this.checked;
+    document.getElementById('to-time-check').value = 'True';
 };
     </script>
  
