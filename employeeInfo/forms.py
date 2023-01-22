@@ -5,16 +5,17 @@ from django import forms
 from django.forms import ModelForm
 
 
+
 class RequestForm(forms.ModelForm):
     request_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Please enter request no.', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date','class': 'form-control', 'placeholder': 'Please enter date', 'aria-label': 'LabelDate', 'aria-describedby': 'addon-wrapping'}))
-    employee_name = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter employee name', 'aria-label': 'LabelEmployeeName', 'aria-describedby': 'addon-wrapping'}))
+    employee_name = forms.CharField(initial='',widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter employee name', 'aria-label': 'LabelEmployeeName', 'aria-describedby': 'addon-wrapping'}))
     branch_code = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter branch code', 'aria-label': 'LabelBranchCode', 'aria-describedby': 'addon-wrapping'}))
     department = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter department', 'aria-label': 'LabelDepartment', 'aria-describedby': 'addon-wrapping'}))
     mobile_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter mobile no.', 'aria-label': 'LabelMobileNo', 'aria-describedby': 'addon-wrapping'}))
-    designation = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter designation', 'aria-label': 'LabelDesignation', 'aria-describedby': 'addon-wrapping'}))
-    employee_id = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter employee id', 'aria-label': 'LabelEmployeeID', 'aria-describedby': 'addon-wrapping'}))
-    branch_division_name = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter branch/ division name', 'aria-label': 'LabelBranchDivisionName', 'aria-describedby': 'addon-wrapping'}))
+    designation = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter designation', 'aria-label': 'LabelDesignation', 'aria-describedby': 'addon-wrapping'}))
+    employee_id = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter employee id', 'aria-label': 'LabelEmployeeID', 'aria-describedby': 'addon-wrapping'}))
+    branch_division_name = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter branch/ division name', 'aria-label': 'LabelBranchDivisionName', 'aria-describedby': 'addon-wrapping'}))
     pa_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter PA No.', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
     ip_address = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter IP Address', 'aria-label': 'LabelEmail', 'aria-describedby': 'addon-wrapping'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter Email', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))

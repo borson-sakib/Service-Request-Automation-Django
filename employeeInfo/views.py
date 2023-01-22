@@ -21,14 +21,21 @@ import environ
 
 employeeURL= settings.APIURL
 
-FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE"]
+FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management"]
 
 @login_required(login_url='/login')
 def index(request):
 
-    form = RequestForm()
+    obj = User.objects.get(username=request.user.username)
+    authorizer = False
+    if obj.EmpFunctionalDesignation in FunctionalDesignations:
+        authorizer = True
 
-    return render(request,'test.html',{'form': form})
+    print(obj.EmployeeName)
+    form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
+
+    print(obj.EmpFunctionalDesignation)
+    return render(request,'test.html',{'form': form,'user_object':obj,'authorizer':authorizer})
 
 def loginView(request):
     if (request.method == "POST"):
@@ -190,6 +197,18 @@ def service_request(request):
 
 
     return redirect('index')    
+
+
+
+def access_request(request):
+
+    user_requests = Service_request.objects.filter(branch_division_name = request.user.Placeofposting).all()
+
+    print(user_requests)
+    return render(request,'access_request.html',{'user_requests': user_requests})
+    pass
+
+
 
 
 

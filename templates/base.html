@@ -93,15 +93,37 @@
     .sub-menu li:hover {
       background-color: #006699;
     }
+    footer {
+    background-color: #026492;
+    color: white;
+    padding: 25px 0;
+    
+}
+
+footer h4 {
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+
   </style>
+
 </head>
 <body>
   <!-- Add a sidebar -->
- 
+ <div class="page-wrap">
+
   <!-- Add a navigation panel -->
   <div class="nav">
-    <a href="#">Home</a>
-    <a href="#">About</a>
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'access_request' %}">Requests</a>
     <a href="#">Contact</a>
     <a href="#" class="active">Link</a>
   </div>
@@ -118,7 +140,12 @@
         </ul>
       </li>
       <li>Menu item 3</li>
-      <li>Menu item 4</li>
+
+      {% if authorizer %}
+
+      <li><a href="{% url 'access_request' %}">If  authorizer is true</a></li>
+
+      {% endif  %}
     </ul>
     <a href="{% url 'logout' %}">Logout</a>
 
@@ -131,6 +158,35 @@
 
     {% endblock content %}
   </div>
+
+</div>
+
+<footer class="fixed-footer">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-4">
+              <h4>About Us</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed auctor, magna vel bibendum malesuada, ipsum augue tristique augue, id congue mi mi id mi.</p>
+          </div>
+          <div class="col-md-4">
+              <h4>Contact Us</h4>
+              <ul class="list-unstyled">
+                  <li>Email: info@example.com</li>
+                  <li>Phone: (123) 456-7890</li>
+                  <li>Address: 123 Main St, Anytown USA</li>
+              </ul>
+          </div>
+          <div class="col-md-4">
+              <h4>Follow Us</h4>
+              <ul class="list-unstyled">
+                  <li><a href="#">Facebook</a></li>
+                  <li><a href="#">Twitter</a></li>
+                  <li><a href="#">Instagram</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</footer>
 </body>
 
 </html>

@@ -16,6 +16,7 @@ urlpatterns = [
     path('logout', auth_views.LogoutView.as_view(), name='logout'),
     path('checkId', checkId, name="checkId"),
     path('service_request', service_request, name="service_request"),
+    path('access_request', access_request, name="access_request"),
     
 
 
