@@ -1,3 +1,4 @@
+from django.shortcuts import render, get_object_or_404, redirect
 from django.shortcuts import render
 from urllib import request
 from django.shortcuts import render,redirect
@@ -24,6 +25,11 @@ employeeURL= settings.APIURL
 FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management"]
 
 @login_required(login_url='/login')
+def landing(request):
+
+    return render(request,'landing.html')
+
+@login_required(login_url='/login')
 def index(request):
 
     obj = User.objects.get(username=request.user.username)
@@ -37,6 +43,8 @@ def index(request):
     print(obj.EmpFunctionalDesignation)
     return render(request,'test.html',{'form': form,'user_object':obj,'authorizer':authorizer})
 
+
+
 def loginView(request):
     if (request.method == "POST"):
         username = request.POST['employeeId']
@@ -45,7 +53,7 @@ def loginView(request):
 
         if user is not None:
             login(request,user)
-            return redirect('index')
+            return redirect('landing')
 
         messages.warning(request, 'You are not authorized to Enter')      
         
@@ -182,9 +190,11 @@ def service_request(request):
 
         Service_request_OBJ.save()
 
-        print(request.POST)
+        return redirect('access_request_user')
 
-        return HttpResponse('Successful')
+        obj = Service_request.objects.filter(employee_id=request.user.username).all()
+
+        return render(request,'access_request_user.html',{'access_request':obj})
 
         # form = RequestForm(request.POST)
 
@@ -202,13 +212,29 @@ def service_request(request):
 
 def access_request(request):
 
+    
+
     user_requests = Service_request.objects.filter(branch_division_name = request.user.Placeofposting).all()
 
-    print(user_requests)
     return render(request,'access_request.html',{'user_requests': user_requests})
     pass
 
 
+def access_request_user(request):
+
+    obj = Service_request.objects.filter(employee_id=request.user.username).all()
+
+    return render(request,'access_request_user.html',{'access_request':obj})
+
+
+def actions(request,variable_1):
+    emp_id = variable_1
+    obj = get_object_or_404(Service_request, employee_id=emp_id)
+    # obj=Service_request.objects.filter(employee_id=emp_id).all()
+    obj.approved_by_HOB = 'Yes'
+    obj.save()
+
+    return redirect('access_request')
 
 
 

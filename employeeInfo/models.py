@@ -31,6 +31,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 class Service_request(models.Model):
+    service_title = models.CharField(max_length=200,null=True)
     request_no = models.CharField(max_length=100)
     date = models.DateField(max_length=100)
     employee_name = models.CharField(max_length=100)
@@ -66,5 +67,9 @@ class Service_request(models.Model):
     contact_number1 = models.CharField(max_length=100,blank=True)
     name2 = models.CharField(max_length=100,blank=True)
     contact_number2 = models.CharField(max_length=100,blank=True)
+    approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
+    approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
+    approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
+    application_status = models.CharField(max_length=100,null=True,default="Pending")
    
 

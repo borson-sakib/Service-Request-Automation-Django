@@ -63,7 +63,7 @@ ROOT_URLCONF = 'ServiceRequest.urls'
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 AUTH_USER_MODEL = 'employeeInfo.User'
 LOGIN_URL = "login/"
-LOGIN_REDIRECT_URL = '/index'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL ='/'
 
 

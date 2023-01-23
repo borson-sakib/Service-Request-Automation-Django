@@ -10,13 +10,16 @@ from django.contrib.auth.middleware import AuthenticationMiddleware
 
 urlpatterns = [
 
-    path('', index, name="index"),
+    path('form1', index, name="index"),
+    path('', landing, name="landing"),
     path('create_profile', create_profile, name="create_profile"),
     path('login', loginView, name="login"),
     path('logout', auth_views.LogoutView.as_view(), name='logout'),
     path('checkId', checkId, name="checkId"),
     path('service_request', service_request, name="service_request"),
     path('access_request', access_request, name="access_request"),
+    path('access_request_user', access_request_user, name="access_request_user"),
+    path('actions/<str:variable_1>/', actions, name="actions"),
     
 
 
