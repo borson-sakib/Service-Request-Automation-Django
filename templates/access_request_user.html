@@ -23,6 +23,32 @@ th {
 td {
     font-size: 12px;
 }
+
+
+.badge {
+  /* background-color: rgb(235, 71, 71); */
+  /* background-color: rgb(243, 243, 243); */
+  color: rgb(236, 15, 15);
+  padding: 2px 2px;
+  width: 50%; 
+  margin: 5px auto; 
+  justify-self: center;
+  border: 2px;
+  border-color: black;
+  
+  /* border-radius: 100%; */
+}
+.badge:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background: url(alert-icon.svg) no-repeat center;
+}
+
 </style>
 
 <div class="table">
@@ -40,6 +66,18 @@ td {
               
               </div>
         </div>
+        {% if messages %}
+				
+			{% for message in messages %}
+            <div class="badge">
+                <span class="border border-danger">{{ message }}</span>
+                <!-- <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p> -->
+
+            </div>
+					<!-- <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p> -->
+			{% endfor %}
+				
+		{% endif %}
         <hr class="my-3">
      </div>
 
