@@ -26,8 +26,9 @@ FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FO
 
 @login_required(login_url='/login')
 def landing(request):
+    name = request.user.EmployeeName
 
-    return render(request,'landing.html')
+    return render(request,'landing.html',{'Username':name})
 
 @login_required(login_url='/login')
 def index(request):
@@ -63,7 +64,8 @@ def loginView(request):
         
         return redirect('login')
     else:
-        return render(request,'login.html')
+        user=User.objects.filter(is_staff=0).all()
+        return render(request,'login.html',{'test':user})
 
 
 def create_profile(request):
@@ -225,14 +227,16 @@ def access_request(request):
         
         if(request.user.username=='20190724001'):
 
-            user_requests = Service_request.objects.filter(approved_by_HOB='Yes',approved_by_CISO='No').all()
-            return render(request,'access_request.html',{'user_requests': user_requests})
+            user_requests = Service_request.objects.filter(approved_by_HOB='Yes').all()
+            return render(request,'access_request_ciso.html',{'user_requests': user_requests})
 
         elif(request.user.username=='20210701001'):
-            user_requests = Service_request.objects.filter(approved_by_CISO ='No',approved_by_HOB='No').all()
-            return render(request,'access_request.html',{'user_requests': user_requests})
+            
+            user_requests = Service_request.objects.filter(approved_by_CISO ='Yes').all()
+            return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
-            pass
+            user_requests = Service_request.objects.filter(approved_by_HOB='No',branch_division_name=request.user.Placeofposting).all()
+            return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker
     else:
         obj = Service_request.objects.filter(employee_id=request.user.username).all()
@@ -248,16 +252,31 @@ def access_request_user(request):
 
 
 def actions(request,variable_1):
-    
-    emp_id = variable_1
-    obj = get_object_or_404(Service_request, employee_id=emp_id)
-    # obj=Service_request.objects.filter(employee_id=emp_id).all()
-    obj.approved_by_HOB = 'Yes'
-    obj.save()
 
-    return redirect('access_request')
+    if(request.user.username=='20190724001'):
+        emp_id = variable_1
+        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj.approved_by_CISO = 'Yes'
+        obj.save()
+        return redirect('access_request')
+    elif(request.user.username=='20210701001'):
+        emp_id = variable_1
+        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj.approved_by_CTO = 'Yes'
+        obj.application_status='Completed'
+        obj.save()
+        return redirect('access_request')
+    else:
+        emp_id = variable_1
+        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj.approved_by_HOB = 'Yes'
+        obj.save()
+        return redirect('access_request')
 
 
+def gini(request):
+
+    return render(request,'gini.html')
 
     # request_no;
     # date;

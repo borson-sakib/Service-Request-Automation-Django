@@ -1,17 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Login</title>
 	<style>
+		@font-face {
+        font-family: "Roboto";
+        src: url("{% static 'fonts/Roboto/Roboto-Regular.ttf' %}") format("truetype");
+    }
 		body {
-			font-family: Arial, sans-serif;
-			background-color: #f4f4f4;
+			font-family: Roboto;
+			background-color: #026492;
 		}
 		.login-box {
 			width: 500px;
-			background-color: white;
-			border: 1px solid #d4d4d4;
-			border-radius: 5px;
+			/* background-color: white; */
+			background-color: rgba(255, 255, 255, 0.5);
+			/* border: 2px solid #000000; */
+			/* border-radius: 15px; */
 			margin: 100px auto;
 			padding: 30px;
 			text-align: center;
@@ -65,7 +71,19 @@
 </head>
 <body>
 	
+	<div class="flex">
+		<div class="flexbox">
+			{% if test %}
+{% for users in test %}
+<small>{{users.username}}</small>
+<small>- <strong>{{users.EmployeeName}}</strong></small>
+{% endfor %}
+
+		{% endif %}
+
+		</div>
 		
+	</div>
 	<div class="login-box">
 		
 		<h3>Enter Employee ID </h3>
@@ -85,5 +103,8 @@
 		{% endif %}
 		<!-- <a href="#">Forgot password?</a> -->
 	</div>
+
+
+	
 </body>
 </html>

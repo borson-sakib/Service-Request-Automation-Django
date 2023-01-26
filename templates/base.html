@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,27 +11,57 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
+    @font-face {
+        font-family: "Roboto";
+        src: url("{% static 'fonts/Roboto/Roboto-Regular.ttf' %}") format("truetype");
+    }
     /* Add some style to the page */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Roboto';
+    }
+    .chip {
+      display: inline-block;
+      padding: 0 25px;
+      height: 50px;
+      font-size: 12px;
+      line-height: 50px;
+      border-radius: 25px;
+      background-color: #ffffff;
+      position:absolute; 
+      color: rgb(0, 0, 0);
+      right: 120px;
+      width: 250px;
+      /* border: 1px solid rgb(92, 85, 85); */
+      
+    }
+    .chip img {
+      float: left;
+      margin: 0 10px 0 -25px;
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
     }
 
     .sidebar {
       float: left;
       width: 15%;
-      background-color: #026492;
-      color: #fff;
+      background-color: #ffffff;
+      color: rgb(0, 0, 0);
       padding: 10px;
       height: 100%;
       margin: 45px 15px auto;
       position: absolute;
       border-radius: 20px;
+      /* border-color: #026492;
+      border: 2px; */
     left: 0;
     top: 52px;
     bottom: 50px;
-      /* border: 1px solid #000000; */
+      border: 3px solid #026492;
 
     }
+    .p{
+      font-family: 'Roboto'    }
 
     .nav {
       overflow: hidden;
@@ -75,13 +106,15 @@
     .menu li {
       padding: 8px;
       margin-bottom: 7px;
-      background-color: #026492;
-      color: #ffffff;
+      background-color: #ffffff;
+      color: #000000;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border: 2px solid #026492;
+      
     }
 
     .menu li:hover {
-      background-color: #0099cc;
+      background-color: #bae7f7;
     }
 
     .sub-menu {
@@ -91,15 +124,16 @@
     }
 
     .sub-menu li {
-      padding: 8px;
+      padding: 0px 8px 0px 14px;
       margin-bottom: 7px;
-      background-color: #0588b4;
-      color: #ffffff;
+      background-color: #ffffff;
+      color: #000000;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      border: 2px solid #026492;
     }
 
     .sub-menu li:hover {
-      background-color: #006699;
+      background-color: #9bbdce;
     }
     footer {
       position: fixed;
@@ -137,9 +171,16 @@ footer a {
     <a href="{% url 'access_request' %}">Requests</a>
     <a href="#">Contact</a>
     <a href="#" class="active">Link</a>
-    <div class="logout" style="position:absolute; right: 20px;">
+    <div class="chip">
+      <img src="{% static 'img/user.png' %}" alt="Person" width="96" height="96">
+      <p><strong>{{request.user.EmployeeName}}</strong> </p><br>
+      <p>{{request.user.Placeofposting}} </p>
       
-      <a type="button" class="btn btn-outline-light btn-sm" href="{% url 'logout' %}">Logout
+      
+    </div>
+    <div class="logout" style="position:absolute; color: white;right: 20px;">
+      <!-- <a style="padding: 0px;margin-right: 25px;">{{request.user.EmployeeName}} <br> <small>{{request.user.Placeofposting}}</small></a> -->
+      <a type="button" class="btn btn-outline-light btn-sm" style="border-radius: 25px; padding: auto;" href="{% url 'logout' %}">Logout
       </a>
     </div>
     <!-- <a style="" href="{% url 'logout' %}">Logout</a> -->

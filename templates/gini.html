@@ -1,0 +1,61 @@
+{% extends 'base.html' %}  
+  
+{% block content %}  
+
+<div class="flex">
+    <div class="flexbox">
+        <table id="dataTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>John Doe</td>
+                <td>30</td>
+                <td>New York</td>
+              </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>25</td>
+                <td>Los Angeles</td>
+              </tr>
+              <tr>
+                <td>Bob Johnson</td>
+                <td>35</td>
+                <td>Chicago</td>
+              </tr>
+            </tbody>
+          </table>
+          
+          <button id="toggleBtn" onclick="toggleTable()">Toggle Location Filter</button>
+          
+          <script>
+            function toggleTable() {
+              var table = document.getElementById("dataTable");
+              var rows = table.getElementsByTagName("tr");
+              for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName("td");
+                if (cells.length > 0) {
+                  var location = cells[2].innerHTML;
+                  if (location == "New York" || location == "Los Angeles") {
+                    rows[i].style.display = "none";
+                  } else {
+                    rows[i].style.display = "";
+                  }
+                }
+              }
+            }
+          </script>
+          
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}  

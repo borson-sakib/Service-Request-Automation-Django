@@ -1,0 +1,83 @@
+{% extends 'base.html' %}  
+  
+{% block content %}  
+
+<style>
+   /* table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 2px solid #cccbcb;
+    padding: 6px;
+    text-align: center;
+} */
+
+th {
+    /* background-color: #026492;
+    color: white; */
+    font-size: 16px;
+}
+
+td {
+    font-size: 12px;
+}
+</style>
+
+<div class="table">
+    <div class="row">
+        <div class="col-md-4">
+            <div id="logo" class="logo-container">
+                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="jumbotron" style="margin: 10px auto;">
+                <h3 class="display-8">Access/Service Requests </h3>
+              
+                
+              
+              
+              </div>
+        </div>
+        <hr class="my-3">
+     </div>
+
+     
+    <table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Place of Posting</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in user_requests %}
+        <tr>
+            <td>{{ user.employee_name }}</td>
+            <td>{{ user.department }}</td>
+            <td>{{ user.designation }}</td>
+            <td>{{ user.branch_division_name }}</td>
+            <td>
+                {% if user.approved_by_CTO == 'Yes' %}
+                
+                <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
+
+                {% else %}
+                <a href="{% url 'actions' user.employee_id %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
+                <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
+               {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+</div>
+
+
+{% endblock content %}  

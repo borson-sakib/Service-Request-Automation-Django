@@ -21,6 +21,7 @@ urlpatterns = [
     path('access_request_user', access_request_user, name="access_request_user"),
     path('actions/<str:variable_1>/', actions, name="actions"),
     
+    path('gini', gini, name="gini"),
 
 
 ]
