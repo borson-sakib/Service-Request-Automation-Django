@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.shortcuts import render
 from urllib import request
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -277,6 +277,37 @@ def actions(request,variable_1):
 def gini(request):
 
     return render(request,'gini.html')
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def fetch(request):
+    # print('###########################################################################')
+    # # print(request.body)
+    # print(request.POST.get('employeeId'))
+
+    # print('###########################################################################')
+    # url = str(employeeURL) + str(request.GET["empid"])
+    # response = requests.post(url)
+    # response = response.json()
+    
+    
+    if request.method == 'POST':
+        url = str(employeeURL) + str(request.POST.get("employeeId"))
+        response = requests.post(url)
+        response_data = {'result': 'success'}
+        response_data['data'] = response.json()
+        return JsonResponse(response_data)
+
+
+def fetch_user(request):
+
+    pass
+
+
+
 
     # request_no;
     # date;

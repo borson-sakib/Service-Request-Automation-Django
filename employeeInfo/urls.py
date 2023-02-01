@@ -20,6 +20,9 @@ urlpatterns = [
     path('access_request', access_request, name="access_request"),
     path('access_request_user', access_request_user, name="access_request_user"),
     path('actions/<str:variable_1>/', actions, name="actions"),
+    # path('fetch_user/<str:userid>/', fetch_user, name="fetch_user"),
+    path('fetch', fetch, name="fetch"),
+    
     
     path('gini', gini, name="gini"),
 
