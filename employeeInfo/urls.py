@@ -2,6 +2,7 @@ from telnetlib import LOGOUT
 from django.contrib import admin
 from django.urls import path
 from .views import *
+# from .utils import *
 from django.contrib.auth import views as auth_views
 
 from django.conf import settings
@@ -22,6 +23,7 @@ urlpatterns = [
     path('actions/<str:variable_1>/', actions, name="actions"),
     # path('fetch_user/<str:userid>/', fetch_user, name="fetch_user"),
     path('fetch', fetch, name="fetch"),
+    
     
     
     path('gini', gini, name="gini"),

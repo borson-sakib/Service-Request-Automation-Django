@@ -8,6 +8,9 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import *
+from  .utils import *
+from  .backends import *
+
 
 from .models import *
 
@@ -54,6 +57,7 @@ def loginView(request):
     if (request.method == "POST"):
         username = request.POST['employeeId']
         password = request.POST['password']
+
         user = authenticate(request,username=username,password=password)
 
         if user is not None:
@@ -93,22 +97,29 @@ def create_profile(request):
             funcDesig="others"
             if response["EmpFunctionalDesignation"] in FunctionalDesignations:
                 funcDesig=response["EmpFunctionalDesignation"]
+            email = domainMailCheck(request.POST['email'])
 
-            User.objects.create_user(
-                username=request.POST['employeeId'], 
-                EmployeeName=response["EmployeeName"],
-                EmployeeDesignation=response["EmpDesignation"],
-                EmpFunctionalDesignation=funcDesig,
-                Placeofposting=response["POP"],
-                EmployeeID=response["EmployeeID"],
-                password=request.POST['password'],
-                signature=uploaded_file1,
-                pi=uploaded_file2,
-                )
+            if ldapcheck(email,request.POST['password']):
                 
-            messages.success(request, 'User Creation Successful')
-            
+                User.objects.create_user(
+                    username=request.POST['email'], 
+                    EmployeeName=response["EmployeeName"],
+                    EmployeeDesignation=response["EmpDesignation"],
+                    EmpFunctionalDesignation=funcDesig,
+                    Placeofposting=response["POP"],
+                    EmployeeID=response["EmployeeID"],
+                    password=request.POST['password'],
+                    signature=uploaded_file1,
+                    pi=uploaded_file2,
+                    )
+                
+                messages.success(request, 'User Creation Successful')
+                
+            else:
+                messages.success(request, 'Domain Does not match')
+                return redirect('create_profile')
             return redirect('login')
+            
 
         else:
             messages.success(request, 'Unable to find the user ID !')
@@ -309,6 +320,7 @@ def fetch_user(request):
 
 
 
+
     # request_no;
     # date;
     # employee_name;
@@ -335,3 +347,5 @@ def fetch_user(request):
     # contact_number2;
     # to_date_check;
     # to_time_check
+
+
