@@ -319,7 +319,9 @@ def fetch_user(request):
 
 
 
+def reg_test(request):
 
+    return render(request,'reg_test.html')
 
     # request_no;
     # date;

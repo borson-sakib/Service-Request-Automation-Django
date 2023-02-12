@@ -23,6 +23,7 @@ urlpatterns = [
     path('actions/<str:variable_1>/', actions, name="actions"),
     # path('fetch_user/<str:userid>/', fetch_user, name="fetch_user"),
     path('fetch', fetch, name="fetch"),
+    path('reg_test', reg_test, name="reg_test"),
     
     
     
