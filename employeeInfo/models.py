@@ -73,3 +73,10 @@ class Service_request(models.Model):
     application_status = models.CharField(max_length=100,null=True,default="Pending")
    
 
+class status_code(models.Model):
+    status_code = models.CharField(max_length=10)
+    status_meaning = models.CharField(max_length=100)
+
+class operations_log(models.Model):
+    service_request_id= models.CharField(max_length=100)
+    service_request_time= models.DateTimeField(max_length=100)

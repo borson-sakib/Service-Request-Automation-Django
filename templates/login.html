@@ -2,71 +2,106 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 	<title>Login</title>
+	
 	<style>
-		@font-face {
-        font-family: "Roboto";
-        src: url("{% static 'fonts/Roboto/Roboto-Regular.ttf' %}") format("truetype");
-    }
-		body {
-			font-family: Roboto;
-			background-color:#aedef5;
-		}
 		.login-box {
-			width: 500px;
-			/* background-color: white; */
-			background-color: rgba(255, 255, 255, 0.5);
-			/* border: 2px solid #000000; */
-			/* border-radius: 15px; */
-			margin: 100px auto;
-			padding: 30px;
-			text-align: center;
-		}
-		.alerts {
-			width: auto;
-			background-color: rgb(145, 6, 6);
-			border: 1px solid #d4d4d4;
-			border-radius: 5px;
-			margin: 100px auto;
-			padding: 1px;
-			text-align: center;
-		}
-		.login-box h1 {
-			font-size: 32px;
-			margin-bottom: 20px;
-		}
-		.login-box h3 {
-			font-size: 20px;
-			margin-bottom: 20px;
-            font-weight: lighter;
-		}
-		.login-box p {
-			font-size: 15px;
-			margin-bottom: 20px;
-			color: rgb(250, 0, 0);
-		}
-		.login-box input[type="text"], .login-box input[type="password"] {
-			width: 90%;
-			padding: 12px;
-			border: 1px solid #d4d4d4;
-			border-radius: 5px;
-			margin-bottom: 20px;
-			font-size: 16px;
-		}
-		.login-box input[type="submit"] {
-			background-color: #085d96;
-			color: white;
-			border: 0;
-			padding: 12px 20px;
-			font-size: 16px;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-		.login-box a {
-			color: #0095f6;
-			font-size: 12px;
-			text-decoration: none;
-		}
+        backdrop-filter: blur(4px);
+        width: 30%;
+        background-color: rgba(255, 255, 255,.1);
+        /* border: 1px solid white; */
+        border-radius: 10px;
+        /* margin: 100px auto; */
+        /* padding: 20px; */
+        text-align: center;
+        box-shadow: 1px 1px 10px 10px #ffffffc9;
+
+        /* opacity: 80%; */
+    }
+    .login-box h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+    .login-box a {
+        font-size: 15px;
+
+        margin-bottom: 20px;
+        color: rgb(32, 9, 241);
+    }
+    .login-box p {
+        font-size: 15px;
+		font-weight: 700;
+
+        margin-bottom: 20px;
+        color: rgb(241, 9, 9);
+    }
+    .login-box input[type="text"], .login-box input[type="email"], .login-box input[type="password"] {
+        width: 100%;
+        padding: 6px;
+        border: none;
+        border-radius: 5px;
+        /* margin-bottom: 20px; */
+        margin-left: 0px;
+        /* font-size: 14px; */
+        background: #f1f1f1;
+    }
+    .login-box input[type="submit"] {
+		width: 50%;
+        background-color: #1f83f5f6;
+        color: white;
+        border: 1px solid white;
+        padding: 8px;
+        font-size: 12px;
+		margin-top: 20px;
+        border-radius: 20px;
+        cursor: pointer;
+        letter-spacing: 2px;
+        font: 'Roboto';
+
+
+    }
+    .login-box button[type="button"] {
+        width: 50%;
+        background-color: #1f83f5f6;
+        color: rgb(255, 255, 255);
+        border: 2px solid rgb(255, 255, 255);
+        padding: 8px;
+        /* font-size: 12px; */
+        margin: 10px;
+        margin-top: 0px;
+
+        border-radius: 45px;
+        cursor: pointer;
+        font: Roboto;
+        letter-spacing: 2px;
+        margin-left: 17px;
+        margin-top: 25px;
+        transition: .3s;
+
+    }
+    .login-box button[type="button"]:hover {
+        width: 50%;
+        background-color: #1f83f5f6;
+        color: rgb(0, 0, 0);
+        border: 2px solid rgb(255, 255, 255);
+        padding: 8px;
+        /* font-size: 12px; */
+        margin: 10px;
+        margin-top: 0px;
+
+        border-radius: 45px;
+        cursor: pointer;
+        font: Roboto;
+        letter-spacing: 2px;
+        margin-left: 17px;
+        margin-top: 25px;
+        transition: .3s;
+
+    }
+	
+
 	</style>
 </head>
 <body>
@@ -86,14 +121,8 @@
 	</div>
 	<div class="login-box">
 		
-		<h3>Enter Employee ID </h3>
-		<form action="{% url 'login' %}" method="post">
-			{% csrf_token %}
-			<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" required>
-			<input type="password" name="password" placeholder="Password" required>
-			<input type="submit" value="Submit">
-			<a href="create_profile" type="button" value="Create Profile">Create Profile</a>
-		</form>
+		<h2>Enter Domain ID </h2>
+		<hr class="new1">
 		{% if messages %}
 				
 			{% for message in messages %}
@@ -101,6 +130,43 @@
 			{% endfor %}
 				
 		{% endif %}
+		<form action="{% url 'login' %}" method="post">
+			{% csrf_token %}
+
+			<div class="login-flex-container">
+				<div>
+					
+			
+
+			<div class="basic">
+				<span style="white-space: nowrap;">
+					<label for="email">Domain Id</label>
+					<input type="text" name="employeeId" id="employeeId" placeholder="Domain Id" required>
+				</span>
+				<span style="white-space: nowrap;">
+					<label for="password">Password</label>
+					<input type="password" name="password" placeholder="Password" required>
+				</span>
+					
+			</div>
+
+				</div>
+			
+			</div>
+
+			<div class="login-flex-container">
+				<div>
+					<input type="submit" value="Submit">
+				</div>
+				
+			
+				
+			</div>
+			<h4>Don't have an account ? <a href="create_profile" type="button" value="Create Profile">Create Profile</a></h4>
+			<div></div>
+			
+		</form>
+		
 		<!-- <a href="#">Forgot password?</a> -->
 	</div>
 

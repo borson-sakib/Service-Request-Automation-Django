@@ -3,252 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<title>Registration</title>
 
 
-	<style>
-		@font-face {
-        font-family: "Roboto";
-        src: url("{% static 'fonts/Roboto/Roboto-Thin.ttf' %}") format("truetype");
-    }
-		body {
-			font-family: 'Roboto';
-			/* background-color: #aedef5; */
-			background: url("{% static 'image/background.jpg' %}");
-			background-size: cover;
-		}
-		.registration-box {
-			backdrop-filter: blur(4px);
-			width: 70%;
-			background-color: rgba(255, 255, 255,.1);
-			/* border: 1px solid white; */
-			border-radius: 10px;
-			margin: 100px auto;
-			padding: 20px;
-			text-align: center;
-			box-shadow: 1px 1px 10px 10px #ffffffc9;
 
-			/* opacity: 80%; */
-		}
-		.registration-box h1 {
-			font-size: 32px;
-			margin-bottom: 20px;
-		}
-		.registration-box P {
-			font-size: 20px;
-
-			margin-bottom: 20px;
-			color: rgb(241, 9, 9);
-		}
-		.registration-box input[type="text"], .registration-box input[type="email"], .registration-box input[type="password"] {
-			width: 50%;
-			padding: 6px;
-			border: none;
-			border-radius: 0px;
-			margin-bottom: 20px;
-			margin-left: 0px;
-			font-size: 14px;
-			background: #f1f1f1;
-		}
-		.registration-box input[type="submit"] {
-			background-color: #026492;
-			color: white;
-			border: 0;
-			padding: 12px 20px;
-			font-size: 16px;
-			border-radius: 5px;
-			cursor: pointer;
-			letter-spacing: 2px;
-			font: 'Roboto';
-
-
-		}
-		.registration-box button[type="button"] {
-			width: 96%;
-			background-color: #a6c9f1a1;
-			color: rgb(0, 0, 0);
-			border: 1px solid rgb(0, 38, 255);
-			padding: 10px;
-			font-size: 12px;
-			border-radius: 5px;
-			cursor: pointer;
-			font: Roboto;
-			letter-spacing: 2px;
-			margin-left: 17px;
-			margin-top: 25px;
-			transition: .3s;
-
-		}
-		.registration-box button[type="button"]:hover {
-			width: 96%;
-			background-color: rgb(0, 38, 255);
-			color: rgb(255, 255, 255);
-			border: 1px solid rgb(0, 38, 255);
-			padding: 10px;
-			font-size: 12px;
-			border-radius: 5px;
-			cursor: pointer;
-			font: Roboto;
-			letter-spacing: 2px;
-			margin-left: 17px;
-			margin-top: 25px;
-
-		}
-
-		/* .registration-box label{
-			color: rgb(156, 20, 20);
-			border: 1px solid black;
-			border-radius: 5px;
-			display: inline-block;
-			
-
-		} */
-		.preview-container {
-        display: flex;
-        /* justify-content: space-between; */
-		}
-		.preview-container img {
-			/* width: 50px;
-			height: 50px; */
-			margin-left: auto;
-  			margin-right: auto;
-  			width: 50%;
-		
-			
-
-		}
-
-		.input-ss {
-			
-			
-			/* width: 90%;
-			height: 100px;
-			border: 1px solid #d4d4d4;
-			margin-left: 17px;
-			padding: 6px;
-			margin-bottom: 20px; */
-		}
-		.section {
-			width: 90%;
-			height: 100px;
-			border: 2px solid #ffffff;
-			margin-left: 17px;
-			padding: 6px;
-			margin-bottom: 20px;
-			/* background-color: rgb(220, 221, 223); */
-
-		}
-		/* .section:hover {
-			width: 90%;
-			height: 100px;
-			border: 2px solid #000000;
-			margin-left: 17px;
-			padding: 6px;
-			margin-bottom: 20px;
-			background-color: rgb(220, 221, 223);
-
-		} */
-		.section label {
-			vertical-align: top;			
-			font-size: small;
-			float: left;
-		}
-		.typewriter {
-        font-family: monospace;
-        white-space: nowrap;
-        overflow: hidden;
-        letter-spacing: 2px;
-		color: black;
-		font-size: small;
-    }
-
-	.custom-input {
-        width: 50%;
-        height: 10px;
-        font-size: 16px;
-        /* border-radius: 10px; */
-        /* border: 5px solid black; */
-		font-family: monospace;
-        white-space: nowrap;
-		letter-spacing: 0px;
-		margin-left: auto;
-		display: inline-block;
-		
-
-    }
-	.custom-input label {
-		font-size: 10px;
-		display: inline-block;
-		
-
-
-	}
-	.basic {
-		display: none;
-		white-space: nowrap;
-		text-align: left;
-		margin-left: 17px;
-		
-		
-	}
-	.basic input[type="text"], .basic input[type="email"], .basic input[type="password"] {
-			width: 95%;
-
-			padding: 10px;
-		
-			font-size: 14px;
-			background: #ffffff;
-			display: flow-root;
-			margin-bottom: 0px;
-			border-radius: 4px;
-			border: none;
-			/* border: 1px solid black; */
-		}
-	.basic label{
-		font-size: 14px;
-		display: inline-block;
-		font-weight: 1000;
-		margin-left: 0px;
-	}
-	table {
-  border-collapse: collapse;
-  border-spacing: 0px;
-  width: 95%;
-  border: none;
-  padding: 20px;
-  background-color: #f1f1f1;
-}
-
-th, td {
-  text-align: left;
-  padding: 5px;
-  font-family: monospace;
-white-space: nowrap;
-	letter-spacing: 0px;
-}
-
-tr:nth-child(even) {
-  background-color: #f1f1f1;
-}
-
-
-.flex-container {
-  display: flex;
-  background-color: transparent;
-  justify-content: center;
-}
-
-.flex-container > div {
-	width: 100%;
-  background-color: transparent;
-  /* border: 1px solid black; */
-  margin: 10px;
-  padding: 20px;
-  font-size: 30px;
-  border-radius: 10px;
-}
-	</style>
-	
 </head>
 
 
@@ -257,18 +16,25 @@ tr:nth-child(even) {
 	<div class="registration-box">
 
 		<h1>Registration</h1>
-
+		<hr class="new1">
+		{% if messages %}
+				
+			{% for message in messages %}
+					<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+			{% endfor %}
+				
+		{% endif %}
+		<form action="{% url 'create_profile' %}" enctype="multipart/form-data" onsubmit="return validateForm()" method="post">
+			{% csrf_token %}
 		<div class="flex-container">
 
 			<div>
-				<form action="{% url 'create_profile' %}" enctype="multipart/form-data" onsubmit="return validateForm()" method="post">
-					{% csrf_token %}
-					<div class="input-ss">
+				
 		
 						<div class="basic" style="display: flow-root;">
 						<span style="white-space: nowrap;">
 							<label for="email">Domain Id</label>
-							<input type="email" id="email" name="email" placeholder="Domain" required>
+							<input type="text" id="email" name="email" placeholder="Domain" required>
 						</span>
 						<span style="white-space: nowrap;">
 							<label for="password">Password</label>
@@ -285,11 +51,10 @@ tr:nth-child(even) {
 							</span>
 							
 						</div>
-						<button type="button" id="submitBtn">Check</button><br><br>
+						<button type="button" id="submitBtn">Check</button>
 		
 						
 						
-					</div>
 		
 				
 					
@@ -310,49 +75,31 @@ tr:nth-child(even) {
 				<input class="custom-input" type="text" id="EmployeeID" disabled> -->
 				<span style="white-space: nowrap;">
 					<label for="EmployeeName">Employee Name : </label>
-					<input type="text" id="EmployeeName" disabled>
+					<input type="text" id="EmployeeName" value="none" disabled>
 				</span>
 				<span style="white-space: nowrap;">
 					<label for="EmployeeName">Designation : </label>
 
-					<input type="text" id="EmpDesignation" disabled>
+					<input type="text" id="EmpDesignation" value="none" disabled>
 
 				</span>
 				<span style="white-space: nowrap;">
 
 					<label for="EmployeeName">Functional Designation : </label>
-					<input type="text" id="EmpFunctionalDesignation" disabled>
+					<input type="text" id="EmpFunctionalDesignation" value="none" disabled>
 				</span>
 				<span style="white-space: nowrap;">
 					<label for="EmployeeName">Place of Posting : </label>
 
-					<input type="text" id="POP" disabled>
+					<input type="text" id="POP" value="none" disabled>
 				</span>
 
-				<!-- <table>
-					<tr>
-						<td id="EmployeeID">User Found</td>
-					</tr>
-					<tr>
-						<td id="EmployeeName"></td>
-					</tr>
-<tr>
-	<td id="EmpDesignation"></td>
-</tr>				
-<tr>
-	<td id="EmpFunctionalDesignation"></td>
-</tr>
-<tr>
-	<td id="POP"></td>
-</tr>
-						
-					
-					 
-				</table> -->
+			
 			</div>
 			</div>
 
 		</div>
+
 		<div class="flex-container">
 			<div>
 				<div class="section">
@@ -368,6 +115,15 @@ tr:nth-child(even) {
 					</div>
 				</div>
 	
+		
+			
+				  <!-- </div> -->
+				
+				<!-- <input type="submit" value="Upload"> -->
+			   
+		
+			</div>
+			<div>
 				<div class="section">
 	
 				
@@ -382,28 +138,22 @@ tr:nth-child(even) {
 					</div>
 				</div>
 			
-			
-				  <!-- </div> -->
-				
-				<!-- <input type="submit" value="Upload"> -->
-			   
-				<input type="submit" value="Sign up">
-			</form>
-
 			</div>
+	
+
+			
+
 		</div>
 		
+		<div class="flex-container">
+			<input type="submit" value="Sign up">
+			</form>
+		</div>
 
 		<div id="gg" >
 			<p id="emplyname"></p>
 		</div>
-		{% if messages %}
-				
-			{% for message in messages %}
-					<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-			{% endfor %}
-				
-		{% endif %}
+		
        
           
 	</div>

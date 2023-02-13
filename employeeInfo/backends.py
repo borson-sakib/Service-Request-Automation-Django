@@ -21,7 +21,7 @@ class UserBackend(ModelBackend):
         print(username)
         print(password)
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(username=username)
             if ldapcheck(username, password) is True:
                 return user
             else:
