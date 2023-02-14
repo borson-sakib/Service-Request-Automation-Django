@@ -31,6 +31,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 class Service_request(models.Model):
+    service_request_id= models.CharField(max_length=100,null=True)
     service_title = models.CharField(max_length=200,null=True)
     request_no = models.CharField(max_length=100)
     date = models.DateField(max_length=100)
@@ -70,13 +71,28 @@ class Service_request(models.Model):
     approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
     approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
     approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
-    application_status = models.CharField(max_length=100,null=True,default="Pending")
+    application_status = models.CharField(max_length=100,null=True,default="0")
    
 
 class status_code(models.Model):
     status_code = models.CharField(max_length=10)
     status_meaning = models.CharField(max_length=100)
+    forwarded_to = models.CharField(max_length=100,null=True)
 
 class operations_log(models.Model):
+    service_request_employee_id= models.CharField(max_length=100)
     service_request_id= models.CharField(max_length=100)
     service_request_time= models.DateTimeField(max_length=100)
+    approved_hod= models.CharField(max_length=100,default='0')
+    approved_hod_at= models.DateTimeField(max_length=100,null=True)
+    approved_ciso= models.CharField(max_length=100,default='0')
+    approved_ciso_at= models.DateTimeField(max_length=100,null=True)
+    approved_cto= models.CharField(max_length=100,default='0')
+    approved_cto_at= models.DateTimeField(max_length=100,null=True)
+    executed= models.CharField(max_length=100,default='0')
+    executed_at= models.DateTimeField(max_length=100,null=True)
+    current_status=models.CharField(max_length=100,default='0')
+
+# class service_status(models.Model):
+
+    

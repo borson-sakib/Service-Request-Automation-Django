@@ -55,19 +55,19 @@ td {
         </tr>
     </thead>
     <tbody>
-        {% for user in user_requests %}
+        {% for user_request in user_requests %}
         <tr>
-            <td>{{ user.employee_name }}</td>
-            <td>{{ user.department }}</td>
-            <td>{{ user.designation }}</td>
-            <td>{{ user.branch_division_name }}</td>
+            <td>{{ user_request.employee_name }}</td>
+            <td>{{ user_request.department }}</td>
+            <td>{{ user_request.designation }}</td>
+            <td>{{ user_request.branch_division_name }}</td>
             <td>
-                {% if user.approved_by_HOB == 'Yes' %}
+                {% if user_request.application_status >= 100 %}
                 
                 <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
 
                 {% else %}
-                <a href="{% url 'actions' user.employee_id %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
+                <a href="{% url 'actions' user_request.employee_id %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
                 <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
                {% endif %}
             </td>

@@ -36,11 +36,11 @@ def landing(request):
 @login_required(login_url='/login')
 def index(request):
 
-    if(Service_request.objects.filter(employee_id=request.user.username).exists()):
+    if(Service_request.objects.filter(employee_id=request.user.EmployeeID).exists()):
         messages.success(request, 'Your Form is Already Submitted !')
         return redirect('access_request_user')
     else:
-        obj = User.objects.get(username=request.user.username)
+        obj = User.objects.get(username=request.user.EmployeeID)
         authorizer = False
         if obj.EmpFunctionalDesignation in FunctionalDesignations:
             authorizer = True
@@ -145,7 +145,7 @@ def checkId(request):
 def service_request(request):
     if(request.method == "POST"):
 
-        if(Service_request.objects.filter(employee_id=request.user.username).exists()):
+        if(Service_request.objects.filter(employee_id=request.user.EmployeeID).exists()):
 
             messages.success(request, 'Your Form is Already Submitted !')
 
@@ -223,7 +223,7 @@ def service_request(request):
             return redirect('access_request_user')
         
 
-        # obj = Service_request.objects.filter(employee_id=request.user.username).all()
+        # obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
 
         # return render(request,'access_request_user.html',{'access_request':obj})
 
@@ -236,51 +236,53 @@ def access_request(request):
     #IF user is Authorizer
     if(request.user.EmpFunctionalDesignation in FunctionalDesignations):
         
-        if(request.user.username=='20190724001'):
+        if(request.user.EmployeeID=='20190724001'):
 
-            user_requests = Service_request.objects.filter(approved_by_HOB='Yes').all()
+            user_requests = Service_request.objects.filter(application_status='100').all()
             return render(request,'access_request_ciso.html',{'user_requests': user_requests})
 
-        elif(request.user.username=='20210701001'):
+        elif(request.user.EmployeeID=='20210701001'):
             
-            user_requests = Service_request.objects.filter(approved_by_CISO ='Yes').all()
+            user_requests = Service_request.objects.filter(application_status='200').all()
             return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
-            user_requests = Service_request.objects.filter(approved_by_HOB='No',branch_division_name=request.user.Placeofposting).all()
+            user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).all()
             return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker
     else:
-        obj = Service_request.objects.filter(employee_id=request.user.username).all()
+        obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
         return render(request,'access_request_user.html',{'access_request':obj})
 
 
 
 def access_request_user(request):
 
-    obj = Service_request.objects.filter(employee_id=request.user.username).all()
+    obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
 
     return render(request,'access_request_user.html',{'access_request':obj})
 
 
 def actions(request,variable_1):
 
-    if(request.user.username=='20190724001'):
+    if(request.user.EmployeeID=='20190724001'):
         emp_id = variable_1
         obj = get_object_or_404(Service_request, employee_id=emp_id)
         obj.approved_by_CISO = 'Yes'
+        obj.application_status = '200'
         obj.save()
         return redirect('access_request')
-    elif(request.user.username=='20210701001'):
+    elif(request.user.EmployeeID=='20210701001'):
         emp_id = variable_1
         obj = get_object_or_404(Service_request, employee_id=emp_id)
         obj.approved_by_CTO = 'Yes'
-        obj.application_status='Completed'
+        obj.application_status='300'
         obj.save()
         return redirect('access_request')
     else:
         emp_id = variable_1
         obj = get_object_or_404(Service_request, employee_id=emp_id)
         obj.approved_by_HOB = 'Yes'
+        obj.application_status = '100'
         obj.save()
         return redirect('access_request')
 
