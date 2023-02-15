@@ -237,15 +237,16 @@ def access_request(request):
     if(request.user.EmpFunctionalDesignation in FunctionalDesignations):
         
         if(request.user.EmployeeID=='20190724001'):
-
+            #CISO
             user_requests = Service_request.objects.filter(application_status='100').all()
             return render(request,'access_request_ciso.html',{'user_requests': user_requests})
 
         elif(request.user.EmployeeID=='20210701001'):
-            
+            #CTO
             user_requests = Service_request.objects.filter(application_status='200').all()
             return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
+            #HOB
             user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).all()
             return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker

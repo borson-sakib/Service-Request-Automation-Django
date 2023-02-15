@@ -62,7 +62,7 @@ td {
             <td>{{ user_request.designation }}</td>
             <td>{{ user_request.branch_division_name }}</td>
             <td>
-                {% if user_request.application_status >= 100 %}
+                {% if user_request.approved_by_HOB == 'Yes' %}
                 
                 <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
 
