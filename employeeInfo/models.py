@@ -71,7 +71,7 @@ class Service_request(models.Model):
     approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
     approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
     approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
-    application_status = models.CharField(max_length=100,null=True,default="0")
+    application_status = models.IntegerField(max_length=100,null=True,default="0")
    
 
 class status_code(models.Model):

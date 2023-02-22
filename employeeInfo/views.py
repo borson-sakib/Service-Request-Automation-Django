@@ -40,7 +40,7 @@ def index(request):
         messages.success(request, 'Your Form is Already Submitted !')
         return redirect('access_request_user')
     else:
-        obj = User.objects.get(username=request.user.EmployeeID)
+        obj = User.objects.get(EmployeeID=request.user.EmployeeID)
         authorizer = False
         if obj.EmpFunctionalDesignation in FunctionalDesignations:
             authorizer = True
@@ -238,12 +238,12 @@ def access_request(request):
         
         if(request.user.EmployeeID=='20190724001'):
             #CISO
-            user_requests = Service_request.objects.filter(application_status='100').all()
+            user_requests = Service_request.objects.filter(application_status__gte=100).all()
             return render(request,'access_request_ciso.html',{'user_requests': user_requests})
 
         elif(request.user.EmployeeID=='20210701001'):
             #CTO
-            user_requests = Service_request.objects.filter(application_status='200').all()
+            user_requests = Service_request.objects.filter(application_status__gte=200).all()
             return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
             #HOB
@@ -315,10 +315,13 @@ def fetch(request):
         response_data['data'] = response.json()
         return JsonResponse(response_data)
 
+from .utils import preview_pdf
 
 def fetch_user(request):
 
-    pass
+    pdf_preview = preview_pdf(request,'20211228046')
+
+    return pdf_preview
 
 
 
