@@ -24,6 +24,11 @@ urlpatterns = [
     # path('fetch_user/<str:userid>/', fetch_user, name="fetch_user"),
     path('fetch', fetch_user, name="fetch"),
     path('reg_test', reg_test, name="reg_test"),
+    path('user_list', user_list, name="user_list"),
+    path('update/<int:user_id>/', user_update, name='user_update'),
+    path('delete/<int:user_id>/', user_delete, name='user_delete'),
+    path('set_user_another_table/<int:user_id>/', set_user_another_table, name='set_user_another_table'),
+
     
     
     

@@ -5,6 +5,12 @@ from django import forms
 from django.forms import ModelForm
 
 
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+
+        fields = '__all__'
+
 
 class RequestForm(forms.ModelForm):
     request_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Please enter request no.', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))

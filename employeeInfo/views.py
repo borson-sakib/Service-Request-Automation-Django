@@ -323,37 +323,61 @@ def fetch_user(request):
 
     return pdf_preview
 
+def user_list(request):
+    query = request.GET.get('q')
+    if query:
+        users = User.objects.filter(username__icontains=query)
+    else:
+        users = User.objects.all()
+    context = {'users': users, 'query': query}
+    return render(request, 'user_list.html', context)
 
+def user_update(request, user_id):
+    user = get_object_or_404(User, EmployeeID=user_id)
+    form = UserForm(request.POST or None, instance=user)
+    if form.is_valid():
+        form.save()
+        return redirect('user_list')
+    return render(request, 'user_form.html', {'form': form})
+
+def user_delete(request, user_id):
+    user = get_object_or_404(User, EmployeeID=user_id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('user_list')
+    return render(request, 'user_confirm_delete.html', {'user': user})
+
+def set_user_another_table(request, user_id):
+    # get the user object
+    user = get_object_or_404(User, EmployeeID=user_id)
+
+
+   
+    print()
+    # set the user to another table
+    if network_analysts_group.objects.filter(network_analyst_employee_id=user_id).exists():
+        analyst_or_none=get_object_or_404(network_analysts_group, network_analyst_employee_id=user_id)
+        analyst_or_none.delete()
+        messages.success(request, 'Analyst Revoked')
+    else:
+        try:
+            analyst_obj = network_analysts_group(
+                        network_analyst_employee_id=user.EmployeeID,
+                        network_analyst_name=user.EmployeeName,
+                        network_analyst_email=user.username,
+                        )
+            analyst_obj.save()
+            messages.success(request, 'Successfully added user to analyst group')
+
+        except:
+            messages.success(request, 'Something went wrong !')
+
+    # redirect to the user list page
+    return redirect('user_list')
 
 def reg_test(request):
 
     return render(request,'reg_test.html')
 
-    # request_no;
-    # date;
-    # employee_name;
-    # branch_code;
-    # department;
-    # mobile_no;
-    # designation;
-    # employee_id;
-    # branch_division_name;
-    # pa_no;
-    # ip_address;
-    # email;
-    # self_type;
-    # from_date;
-    # to_date;
-    # from_time;
-    # to_time;
-    # reason;
-    # details;
-    # vendor_name;
-    # name1;
-    # contact_number1;
-    # name2;
-    # contact_number2;
-    # to_date_check;
-    # to_time_check
-
+   
 

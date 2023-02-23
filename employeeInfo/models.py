@@ -93,6 +93,15 @@ class operations_log(models.Model):
     executed_at= models.DateTimeField(max_length=100,null=True)
     current_status=models.CharField(max_length=100,default='0')
 
+class network_analysts_group(models.Model):
+
+    network_analyst_employee_id= models.CharField(max_length=100,null=True)
+    network_analyst_name= models.CharField(max_length=100,null=True)
+    network_analyst_email= models.CharField(max_length=100,null=True)
+    
+
+
+
 # class service_status(models.Model):
 
     

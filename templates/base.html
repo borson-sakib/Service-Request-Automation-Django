@@ -11,13 +11,41 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <style>
+    #user-table td {
+      font-size: 12px;
+    }
+  </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            var table = $('#user-table').DataTable();
+            var query = "";
+            if (query) {
+                $('#search-box').val(query);
+                table.search(query).draw();
+            }
+            $('#search-box').on('keyup', function () {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
+  <style>
     @font-face {
         font-family: "Roboto";
         src: url("{% static 'fonts/Roboto/Roboto-Regular.ttf' %}") format("truetype");
     }
+    @font-face {
+        font-family: "Roboto-Bold";
+        src: url("{% static 'fonts/Roboto/Roboto-Medium.ttf' %}") format("truetype");
+    }
     /* Add some style to the page */
     body {
-      font-family: 'Roboto';
+      font-family: 'Roboto',sans-serif;
+      background: url("../image/background.jpg");
+      background-size: cover;
     }
     .chip {
       display: inline-block;
@@ -45,32 +73,39 @@
     .sidebar {
       float: left;
       width: 15%;
-      background-color: #ffffff;
+      backdrop-filter: blur(4px);
+
+      background-color: rgba(255, 255, 255, 0.582);
       color: rgb(0, 0, 0);
       padding: 10px;
-      height: 100%;
-      margin: 45px 15px auto;
+      height: inherit;
+      /* margin: 45px 15px auto; */
       position: absolute;
-      border-radius: 20px;
+      /* border-radius: 20px; */
       /* border-color: #026492;
       border: 2px; */
-    left: 0;
-    top: 52px;
+    left: 2%;
+    top: 17%;
     bottom: 50px;
-      border: 3px solid #026492;
+    /* border: 3px solid #026492; */
 
     }
     .p{
       font-family: 'Roboto'    }
 
     .nav {
+      backdrop-filter: blur(4px);
+
       overflow: hidden;
       position: relative;
-      background-color: #026492;
+      background-color: #02263627;
       border-radius: 20px;
       padding: 10px;
       margin: 15px auto;
       width: 98%;
+      font-family: 'Roboto-Bold';
+      letter-spacing: 1px;
+      
     }
 
     .nav a {
@@ -80,6 +115,7 @@
       text-align: center;
       padding: 14px 20px;
       text-decoration: none;
+      
     }
 
     .nav a:hover {
@@ -93,9 +129,9 @@
     }
 
     .main {
-      margin-left: 270px;
-      margin-right: 100px;
-      padding: 20px;
+      margin-left: 16%;
+      margin-right: 2%;
+      padding: 10px;
     }
     .menu {
       list-style-type: none;
