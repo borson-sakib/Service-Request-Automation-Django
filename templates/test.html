@@ -4,261 +4,264 @@
      <!-- <h3>Access/Service Request Form</h3> -->
      <!-- <h2>Access/Service Request Form <span class="badge badge-secondary"></span></h2> -->
 
-     <div class="row">
-        <div class="col-md-4">
-            <div id="logo" class="logo-container">
-                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="jumbotron" style="margin: 10px auto;">
-                <h3 class="display-8">Access/Service Request Form </h3>
-              
-                
-              
-              
+     <div class="flex-container">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="logo" class="logo-container">
+                    <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
+            </div>
+            <div class="col-md-8">
+                <div class="jumbotron" style="margin: 10px auto;">
+                    <h3 class="display-8">Access/Service Request Form </h3>
+                  
+                    
+                  
+                  
+                  </div>
+            </div>
+            <hr class="my-3">
+    
+       
               </div>
-        </div>
-        <hr class="my-3">
-
-   
-          </div>
-  
-  
-    <div class="row ">
-     
-             <div class="container content-padding">
-                 <form action="{% url 'service_request' %}" method="post">
-                    {% csrf_token %}
-                     <div class="card">
-                         <div class="col-sm-12 card-padding">
-                                <div class="row">
-                                     <div class="col-sm-7">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;">Request No:</span>
-                                             {{form.request_no}}
-                                         </div>
-                                     </div>
-
-                                     <div class="col-sm-5">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Date:</span>
-                                             {{form.date}}
-                                         </div>
-                                     </div>
-                                    </div>
-
+      
+      
+        <div class="row ">
+         
+                 <div class="container content-padding">
+                     <form action="{% url 'service_request' %}" method="post">
+                        {% csrf_token %}
+                         <div class="card">
+                             <div class="col-sm-12 card-padding">
                                     <div class="row">
-                                    <div class="col-sm-7">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Employee Name:</span>
-                                            {{form.employee_name}}
-                                        </div>
-                                    </div>
-                                    
-
-                                     <div class="col-sm-5">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Branch Code:</span>
-                                             {{form.branch_code}}
-                                         </div>
-                                     </div>
-                                    </div>
-                                 <div class="row">
-                                     
-                                    <div class="col-sm-7">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Department:</span>
-                                            {{form.department}}
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-5">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Mobile No:</span>
-                                             {{form.mobile_no}}
-                                         </div>
-                                     </div>
-                                 </div>
-
-                                 <div class="row">
-                                    
-                         
-
-                                    <div class="col-sm-7">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Designation:</span>
-                                            {{form.designation}}
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-5">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Employee ID:</span>
-                                             {{form.employee_id}}
-                                           
-                                         </div>
-                                     </div>
-                                 </div>
-
-                                 <div class="row">
- 
-                                    <div class="col-sm-7">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Branch/Division Name:</span>
-                                            {{form.branch_division_name}}
-                                        </div>
-                                    </div>
-                                     <div class="col-sm-5">
-                                         <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">PA No (if any):</span>
-                                             {{form.pa_no}}
-                                         </div>
-                                     </div>
-                                 </div>
-
-                                 <div class="row">
-                                     <div class="col-sm-7">
-                                         <div class="input-group input-group-sm">
+                                         <div class="col-sm-7">
                                              <div class="input-group input-group-sm">
-                                                 <span class="input-group-text" id="addon-wrapping" style="width: 33%;">PC IP Address:</span>
-                                                 {{form.ip_address}}
+                                                 <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;">Request No:</span>
+                                                 {{form.request_no}}
+                                             </div>
+                                         </div>
+    
+                                         <div class="col-sm-5">
+                                             <div class="input-group input-group-sm">
+                                                 <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Date:</span>
+                                                 {{form.date}}
+                                             </div>
+                                         </div>
+                                        </div>
+    
+                                        <div class="row">
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Employee Name:</span>
+                                                {{form.employee_name}}
+                                            </div>
+                                        </div>
+                                        
+    
+                                         <div class="col-sm-5">
+                                             <div class="input-group input-group-sm">
+                                                 <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Branch Code:</span>
+                                                 {{form.branch_code}}
+                                             </div>
+                                         </div>
+                                        </div>
+                                     <div class="row">
+                                         
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Department:</span>
+                                                {{form.department}}
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-5">
+                                             <div class="input-group input-group-sm">
+                                                 <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Mobile No:</span>
+                                                 {{form.mobile_no}}
                                              </div>
                                          </div>
                                      </div>
-
-                                     <div class="col-sm-5">
+    
+                                     <div class="row">
+                                        
+                             
+    
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Designation:</span>
+                                                {{form.designation}}
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-5">
+                                             <div class="input-group input-group-sm">
+                                                 <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Employee ID:</span>
+                                                 {{form.employee_id}}
+                                               
+                                             </div>
+                                         </div>
+                                     </div>
+    
+                                     <div class="row">
+     
+                                        <div class="col-sm-7">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Branch/Division Name:</span>
+                                                {{form.branch_division_name}}
+                                            </div>
+                                        </div>
+                                         <div class="col-sm-5">
+                                             <div class="input-group input-group-sm">
+                                                 <span class="input-group-text" id="addon-wrapping" style="width: 44%;">PA No (if any):</span>
+                                                 {{form.pa_no}}
+                                             </div>
+                                         </div>
+                                     </div>
+    
+                                     <div class="row">
+                                         <div class="col-sm-7">
+                                             <div class="input-group input-group-sm">
+                                                 <div class="input-group input-group-sm">
+                                                     <span class="input-group-text" id="addon-wrapping" style="width: 33%;">PC IP Address:</span>
+                                                     {{form.ip_address}}
+                                                 </div>
+                                             </div>
+                                         </div>
+    
+                                         <div class="col-sm-5">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Email</span>
+                                                {{form.email}}
+                                            </div>
+                                        </div>
+                                     </div>
+                             </div>
+                         </div>
+                            <br>
+                         <div class="card">
+                                <div class="row">
+    
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Requested For:</span>
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 69%;background-color: white;">
+                                        
+                                            {% for choice in form.self_type %}
+                                        <div class="form-check form-check-inline">
+                                            {{ choice.tag }}
+                                            <label class="form-check-label" for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
+                                        </div>
+                                    {% endfor %}
+                                        
+                                        </span>
+                                    
+                                    </div>
+    
+    
+                                </div>
+    
+                             
+    
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Date Duration:</span>
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%; background-color: white;">From: &nbsp;&nbsp;{{form.from_date}}</span>
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">                                    To: &nbsp;&nbsp;{{form.to_date}}&nbsp;&nbsp;{{form.to_date_check}}&nbsp;&nbsp;Continuous
+                                        </span>
+                                        
+                                    
+                                    </div>
+                                </div>
+                              
+                   
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Time Duration:</span>
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;background-color: white;">From: &nbsp; &nbsp;{{form.from_time}}</span>
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp; &nbsp;{{form.to_time}}</span>
+    
+                                    </div>
+                                </div>
+                          
+                         
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Reason of Request:</span>
+                                        <span style="width: 69%;">{{form.reason}}</span>
+                                        
+                                    </div>
+                                </div>
+    
+          
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Details of Access/Service:</span>
+                                        <span style="width: 69%;">{{form.details}}</span>
+    
+                                    </div>
+                                </div>
+    
+                            
+                                </div>
+    
+                         
+    
+                      
+                            
+    
+    
+                         
+                         </div>
+                         <br>
+    
+                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="jumbotron" style="margin: 10px auto;">
+                                    <!-- <h4 class="display-8">Vendor  Engagement</h4> -->
+                                  
+                                       <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;"><strong>Vendor  Engagement</strong> </span>
+                                  
+                                  
+                                  </div>
+                            </div>
+                         </div>
+                         <div class="card">
+     
+    
+                                <div class="row">
+                                    <div class="col-sm-12">
                                         <div class="input-group input-group-sm">
-                                            <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Email</span>
-                                            {{form.email}}
+                                            <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Name</span>
+                                            {{form.vendor_name}}
+                                           
                                         </div>
                                     </div>
-                                 </div>
+                                    <div class="col-sm-12">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Assigned Person</span>
+                                            {{form.name1}}
+                                            {{form.contact_number1}}
+                                            {{form.name2}}
+                                            {{form.contact_number2}}
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            
+    
                          </div>
-                     </div>
-                        <br>
-                     <div class="card">
-                            <div class="row">
-
-                            <div class="col-sm-12">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Requested For:</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 69%;background-color: white;">
-                                    
-                                        {% for choice in form.self_type %}
-                                    <div class="form-check form-check-inline">
-                                        {{ choice.tag }}
-                                        <label class="form-check-label" for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
-                                    </div>
-                                {% endfor %}
-                                    
-                                    </span>
-                                
-                                </div>
-
-
-                            </div>
-
-                         
-
-                            <div class="col-sm-12">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Date Duration:</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%; background-color: white;">From: &nbsp;&nbsp;{{form.from_date}}</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">                                    To: &nbsp;&nbsp;{{form.to_date}}&nbsp;&nbsp;{{form.to_date_check}}&nbsp;&nbsp;Continuous
-                                    </span>
-                                    
-                                
-                                </div>
-                            </div>
-                          
-               
-                            <div class="col-sm-12">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Time Duration:</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%;background-color: white;">From: &nbsp; &nbsp;{{form.from_time}}</span>
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp; &nbsp;{{form.to_time}}</span>
-
-                                </div>
-                            </div>
+    
+                         <div style="display: flex; justify-content: center; align-items: center;">
+                            <input class='btn btn-success' style='width: 30%; margin: 20px auto; justify-self: center;' type="submit" value="Save & Submit">             
+                           </div>
+                  
                       
-                     
-                            <div class="col-sm-12">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Reason of Request:</span>
-                                    <span style="width: 69%;">{{form.reason}}</span>
-                                    
-                                </div>
-                            </div>
-
+    
+                     </form>
+                 </div>
+    
+           
       
-                            <div class="col-sm-12">
-                                <div class="input-group input-group-sm">
-                                    <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Details of Access/Service:</span>
-                                    <span style="width: 69%;">{{form.details}}</span>
+        </div>
+     </div>
 
-                                </div>
-                            </div>
-
-                        
-                            </div>
-
-                     
-
-                  
-                        
-
-
-                     
-                     </div>
-                     <br>
-
-                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="jumbotron" style="margin: 10px auto;">
-                                <!-- <h4 class="display-8">Vendor  Engagement</h4> -->
-                              
-                                   <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;"><strong>Vendor  Engagement</strong> </span>
-                              
-                              
-                              </div>
-                        </div>
-                     </div>
-                     <div class="card">
- 
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Name</span>
-                                        {{form.vendor_name}}
-                                       
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Vendor Assigned Person</span>
-                                        {{form.name1}}
-                                        {{form.contact_number1}}
-                                        {{form.name2}}
-                                        {{form.contact_number2}}
-                                       
-                                    </div>
-                                </div>
-                            </div>
-                        
-
-                     </div>
-
-                     <div style="display: flex; justify-content: center; align-items: center;">
-                        <input class='btn btn-success' style='width: 30%; margin: 20px auto; justify-self: center;' type="submit" value="Save & Submit">             
-                       </div>
-              
-                  
-
-                 </form>
-             </div>
-
-       
-  
-    </div>
 
     <script>
     document.getElementById('to-date-check').onchange = function() {
