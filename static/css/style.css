@@ -4,20 +4,20 @@
 }
     body {
         font-family: 'Roboto';
-        /* background-color: #aedef5; */
-        background: url("../image/background.jpg");
+        background-color: #f1f1f1;
+        /* background: url("../image/background.jpg"); */
         background-size: cover;
     }
     .registration-box {
         backdrop-filter: blur(4px);
         width: 70%;
-        background-color: rgba(255, 255, 255,.1);
+        background-color: #ffffff;
         /* border: 1px solid white; */
         border-radius: 10px;
         margin: 100px auto;
         padding: 20px;
         text-align: center;
-        box-shadow: 1px 1px 10px 10px #ffffffc9;
+        box-shadow: 1px 1px 300px 300px #1c39bb;
 
         /* opacity: 80%; */
     }
@@ -34,12 +34,12 @@
     .registration-box input[type="text"], .registration-box input[type="email"], .registration-box input[type="password"] {
         width: 50%;
         padding: 6px;
-        border: none;
+        border-left: 2px solid #1C39BB;
         border-radius: 0px;
         margin-bottom: 20px;
         margin-left: 0px;
         font-size: 14px;
-        background: #f1f1f1;
+        background: rgb(99, 89, 89);
     }
     .registration-box input[type="submit"] {
         background-color: #026492;
@@ -95,14 +95,16 @@
 
     .login-box {
         backdrop-filter: blur(4px);
-        width: 40%;
-        background-color: rgba(255, 255, 255,.1);
-        /* border: 1px solid white; */
-        border-radius: 10px;
-        margin: 100px auto;
+        width: 70%;
+        background-color: #f1f1f1;
+        border: 2px solid #1c39bb;
+        /* border-right: 5px solid #1c39bb; */
+        /* border-radius: 10px; */
+        margin: auto;
         padding: 20px;
         text-align: center;
-        box-shadow: 1px 1px 10px 10px #ffffffc9;
+        box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.171);
+
 
         /* opacity: 80%; */
     }
@@ -119,7 +121,7 @@
     .login-box input[type="text"], .login-box input[type="email"], .login-box input[type="password"] {
         width: 50%;
         padding: 6px;
-        border: none;
+        border: 1px solid #1C39BB;
         border-radius: 0px;
         margin-bottom: 20px;
         margin-left: 0px;
@@ -127,12 +129,14 @@
         background: #f1f1f1;
     }
     .login-box input[type="submit"] {
-        background-color: #026492;
+        background-color: #1C39BB;
         color: white;
         border: 0;
         padding: 12px 20px;
+        margin-top: 20px ;
+        width: 50%;
         font-size: 16px;
-        border-radius: 5px;
+        border-radius: 20px;
         cursor: pointer;
         letter-spacing: 2px;
         font: 'Roboto';
@@ -277,18 +281,52 @@
 .basic input[type="text"], .basic input[type="email"], .basic input[type="password"] {
         width: 95%;
 
-        padding: 8px;
+        padding: 16px;
     
         /* font-size: 14px; */
         background: #ffffff;
         display: flow-root;
         margin-bottom: 0px;
-        border-radius: 4px;
+        margin-top: 30px;
+        border-radius: 0;
         border: none;
+        border-left: 4px solid #1C39BB;
+
         /* border: 1px solid black; */
     }
 .basic label{
     font-size: 14px;
+    display: inline-block;
+    font-weight: 1000;
+    margin-left: 0px;
+}
+
+.basic-reg {
+    display: flow-root;
+    white-space: nowrap;
+    text-align: left;
+    margin: auto;
+    
+    
+}
+.basic-reg input[type="text"], .basic-reg input[type="email"], .basic-reg input[type="password"] {
+        width: 75%;
+
+        padding: 15px;
+    
+        /* font-size: 14px; */
+        background: #f7f7f7;
+        display: flow-root;
+        margin-bottom: 0px;
+        margin-top: 10px;
+        border-radius: 0;
+        border: none;
+        border-left: 4px solid #1C39BB;
+        
+        /* border: 1px solid black; */
+    }
+.basic-reg label{
+    font-size: 18px;
     display: inline-block;
     font-weight: 1000;
     margin-left: 0px;
@@ -430,5 +468,5 @@ width: 70%;
     }
 
     hr.new1 {
-        border-top: 2px solid rgb(255, 255, 255);
+        border-top: 2px solid #1C39BB;
       }

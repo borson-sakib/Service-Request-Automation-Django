@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabbed Table with Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-4">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">Tab 1</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Tab 2</a>
+        </li>
+        <!-- Add more tabs as needed -->
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content mt-2">
+        <div class="tab-pane fade show active" id="tab1">
+            <!-- Search bar for Tab 1 -->
+            <input type="text" class="form-control mb-2" id="searchTab1" placeholder="Search Tab 1">
+
+            <!-- Table for Tab 1 -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Column 1</th>
+                        <th>Column 2</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <!-- Add more data rows as needed -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="tab2">
+            <!-- Search bar for Tab 2 -->
+            <input type="text" class="form-control mb-2" id="searchTab2" placeholder="Search Tab 2">
+
+            <!-- Table for Tab 2 -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Column 1</th>
+                        <th>Column 2</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Data 1</td>
+                        <td>Data 2</td>
+                        <!-- Add more data rows as needed -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Add more tab content divs as needed -->
+    </div>
+</div>
+
+<!-- JavaScript to handle search functionality -->
+<script>
+    $(document).ready(function(){
+        // Tab 1 Search
+        $("#searchTab1").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tab1 tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        // Tab 2 Search
+        $("#searchTab2").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#tab2 tbody tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

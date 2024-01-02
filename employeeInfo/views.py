@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from  .utils import *
 from  .backends import *
+from django.db.models import Q
 
 
 from .models import *
@@ -30,13 +31,30 @@ FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FO
 @login_required(login_url='/login')
 def landing(request):
     name = request.user.EmployeeName
+    user_id = request.user.EmployeeID
 
-    return render(request,'landing.html',{'Username':name})
+    queryset = network_analysts_group.objects.filter(network_analyst_employee_id=user_id)
+    if queryset.exists():
+        analyst_user = True
+        # events = Service_request.objects.all()
+        events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
+
+        context = {'events': events}
+        # return render(request, 'template.html', {'exists': True})
+    else:
+        analyst_user = False
+        events = Service_request.objects.all()
+        context = {'events': events}
+
+        # return render(request, 'template.html', {'exists': False})
+
+    return render(request,'landing.html',{'Username':name,'analyst':analyst_user,'events': events})
 
 @login_required(login_url='/login')
-def index(request):
+def index(request,id):
 
-    if(Service_request.objects.filter(employee_id=request.user.EmployeeID).exists()):
+    if Service_request.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(form_no=id)).exists():
+
         messages.success(request, 'Your Form is Already Submitted !')
         return redirect('access_request_user')
     else:
@@ -49,9 +67,26 @@ def index(request):
         form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
 
         print(obj.EmpFunctionalDesignation)
-        return render(request,'test.html',{'form': form,'user_object':obj,'authorizer':authorizer})
+        print(id)
+        return render(request,'test.html',{'form': form,'user_object':obj,'authorizer':authorizer,'form_no':id})
 
+@login_required(login_url='/login')
+def form67(request):
 
+    if(Service_request_form_67.objects.filter(employee_id=request.user.EmployeeID).exists()):
+        messages.success(request, 'Your Form is Already Submitted !')
+        return redirect('access_request_user')
+    else:
+        obj = User.objects.get(EmployeeID=request.user.EmployeeID)
+        authorizer = False
+        if obj.EmpFunctionalDesignation in FunctionalDesignations:
+            authorizer = True
+
+        print(obj.EmployeeName)
+        form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
+
+        print(obj.EmpFunctionalDesignation)
+        return render(request,'form67.html',{'form': form,'user_object':obj,'authorizer':authorizer})
 
 def loginView(request):
     if (request.method == "POST"):
@@ -77,6 +112,8 @@ def create_profile(request):
         print(request.POST)
         url = str(employeeURL) + str(request.POST["employeeId"])
         response = requests.post(url)
+        print("-------------------------------------")
+        print(response)
         response = response.json()
 
         if response["EmployeeID"] is not None:
@@ -145,84 +182,104 @@ def checkId(request):
 def service_request(request):
     if(request.method == "POST"):
 
-        if(Service_request.objects.filter(employee_id=request.user.EmployeeID).exists()):
 
-            messages.success(request, 'Your Form is Already Submitted !')
+            if Service_request.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(form_no=request.POST['form_no'])).exists():
 
-            return redirect('access_request_user')
+                messages.success(request, 'Your Form is Already Submitted !')
 
-        else:
-            Service_request_OBJ = Service_request(
-                request_no=request.POST['request_no'],
-                date=request.POST['date'],
-                employee_name=request.POST['employee_name'],
-                branch_code=request.POST['branch_code'],
-                department=request.POST['department'],
-                mobile_no=request.POST['mobile_no'],
-                designation=request.POST['designation'],
-                employee_id=request.POST['employee_id'],
-                branch_division_name=request.POST['branch_division_name'],
-                pa_no=request.POST['pa_no'],
-                ip_address=request.POST['ip_address'],
-                email=request.POST['email'],
-                # from_date = request.POST['from_date'],
-                self_type = request.POST['self_type'],
-                # to_date = request.POST['to_date'],
-                # from_time = request.POST['from_time'],
-                # to_time = request.POST['to_time'],
-                reason = request.POST['reason'],
-                details = request.POST['details'],
-                vendor_name = request.POST['vendor_name'],
-                name1 = request.POST['name1'],
-                contact_number1 = request.POST['contact_number1'],
-                name2 = request.POST['name2'],
-                contact_number2 = request.POST['contact_number2'],
-                # to_date_check = request.POST['to_date_check'],
-                # to_time_check = request.POST['to_time_check']
-            )
+                return redirect('access_request_user')
 
-            try:
-                Service_request_OBJ.to_date=request.POST['to_date']
-            except:
-                pass
-            
-            try:
-                Service_request_OBJ.to_date_check=request.POST['to_date_check']
-            except:
-                pass
-        
-            try:
-                Service_request_OBJ.from_time=request.POST['from_time']
-            except:
-                pass
-        
-            try:
-                Service_request_OBJ.to_time=request.POST['to_time']
-            except:
-                pass
-        
-            try:
-                Service_request_OBJ.to_time_check=request.POST['to_time_check']
-            except:
-                pass
-        
-            try:
-                Service_request_OBJ.from_date=request.POST['from_date']
-            except:
-                pass
+            else:
+                Service_request_OBJ = Service_request(
+                    form_no = request.POST['form_no'],
+                    request_no=request.POST['request_no'],
+                    date=request.POST['date'],
+                    employee_name=request.POST['employee_name'],
+                    branch_code=request.POST['branch_code'],
+                    department=request.POST['department'],
+                    mobile_no=request.POST['mobile_no'],
+                    designation=request.POST['designation'],
+                    employee_id=request.POST['employee_id'],
+                    branch_division_name=request.POST['branch_division_name'],
+                    pa_no=request.POST['pa_no'],
+                    ip_address=request.POST['ip_address'],
+                    email=request.POST['email'],
+                    # from_date = request.POST['from_date'],
+                    self_type = request.POST['self_type'],
+                    # to_date = request.POST['to_date'],
+                    # from_time = request.POST['from_time'],
+                    # to_time = request.POST['to_time'],
+                    reason = request.POST['reason'],
+                    details = request.POST['details'],
 
-            
+                    source_ip = request.POST['source_ip'],
+                    destination_ip =request.POST['destination_ip'],
+                    destination_port =request.POST['destination_port'],
+                    physical_activity_area =request.POST['physical_activity_area'],
+                    chng_exec_req_id =request.POST['chng_exec_req_id'],
 
-            try:
-                Service_request_OBJ.save()
-                messages.success(request, 'Form Successfully Submitted and Waiting For Approval')
+                    vendor_name = request.POST['vendor_name'],
+                    name1 = request.POST['name1'],
+                    contact_number1 = request.POST['contact_number1'],
+                    name2 = request.POST['name2'],
+                    contact_number2 = request.POST['contact_number2'],
+
+                    team_name1 = request.POST['team_name1'],
+                    team_emp_id1 = request.POST['team_emp_id1'],
+                    team_name2 = request.POST['team_name2'],
+                    team_emp_id2 = request.POST['team_emp_id2'],
+                    team_name3 = request.POST['team_name3'],
+                    team_emp_id3 = request.POST['team_emp_id3'],
+                    team_name4 = request.POST['team_name4'],
+                    team_emp_id4 = request.POST['team_emp_id4'],
+                    team_lead = request.POST['team_lead'],
+                    team_lead_epmloyee_id = request.POST['team_lead_epmloyee_id']
+                    # to_date_check = request.POST['to_date_check'],
+                    # to_time_check = request.POST['to_time_check']
+                )
+
+                try:
+                    Service_request_OBJ.to_date=request.POST['to_date']
+                except:
+                    pass
                 
-            except:
-                messages.success(request, 'Something went wrong. Try again with correct information')
+                try:
+                    Service_request_OBJ.to_date_check=request.POST['to_date_check']
+                except:
+                    pass
+            
+                try:
+                    Service_request_OBJ.from_time=request.POST['from_time']
+                except:
+                    pass
+            
+                try:
+                    Service_request_OBJ.to_time=request.POST['to_time']
+                except:
+                    pass
+            
+                try:
+                    Service_request_OBJ.to_time_check=request.POST['to_time_check']
+                except:
+                    pass
+            
+                try:
+                    Service_request_OBJ.from_date=request.POST['from_date']
+                except:
+                    pass
 
-            return redirect('access_request_user')
+                
+
+                try:
+                    Service_request_OBJ.save()
+                    messages.success(request, 'Form Successfully Submitted and Waiting For Approval')
+                    
+                except:
+                    messages.success(request, 'Something went wrong. Try again with correct information')
+
+                return redirect('access_request_user')
         
-
+        
         # obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
 
         # return render(request,'access_request_user.html',{'access_request':obj})
@@ -267,21 +324,21 @@ def actions(request,variable_1):
 
     if(request.user.EmployeeID=='20190724001'):
         emp_id = variable_1
-        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj = get_object_or_404(Service_request, id=emp_id)
         obj.approved_by_CISO = 'Yes'
         obj.application_status = '200'
         obj.save()
         return redirect('access_request')
     elif(request.user.EmployeeID=='20210701001'):
         emp_id = variable_1
-        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj = get_object_or_404(Service_request, id=emp_id)
         obj.approved_by_CTO = 'Yes'
         obj.application_status='300'
         obj.save()
         return redirect('access_request')
     else:
         emp_id = variable_1
-        obj = get_object_or_404(Service_request, employee_id=emp_id)
+        obj = get_object_or_404(Service_request, id=emp_id)
         obj.approved_by_HOB = 'Yes'
         obj.application_status = '100'
         obj.save()
@@ -290,7 +347,7 @@ def actions(request,variable_1):
 
 def gini(request):
 
-    return render(request,'gini.html')
+    return render(request,'service_tabs.html')
 
 
 from django.views.decorators.csrf import csrf_exempt
@@ -353,7 +410,7 @@ def set_user_another_table(request, user_id):
 
 
    
-    print()
+    print(user.EmployeeID)
     # set the user to another table
     if network_analysts_group.objects.filter(network_analyst_employee_id=user_id).exists():
         analyst_or_none=get_object_or_404(network_analysts_group, network_analyst_employee_id=user_id)
@@ -380,4 +437,90 @@ def reg_test(request):
     return render(request,'reg_test.html')
 
    
+###----------------------------------------------------------###
+def show_entries(request):
+    # Fetch data from the models
+    service_requests = Service_request.objects.all()
+    form_67_entries = Service_request_form_67.objects.all()
+    exec_log = execution_log.objects.values_list('job_id', flat=True)
+    # Render the HTML page with the data
+    return render(request, 'form_submissions.html', {
+        'service_requests': service_requests,
+        'form_67_entries': form_67_entries,
+        'exec_log': exec_log,
+    })
 
+def delete_entry(request, entry_id):
+    # Get the entry using the entry_id
+    entry = get_object_or_404(Service_request, pk=entry_id)
+
+    # Delete the entry
+    entry.delete()
+
+    # Redirect to the page showing the remaining entries
+    return redirect('form_submissions')
+
+def update_entry(request, entry_id):
+    pass
+    # # Get the entry using the entry_id
+    # entry = get_object_or_404(Service_request, pk=entry_id)
+
+    # if request.method == 'POST':
+    #     # Create an instance of your update form with the submitted data
+    #     form = YourUpdateForm(request.POST, instance=entry)
+    #     if form.is_valid():
+    #         # Save the updated data
+    #         form.save()
+    #         # Redirect to the page showing the updated entries
+    #         return redirect('show_entries')
+    # else:
+    #     # Populate the form with the existing data of the entry
+    #     form = YourUpdateForm(instance=entry)
+
+    # # Render the HTML page with the form for updating the entry
+    # return render(request, 'update_entry.html', {'form': form, 'entry': entry})
+
+
+@login_required(login_url='/login')
+def view_only(request,pid):
+
+    obj = User.objects.get(EmployeeID=request.user.EmployeeID)
+    your_model_instance = get_object_or_404(Service_request, id=pid)
+    form = RequestForm(instance=your_model_instance)
+
+    # form = RequestForm(initial={'employee_name': obj.EmployeeName,
+    #                             'designation':obj.EmployeeDesignation,
+    #                             'employee_id':obj.EmployeeID,
+    #                             'branch_division_name':obj.Placeofposting})
+
+    return render(request,'view_only.html',{'form': form,'user_object':obj})
+
+
+
+
+def approver_list(request):
+    if request.method == 'POST':
+        form = ApproverListForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            form.save()
+    else:
+        form = ApproverListForm()
+
+    return render(request, 'approver_list.html', {'form': form})
+
+def task_execute(request):
+
+    execution_log_obj = execution_log(
+
+        job_id = request.GET.get('id'),
+        executed_by = request.user.EmployeeID,
+        job_description = request.GET.get('details'),
+        execution_status = request.GET.get('status'),
+        execution_remarks = "None"
+                        )
+    execution_log_obj.save()
+    messages.success(request, 'Successfully Executed the task')
+
+    return redirect('form_submissions')
+   

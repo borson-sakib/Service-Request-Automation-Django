@@ -1,0 +1,41 @@
+
+
+{% extends 'base.html' %}  
+  
+{% block content %}  
+
+
+<div class="flex-container">
+
+    <div>
+        <div class="col-md-6">
+            <h4><strong>Approver Input</strong></h4>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <!-- <div class="col-md-4"></div>
+        <div class="col-md-4"></div> -->
+    </div>
+ 
+     
+     
+     
+</div>
+
+
+
+
+
+
+{% endblock content %}  
+
+
+
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>

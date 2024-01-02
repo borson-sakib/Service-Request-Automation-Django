@@ -31,6 +31,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 class Service_request(models.Model):
+    form_no = models.CharField(max_length=100,blank=True)
     service_request_id= models.CharField(max_length=100,null=True)
     service_title = models.CharField(max_length=200,null=True)
     request_no = models.CharField(max_length=100)
@@ -63,16 +64,108 @@ class Service_request(models.Model):
     to_time_check = models.BooleanField(max_length=100,default=False)
     reason = models.CharField(max_length=100,blank=True)
     details = models.CharField(max_length=100,blank=True)
+
+    source_ip =models.CharField(max_length=100,blank=True) 
+    destination_ip =models.CharField(max_length=100,blank=True) 
+    destination_port =models.CharField(max_length=100,blank=True) 
+    physical_activity_area =models.CharField(max_length=300,blank=True) 
+    chng_exec_req_id =models.CharField(max_length=100,blank=True) 
+
     vendor_name = models.CharField(max_length=100,blank=True)
     name1 = models.CharField(max_length=100,blank=True)
     contact_number1 = models.CharField(max_length=100,blank=True)
     name2 = models.CharField(max_length=100,blank=True)
     contact_number2 = models.CharField(max_length=100,blank=True)
+
+    team_name1 = models.CharField(max_length=100,blank=True)
+    team_emp_id1 = models.CharField(max_length=100,blank=True)
+    team_name2 = models.CharField(max_length=100,blank=True)
+    team_emp_id2 = models.CharField(max_length=100,blank=True)
+    team_name3 = models.CharField(max_length=100,blank=True)
+    team_emp_id3 = models.CharField(max_length=100,blank=True)
+    team_name4 = models.CharField(max_length=100,blank=True)
+    team_emp_id4 = models.CharField(max_length=100,blank=True)
+    team_lead = models.CharField(max_length=100,blank=True)
+    team_lead_epmloyee_id = models.CharField(max_length=100,blank=True)
+
     approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
     approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
     approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
     application_status = models.IntegerField(max_length=100,null=True,default="0")
+
+    def days_left(self):
+        from datetime import date
+        today = date.today()
+        if self.to_date:
+            delta = self.to_date - today
+            return delta.days
+        return 0  # or any other default value if date is not set
    
+class Service_request_form_67(models.Model):
+    form_no = models.CharField(max_length=100,blank=True)
+
+    service_request_id= models.CharField(max_length=100,null=True)
+    service_title = models.CharField(max_length=200,null=True)
+    request_no = models.CharField(max_length=100)
+    date = models.DateField(max_length=100)
+    employee_name = models.CharField(max_length=100)
+    branch_code = models.CharField(max_length=100)
+    department = models.CharField(max_length=100)
+    mobile_no = models.CharField(max_length=100)
+    designation = models.CharField(max_length=100)
+    employee_id = models.CharField(max_length=100)
+    branch_division_name = models.CharField(max_length=100)
+    pa_no = models.CharField(max_length=100)
+    ip_address = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    self_type = models.CharField(max_length=100,blank=True,
+        
+        choices=[
+            ('self', 'Self'),
+            ('selfwithservice', 'Self with Service'),
+            ('serviceprovider', 'Service Provider'),
+            ('team', 'Team'),
+            ('visitor', 'Visitor')
+        ],
+    )
+    from_date = models.DateField(max_length=100,blank=True)
+    to_date = models.DateField(max_length=100,null=True)
+    to_date_check = models.BooleanField(max_length=100,default=False)
+    from_time = models.TimeField(max_length=100,null=True)
+    to_time = models.TimeField(max_length=100,null=True)
+    to_time_check = models.BooleanField(max_length=100,default=False)
+    reason = models.CharField(max_length=100,blank=True)
+    details = models.CharField(max_length=100,blank=True)
+
+    source_ip =models.CharField(max_length=100,blank=True) 
+    destination_ip =models.CharField(max_length=100,blank=True) 
+    destination_port =models.CharField(max_length=100,blank=True) 
+    physical_activity_area =models.CharField(max_length=300,blank=True) 
+    chng_exec_req_id =models.CharField(max_length=100,blank=True) 
+
+    vendor_name = models.CharField(max_length=100,blank=True)
+    name1 = models.CharField(max_length=100,blank=True)
+    contact_number1 = models.CharField(max_length=100,blank=True)
+    name2 = models.CharField(max_length=100,blank=True)
+    contact_number2 = models.CharField(max_length=100,blank=True)
+
+    team_name1 = models.CharField(max_length=100,blank=True)
+    team_emp_id1 = models.CharField(max_length=100,blank=True)
+    team_name2 = models.CharField(max_length=100,blank=True)
+    team_emp_id2 = models.CharField(max_length=100,blank=True)
+    team_name3 = models.CharField(max_length=100,blank=True)
+    team_emp_id3 = models.CharField(max_length=100,blank=True)
+    team_name4 = models.CharField(max_length=100,blank=True)
+    team_emp_id4 = models.CharField(max_length=100,blank=True)
+    team_lead = models.CharField(max_length=100,blank=True)
+    team_lead_epmloyee_id = models.CharField(max_length=100,blank=True)
+
+    approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
+    approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
+    approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
+    application_status = models.IntegerField(max_length=100,null=True,default="0")
+
+    
 
 class status_code(models.Model):
     status_code = models.CharField(max_length=10)
@@ -98,9 +191,26 @@ class network_analysts_group(models.Model):
     network_analyst_employee_id= models.CharField(max_length=100,null=True)
     network_analyst_name= models.CharField(max_length=100,null=True)
     network_analyst_email= models.CharField(max_length=100,null=True)
+
+class execution_log(models.Model):
+    job_id= models.CharField(max_length=100,null=True)
+    executed_by= models.CharField(max_length=100,null=True)
+    job_description= models.CharField(max_length=100,null=True)
+    execution_status= models.CharField(max_length=100,null=True)
+    execution_remarks= models.CharField(max_length=100,null=True)
+
     
 
-
+class ApproverList(models.Model):
+    employee_id = models.CharField(max_length=20)
+    name = models.CharField(max_length=200)
+    designation = models.CharField(max_length=50)
+    role = models.CharField(max_length=50)
+    approver_level = models.CharField(max_length=50)
+   
+    
+    def __str__(self):
+        return self.employee_id  # or any other field you want to display
 
 # class service_status(models.Model):
 

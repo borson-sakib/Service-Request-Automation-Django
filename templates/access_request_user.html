@@ -1,18 +1,19 @@
 {% extends 'base.html' %}  
-  
+  {% load static %}
+
 {% block content %}  
 
 <style>
-   /* table {
+   table {
     border-collapse: collapse;
-    width: 100%;
+    width: 95%;
 }
 
 th, td {
     border: 2px solid #cccbcb;
     padding: 6px;
     text-align: center;
-} */
+}
 
 th {
     /* background-color: #026492;
@@ -50,16 +51,18 @@ td {
 }
 
 </style>
-<div class="flex-container">
+<div class="flex-container" style="text-align: center; height: 85vh; background-color: white;">
 <div class="table">
     <div class="row">
-        <div class="col-md-4">
+        <!-- <div class="col-md-4">
             <div id="logo" class="logo-container">
                 <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
-        </div>
-        <div class="col-md-8">
+        </div> -->
+        <div class="col-md-12">
             <div class="jumbotron" style="margin: 10px auto;">
-                <h3 class="display-8">Access/Service Requests </h3>
+                <!-- <h3 class="display-8">Access/Service Requests </h3> -->
+                        <h3 style="padding: 5px; border: 3px solid #1c39bb;"><strong>Access/Service Requests </strong></h3>
+
               
                 
               
@@ -78,30 +81,32 @@ td {
 			{% endfor %}
 				
 		{% endif %}
-        <hr class="my-3">
+        <!-- <hr class="my-3"> -->
      </div>
 
      
-    <table class="table table-sm">
-    <thead>
+    <table class="table table-lg">
+    <thead style="background-color: grey;">
         <tr>
-            <th>Access/Service Name</th>
+            <th>Form No.</th>
             <th>Date of Application</th>
             <th>Approved by HOB/HOD</th>
             <th>Approved by CISO</th>
             <th>Approved by CTO</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for entity in access_request %}
         <tr>
-            <td>{{ entity.service_title }}</td>
+            <td>{{ entity.form_no }}</td>
             <td>{{ entity.date }}</td>
             <td>{{ entity.approved_by_HOB }}</td>
             <td>{{ entity.approved_by_CISO }}</td>
             <td>{{ entity.approved_by_CTO }}</td>
             <td><button type="button" class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button></td>
+            <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.id %}">View Only</a></button></td>
             
         </tr>
         {% endfor %}

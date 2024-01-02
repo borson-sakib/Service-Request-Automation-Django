@@ -3,6 +3,8 @@ from .models import User,Service_request
 
 from django import forms
 from django.forms import ModelForm
+from .models import ApproverList
+
 
 
 class UserForm(forms.ModelForm):
@@ -45,11 +47,36 @@ class RequestForm(forms.ModelForm):
     # to_time_check = forms.BooleanField(widget=forms.CheckboxInput(attrs={'name': 'to-time-check', 'id': 'to-time-check','value':'True'}),required=False,initial=False)
     reason = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'reason of request'}))
     details = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Details of Access/Service'}))
-    vendor_name = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Please enter Vendor Name', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
-    name1 = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Name'}))
-    contact_number1 = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Contact Number'}))
-    name2 = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Name'}))
-    contact_number2 = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Contact Number'}))
+    
+    source_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Source IP'}))
+    destination_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Destination IP'}))
+    destination_port = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Destination Port'}))
+    physical_activity_area = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Physical Activity Area'}))
+    chng_exec_req_id = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Change/Execution Request ID'}))
+    
+    
+    vendor_name = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Please enter Vendor Name', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
+    name1 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Name'}))
+    contact_number1 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Contact Number'}))
+    name2 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Name'}))
+    contact_number2 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Contact Number'}))
+    
+    team_name1 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Team Member Name'}))
+    team_emp_id1 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Employee ID'}))
+    
+    team_name2 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Team Member Name'}))
+    team_emp_id2 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Employee ID'}))
+    
+    team_name3 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Team Member Name'}))
+    team_emp_id3 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Employee ID'}))
+    
+    team_name4 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Team Member Name'}))
+    team_emp_id4 = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Employee ID'}))
+    
+    team_lead = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Name', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
+    team_lead_epmloyee_id = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Employee ID'}))
+
+    
     # to_date_check = forms.BooleanField(widget=forms.CheckboxInput(attrs={'name': 'to-date-check', 'id': 'to-date-check'}), required=False)
     # to_time_check = forms.BooleanField(widget=forms.CheckboxInput(attrs={'name': 'to-time-check', 'id': 'to-time-check'}), required=False)
 
@@ -62,3 +89,23 @@ class RequestForm(forms.ModelForm):
         model = Service_request
 
         fields = '__all__'
+
+
+
+
+class ApproverListForm(forms.ModelForm):
+    APPROVER_LEVEL_CHOICES = [
+        ('primary', 'Primary Approver'),
+        ('secondary', 'Secondary Approver'),
+        ('final', 'Final Approver'),
+    ]
+
+    employee_id = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    designation = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    role = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    approver_level = forms.ChoiceField(choices=APPROVER_LEVEL_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+   
+    class Meta:
+        model = ApproverList
+        fields = ['employee_id', 'designation', 'role', 'approver_level']

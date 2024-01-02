@@ -1,13 +1,11 @@
 {% extends 'base.html' %}  
-{% load static %}
-
-
+  
 {% block content %}  
      <!-- <h3>Access/Service Request Form</h3> -->
      <!-- <h2>Access/Service Request Form <span class="badge badge-secondary"></span></h2> -->
 
-     <div class="flex-container" style="width: 90%; padding: 15px; background-color: white;flex-direction: column;">
-        <div class="row" style="margin: auto;">
+     <div class="flex-container">
+        <div class="row">
             <div class="col-md-4">
                 <div id="logo" class="logo-container">
                     <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
@@ -15,26 +13,25 @@
             <div class="col-md-4">
                 <div class="jumbotron" style="margin: 10px auto;text-align: center;">
                     <h3>Mercantil Bank PLC</h3>
-                    <p class="display-8">(Access/Service Request Form) </p>                  
+                    <p class="display-8">(Access/Service Request For Firewall) </p>                  
                   </div>
             </div>
 
             <div class="col-md-4">
-                <div style="text-align: right;"><p>Doc. No : {{ form_no }}</p></div>
+                <div style="text-align: right;"><p>Doc. No : MBL-ISMS-FR-67</p></div>
             </div>
-            <hr class="my-3" style="margin: 0;">
+            <hr class="my-3">
     
        
               </div>
       
       
-        <div class="row " style="margin: auto;">
+        <div class="row ">
          
                  <div class="container content-padding">
-                     <form action="{% url 'service_request' %}" method="post">
+                     <form action="{% url 'service_request' %}" method="post" id="myForm">
                         {% csrf_token %}
-                        <input type="text" name="form_no" id="form_no" value="{{ form_no }}" readonly>
-                         <div class="card" style="padding: 5px;" >
+                         <div class="card">
                              <div class="col-sm-12 card-padding">
                                     <div class="row">
                                          <div class="col-sm-7">
@@ -139,7 +136,7 @@
                              </div>
                          </div>
                             <br>
-                         <div class="card" style="padding: 5px;">
+                         <div class="card">
                                 <div class="row">
     
                                 <div class="col-sm-12">
@@ -200,57 +197,21 @@
                                         <span style="width: 69%;">{{form.details}}</span>
     
                                     </div>
-                                </div>                            
                                 </div>
-  
+    
+                            
+                                </div>
+    
+                         
+    
+                      
+                            
+    
+    
+                         
                          </div>
                          <br>
-                         <div class="card" style="padding: 5px;">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Source IP:</span>
-                                        <span style="width: 69%;">{{form.source_ip}}</span>
     
-                                    </div>
-                                </div> 
-                                <div class="col-sm-6">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Destination IP:</span>
-                                        <span style="width: 69%;">{{form.destination_ip}}</span>
-    
-                                    </div>
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Destination Port:</span>
-                                        <span style="width: 69%;">{{form.destination_port}}</span>
-    
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Physical Activity Area:</span>
-                                        <span style="width: 69%;">{{form.physical_activity_area}}</span>
-    
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Change/Execution Request ID:</span>
-                                        <span style="width: 69%;">{{form.chng_exec_req_id}}</span>
-    
-                                    </div>
-                                </div>
-                            </div>
-                         </div>
-    <!-- Vendor start -->
                          <div class="row">
                             <div class="col-md-12">
                                 <div class="jumbotron" style="margin: 10px auto;">
@@ -262,7 +223,9 @@
                                   </div>
                             </div>
                          </div>
-                         <div class="card" style="padding: 5px;">    
+                         <div class="card">
+     
+    
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="input-group input-group-sm">
@@ -282,65 +245,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            
+    
                          </div>
-        <!-- Vendor end -->
-
-
-        <!-- Team Start -->
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="jumbotron" style="margin: 10px auto;">
-                    <!-- <h4 class="display-8">Vendor  Engagement</h4> -->
-                  
-                       <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;"><strong>For Team Execution</strong> </span>
-                  
-                  
-                  </div>
-            </div>
-         </div>
-         <div class="card" style="padding: 5px;">    
-                <div class="row">
-                
-                    <div class="col-sm-12">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Work Team With ID</span>
-                            {{form.team_name1}}
-                            {{form.team_emp_id1}}
-                            
-                            {{form.team_name2}}
-                            {{form.team_emp_id2}}
-                            
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;"></span>
-                    
-                            {{form.team_name3}}
-                            {{form.team_emp_id3}}
-                            
-                            {{form.team_name4}}
-                            {{form.team_emp_id4}}
-                            
-                           
-                        </div>
-                    </div>
-
-                    <div class="col-sm-12">
-                        <div class="input-group input-group-sm">
-                            <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Lead By</span>
-                            {{form.team_lead}}
-                            {{form.team_lead_epmloyee_id}}
-                           
-                        </div>
-                    </div>
-                </div>
-         </div>
-
-<!-- Team end -->
+    
                          <div style="display: flex; justify-content: center; align-items: center;">
-                            <input class='btn btn-success' style='width: 30%; margin: 20px auto; justify-self: center;' type="submit" value="Save & Submit" name="form02">             
+                            <input class='btn btn-success' style='width: 30%; margin: 20px auto; justify-self: center;' type="submit" value="Save & Submit" name="form67">             
+                            <button type="button" id="generate-pdf">Generate PDF</button>
                            </div>
                   
                       
@@ -352,7 +263,7 @@
       
         </div>
      </div>
-
+     <div id="pdf-container"></div>
 
     <script>
     document.getElementById('to-date-check').onchange = function() {
@@ -365,6 +276,42 @@
     document.getElementById('to-time-check').value = 'True';
 };
     </script>
- 
+      <script>
+        document.getElementById('generate-pdf').addEventListener('click', function () {
+            var element = document.getElementById('myForm');
+            var pdfContainer = document.getElementById('pdf-container');
+
+            // Clone the form element
+            var formClone = element.cloneNode(true);
+
+            // Clear any existing content in the PDF container
+            pdfContainer.innerHTML = '';
+
+            // Append the cloned form to the PDF container
+            pdfContainer.appendChild(formClone);
+
+            // Generate PDF from the cloned form
+            html2pdf(pdfContainer, {
+                margin: 10,
+                filename: 'generated-pdf.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                output: 'blob',
+            }).then(function (pdfBlob) {
+                // Create a data URL from the PDF blob
+                var pdfDataUrl = URL.createObjectURL(pdfBlob);
+
+                // Create an iframe to display the PDF
+                var iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.src = pdfDataUrl;
+
+                // Append the iframe to the PDF container
+                pdfContainer.appendChild(iframe);
+            });
+        });
+    </script>
       
 {% endblock content %}  
