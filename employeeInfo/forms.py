@@ -29,7 +29,7 @@ class RequestForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter Email', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
     
     self_type = forms.ChoiceField(
-        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input','placeholder':'Requested for'}),
         choices=[
             ('self', 'Self'),
             ('selfwithservice', 'Self with Service'),
@@ -84,6 +84,26 @@ class RequestForm(forms.ModelForm):
     #     self.to_date_check='1' 
     #     self.to_time_check='1' 
     #     return super().is_valid()
+    def __init__(self, *args, **kwargs):
+        super(RequestForm, self).__init__(*args, **kwargs)
+
+        # Set the 'required' attribute for the 'email' field to False
+        self.fields['vendor_name'].required = False
+        self.fields['name1'].required = False
+        self.fields['contact_number1'].required = False
+        self.fields['name2'].required = False
+        self.fields['contact_number2'].required = False
+        self.fields['team_name1'].required = False
+        self.fields['team_emp_id1'].required = False
+        self.fields['team_name2'].required = False
+        self.fields['team_emp_id2'].required = False
+        self.fields['team_name3'].required = False
+        self.fields['team_emp_id3'].required = False
+        self.fields['team_name4'].required = False
+        self.fields['team_emp_id4'].required = False
+        self.fields['team_lead'].required = False
+        self.fields['team_lead_epmloyee_id'].required = False
+        
 
     class Meta:
         model = Service_request

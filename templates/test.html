@@ -26,14 +26,21 @@
     
        
               </div>
+
+        <div class="row" style="margin: auto;">
+
+            <div class="col-md-12" id="errorDiv" style="color: red;"></div>
+
+
+        </div>
       
       
         <div class="row " style="margin: auto;">
          
                  <div class="container content-padding">
-                     <form action="{% url 'service_request' %}" method="post">
+                     <form name="myForm" onsubmit="validateForm(event)" action="{% url 'service_request' %}" method="post" novalidate>
                         {% csrf_token %}
-                        <input type="text" name="form_no" id="form_no" value="{{ form_no }}" readonly>
+                        <input type="text" name="form_no" id="form_no" value="{{ form_no }}" readonly hidden>
                          <div class="card" style="padding: 5px;" >
                              <div class="col-sm-12 card-padding">
                                     <div class="row">
@@ -167,7 +174,7 @@
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Date Duration:</span>
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 33%; background-color: white;">From: &nbsp;&nbsp;{{form.from_date}}</span>
-                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">                                    To: &nbsp;&nbsp;{{form.to_date}}&nbsp;&nbsp;{{form.to_date_check}}&nbsp;&nbsp;Continuous
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 36%;background-color: white;">To: &nbsp;&nbsp;{{form.to_date}}&nbsp;&nbsp;{{form.to_date_check}}&nbsp;&nbsp;Continuous
                                         </span>
                                         
                                     
@@ -363,8 +370,67 @@
     document.getElementById('to-time').disabled = this.checked;
     document.getElementById('to-time-check').disabled = this.checked;
     document.getElementById('to-time-check').value = 'True';
+
+    if (this.checked) {
+    document.getElementById('to-date').style.border = "";
+    document.getElementById('from-time').style.border = "";
+    document.getElementById('to-time').style.border = "";
+    document.getElementById('to-time-check').style.border = "";
+    }
 };
     </script>
  
+
+ <script>
+    function validateForm(event) {
+      event.preventDefault(); // Prevent default form submission behavior
+
+      var form = document.forms["myForm"];
+      var elements = form.elements;
+      var isEmpty = false;
+      var emptyFields = [];
+
+      for (var i = 0; i < elements.length; i++) {
+        var currentElement = elements[i];
+
+        if (!currentElement.disabled) {
+          // Check if the element is not disabled
+
+          if (currentElement.type === "text" || currentElement.type === "date" || currentElement.type === "time") {
+            // Check for text, date, or time input fields
+            if (currentElement.hasAttribute("required") && currentElement.value.trim() === "") {
+              isEmpty = true;
+              currentElement.style.border = "1px solid red";
+              emptyFields.push(currentElement.placeholder || currentElement.name);
+            } else {
+              currentElement.style.border = "";
+            }
+          } else if (currentElement.type === "radio") {
+            // Check for radio buttons
+            var radioGroupName = currentElement.name;
+            var radioGroup = form.elements[radioGroupName];
+
+            var radioChecked = Array.from(radioGroup).some(function (radio) {
+              return radio.checked;
+            });
+
+            if (currentElement.hasAttribute("required") && !radioChecked) {
+              isEmpty = true;
+              emptyFields.push(radioGroupName);
+              // You can add additional validation logic or styling here if needed
+            }
+          }
+        }
+      }
+
+      if (isEmpty) {
+        // Display the names of empty fields in a div
+        var errorDiv = document.getElementById("errorDiv");
+        errorDiv.textContent = "Please fill in all required fields: " + emptyFields.join(", ");
+      } else {
+        form.submit(); // Submit the form if validation passes
+      }
+    }
+  </script>
       
 {% endblock content %}  
