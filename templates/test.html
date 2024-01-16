@@ -417,7 +417,11 @@
             if (currentElement.hasAttribute("required") && !radioChecked) {
               isEmpty = true;
               emptyFields.push(radioGroupName);
+              currentElement.style.border = "1px solid red";
               // You can add additional validation logic or styling here if needed
+            }
+            else{
+                currentElement.style.border = "";
             }
           }
         }
