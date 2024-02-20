@@ -209,16 +209,14 @@
 			"employeeId": param ,
 		},
 		dataType: 'json',
+		userexists:function(data){
+			alert('User alreay exists !')
+		},
         success: function(data) {
           console.log(data);
-	// 	  var button = document.getElementById("submitBtn");
-	// 	  button.onclick = function() {
-	// 		var div = document.getElementById("details");
-    //     		div.style.display = "block";
-    // };
-		  
-		//   var input = document.getElementById("EmployeeID");
-    	// 	input.innerText = JSON.stringify(data['data']['EmployeeID']);
+		  if (data.result === 'userexists') {
+                    alert('User already exists!');
+                } else {
 		  var input = document.getElementById("EmployeeName");
     		input.value = JSON.stringify(data['data']['EmployeeName']);
 		  var input = document.getElementById("EmpDesignation");
@@ -230,13 +228,7 @@
 
 			var div = document.getElementById("details");
         		div.style.display = "block";
-		  
-		  
-		//   var exampleParagraph = document.getElementById("details");
-    	// 	exampleParagraph.innerHTML = JSON.stringify(data['data']['EmployeeID']);
-    	// 	exampleParagraph.innerHTML = JSON.stringify(data['data']['POP']);
-
-          // Do something with the data, such as displaying it on the page
+				}
         },
 		error: function(xhr, error){
 			alert(error.message);

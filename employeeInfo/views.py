@@ -109,20 +109,23 @@ def loginView(request):
 
 def create_profile(request):
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         url = str(employeeURL) + str(request.POST["employeeId"])
         response = requests.post(url)
-        print("-------------------------------------")
-        print(response)
+        # print("-------------------------------------")
+        # print(response)
         response = response.json()
 
         if response["EmployeeID"] is not None:
-            print(request.POST["employeeId"])
+            # print(request.POST["employeeId"])
             # print(request.POST["EmpFunctionalDesignation"])
             # Get the uploaded file
             
             uploaded_file1 = request.FILES['signature']
             uploaded_file2 = request.FILES['pi']
+
+            print(uploaded_file1)
+            print(uploaded_file2)
             # Create a Photo instance using the uploaded file
             # photo = Photo(image=uploaded_file, caption='My photo')
             # photo.save()
@@ -355,17 +358,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def fetch(request):
-    # print('###########################################################################')
-    # # print(request.body)
-    # print(request.POST.get('employeeId'))
 
-    # print('###########################################################################')
-    # url = str(employeeURL) + str(request.GET["empid"])
-    # response = requests.post(url)
-    # response = response.json()
-    
-    
     if request.method == 'POST':
+
+        if User.objects.filter(EmployeeID=str(request.POST.get("employeeId"))).exists():
+            # messages.success(request, 'User is already registered !')
+            # return redirect('create_profile')
+            response_data = {'result':'userexists'}
+            response_data['data'] = 'none' 
+            return JsonResponse(response_data)
         url = str(employeeURL) + str(request.POST.get("employeeId"))
         response = requests.post(url)
         response_data = {'result': 'success'}
