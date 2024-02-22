@@ -10,7 +10,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.middleware import AuthenticationMiddleware
 
 urlpatterns = [
-    path('view_only/<int:pid>/', view_only, name="view_only"),
+    path('view_only/<str:pid>/', view_only, name="view_only"),
     path('form/<str:id>/', index, name="index"),
     path('form67', form67, name="form67"),
     path('approver_list', approver_list, name="approver_list"),
@@ -40,6 +40,6 @@ urlpatterns = [
     path('gini', gini, name="gini"),
 
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

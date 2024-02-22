@@ -68,12 +68,12 @@ td {
                 {% if user_request.approved_by_HOB == 'Yes' %}
                 
                 <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.id %}">View Only</a></button>
+                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
 
                 {% else %}
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.id %}">View Only</a></button>
+                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
 
-                <a href="{% url 'actions' user_request.id %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
+                <a href="{% url 'actions' user_request.request_no %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
                 <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
                {% endif %}
             </td>

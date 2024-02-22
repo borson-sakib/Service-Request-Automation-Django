@@ -174,7 +174,7 @@ td {
                             <!-- <td>{{ entry.designation }}</td> -->
                             <td>{{ entry.details }}</td>
                             <td>
-                             <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.id %}">View Form</a></button>
+                             <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.request_no %}">View Form</a></button>
                                 <a href="{% url 'task_execute' %}?id={{ entry.id }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
                                 
                                 <a href="{% url 'delete_entry' entry.id %}" class="btn btn-sm btn-danger">Delete</a>

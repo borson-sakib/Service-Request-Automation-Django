@@ -52,7 +52,7 @@
 
     .signature img {
         width: 200px; /* Set the desired width for your images */
-        height: auto; /* Maintain aspect ratio */
+        height: 100px; /* Maintain aspect ratio */
         /* border: 1px solid #333; Optional border for each image */
         margin-bottom: 5px; /* Space between image and name */
     }
@@ -62,7 +62,7 @@
 </head>
 <body>
   
-    <div style="border: 2px solid black; margin: auto; padding: 25px;">
+    <div style="border: 2px solid black; margin: auto; padding: 25px;padding-bottom: 5%;">
 <div class="flex-container" style="width: 70%;margin: auto; border: 5px solid grey;flex-direction: column; padding: 15px;">
     <div class="row">
         <div class="col-md-4">
@@ -407,11 +407,11 @@
 
                  <div class="signatures-container">
                     <div class="signature">
-                        <img src="/media/images/signatures/{{ form.employee_id.value }}_signature.jpg" alt="John Doe's signature">
+                        <img src="/media/images/signatures/{{ form.employee_id.value }}_signature.jpg"  alt="John Doe's signature">
                         <p>Applicant Signature </p>
                     </div>
                     <div class="signature">
-                        <img src="https://static.vecteezy.com/system/resources/previews/023/264/100/original/fake-hand-drawn-autographs-set-handwritten-signature-scribble-for-business-certificate-or-letter-isolated-illustration-vector.jpg" alt="Jane Smith's signature">
+                        <img src="/media/images/signatures/20211228046_signature.jpg" alt="Jane Smith's signature">
                         <p>HOB/HOD</p>
                     </div>
                     <div class="signature">
@@ -435,6 +435,10 @@
 
 
 </body>
+<footer>
+    <a href="{% url 'actions' form.request_no.value %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
+                <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
+</footer>
 
 </html>
 

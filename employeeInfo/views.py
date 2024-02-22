@@ -180,7 +180,27 @@ def checkId(request):
         # if(request.POST["employeeId"] == "1111"):
         #     return render(request,'employee_registration.html')
 
+from django.utils.crypto import get_random_string
+from datetime import datetime
 
+def generate_unique_id(employee_id, form_number):
+    # Get current date and time
+    now = datetime.now()
+    
+    # Format date as YYYYMMDD
+    date_str = now.strftime("%Y%m%d")
+    
+    # Extract the form number part
+    form_number_trimmed = form_number.split('-')[-2:]
+    form_number_trimmed = '-'.join(form_number_trimmed)
+    
+    # Generate a random string of length 6
+    random_str = get_random_string(length=6)
+    
+    # Concatenate employee_id, form_no, date, and random string
+    unique_id = f"{employee_id}-{form_number_trimmed}-{date_str}-{random_str}"
+    
+    return unique_id
 
 def service_request(request):
     if(request.method == "POST"):
@@ -195,7 +215,8 @@ def service_request(request):
             else:
                 Service_request_OBJ = Service_request(
                     form_no = request.POST['form_no'],
-                    request_no=request.POST['request_no'],
+                    request_no=generate_unique_id(request.POST['employee_id'],request.POST['form_no']),
+                    # request_no=request.POST['request_no'],
                     date=request.POST['date'],
                     employee_name=request.POST['employee_name'],
                     branch_code=request.POST['branch_code'],
@@ -326,22 +347,22 @@ def access_request_user(request):
 def actions(request,variable_1):
 
     if(request.user.EmployeeID=='20190724001'):
-        emp_id = variable_1
-        obj = get_object_or_404(Service_request, id=emp_id)
+        request_no = variable_1
+        obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CISO = 'Yes'
         obj.application_status = '200'
         obj.save()
         return redirect('access_request')
     elif(request.user.EmployeeID=='20210701001'):
-        emp_id = variable_1
-        obj = get_object_or_404(Service_request, id=emp_id)
+        request_no = variable_1
+        obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CTO = 'Yes'
         obj.application_status='300'
         obj.save()
         return redirect('access_request')
     else:
-        emp_id = variable_1
-        obj = get_object_or_404(Service_request, id=emp_id)
+        request_no = variable_1
+        obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_HOB = 'Yes'
         obj.application_status = '100'
         obj.save()
@@ -486,7 +507,7 @@ def update_entry(request, entry_id):
 def view_only(request,pid):
 
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
-    your_model_instance = get_object_or_404(Service_request, id=pid)
+    your_model_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=your_model_instance)
 
     # form = RequestForm(initial={'employee_name': obj.EmployeeName,

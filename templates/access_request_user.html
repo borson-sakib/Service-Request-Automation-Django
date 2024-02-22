@@ -106,7 +106,7 @@ td {
             <td>{{ entity.approved_by_CISO }}</td>
             <td>{{ entity.approved_by_CTO }}</td>
             <td><button type="button" class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button></td>
-            <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.id %}">View Only</a></button></td>
+            <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
             
         </tr>
         {% endfor %}
