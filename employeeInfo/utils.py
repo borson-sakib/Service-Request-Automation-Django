@@ -3,6 +3,16 @@
 
 from ldap3 import Server, Connection, ALL
 from .models import *
+from reportlab.lib.pagesizes import letter,landscape
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer,Table, TableStyle, HRFlowable
+from reportlab.lib import colors
+from reportlab.platypus import Image
+from reportlab.platypus import PageBreak
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from .models import Service_request,User # replace with the name of your model
 # def getUser(usermail):
 #     user = User.objects.get(email=usermail)
 #     context = {"user_info" : user}
@@ -48,26 +58,14 @@ def checkAuthUser( emailadrress):
 #     return branchlist
 
 
-def domainMailCheck(domainMail):
-    domainMail = domainMail.lower()
+def domainMailCheck(domainMailid):
+    domainMail = domainMailid.lower()
     if(domainMail.endswith('@mblbd.com')):
         return domainMail
 
     else:
         return domainMail + '@mblbd.com'
 
-
-
-from reportlab.lib.pagesizes import letter,landscape
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer,Table, TableStyle, HRFlowable
-from reportlab.lib import colors
-from reportlab.platypus import Image
-from reportlab.platypus import PageBreak
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
-from .models import Service_request,User # replace with the name of your model
 
 def preview_pdf(request, pk):
      # retrieve the object from the database using its primary key
@@ -165,3 +163,36 @@ def preview_pdf(request, pk):
     
     # return the PDF as the response to the request
     return response
+
+FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management"]
+
+
+def find_HOX(pop,pid):
+    hod_obj = User.objects.filter(Placeofposting=pop,EmpFunctionalDesignation__in=FunctionalDesignations).last()
+    service_req = get_object_or_404(Service_request, request_no=pid)
+
+    if service_req.approved_by_HOB=='Yes':
+
+        return hod_obj.signature
+
+    return 'Not Approved'
+    
+def find_CTO_status(pid):
+    service_req = get_object_or_404(Service_request, request_no=pid)
+    CTO = User.objects.get(EmployeeID='20210701001')
+    if service_req.approved_by_CTO=='Yes':
+
+        return CTO.signature
+    
+    return 'Not Approved'
+
+def find_CISO_status(pid):
+    service_req = get_object_or_404(Service_request, request_no=pid)
+    CISO = User.objects.get(EmployeeID='20190724001')
+    if service_req.approved_by_CISO=='Yes':
+
+        return CISO.signature
+    
+    return 'Not Approved'
+
+

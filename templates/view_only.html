@@ -411,15 +411,15 @@
                         <p>Applicant Signature </p>
                     </div>
                     <div class="signature">
-                        <img src="/media/images/signatures/20211228046_signature.jpg" alt="Jane Smith's signature">
+                        <img src="/media/{{ hod }}" alt="{{ hod }}">
                         <p>HOB/HOD</p>
                     </div>
                     <div class="signature">
-                        <img src="https://static.vecteezy.com/system/resources/previews/023/264/100/original/fake-hand-drawn-autographs-set-handwritten-signature-scribble-for-business-certificate-or-letter-isolated-illustration-vector.jpg" alt="Bob Johnson's signature">
+                        <img src="/media/{{ ciso }}" alt="{{ ciso }}">
                         <p>CISO</p>
                     </div>
                     <div class="signature">
-                        <img src="https://static.vecteezy.com/system/resources/previews/023/264/100/original/fake-hand-drawn-autographs-set-handwritten-signature-scribble-for-business-certificate-or-letter-isolated-illustration-vector.jpg" alt="Alice Williams's signature">
+                        <img src="/media/{{ cto }}" alt="{{ cto }}">
                         <p>CTO</p>
                     </div>
                 </div>
@@ -436,8 +436,10 @@
 
 </body>
 <footer>
+    {% if check %}
     <a href="{% url 'actions' form.request_no.value %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
                 <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
+    {% endif %}
 </footer>
 
 </html>

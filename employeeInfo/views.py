@@ -26,7 +26,7 @@ import environ
 
 employeeURL= settings.APIURL
 
-FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management"]
+FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management","CISO"]
 
 @login_required(login_url='/login')
 def landing(request):
@@ -505,17 +505,27 @@ def update_entry(request, entry_id):
 
 @login_required(login_url='/login')
 def view_only(request,pid):
-
+    Check = False
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
     your_model_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=your_model_instance)
+    hod_signature = find_HOX(obj.Placeofposting,pid)
+    context = {'hod':find_HOX(obj.Placeofposting,pid),
+                  'cto':find_CTO_status(pid),
+                  'ciso':find_CISO_status(pid),
+                  'form': form,
+                  'user_object':obj,
+                  'check':Check}
+    # print(hod_signature)
+    if(obj.EmpFunctionalDesignation in FunctionalDesignations):
+        Check = True
 
     # form = RequestForm(initial={'employee_name': obj.EmployeeName,
     #                             'designation':obj.EmployeeDesignation,
     #                             'employee_id':obj.EmployeeID,
     #                             'branch_division_name':obj.Placeofposting})
 
-    return render(request,'view_only.html',{'form': form,'user_object':obj})
+    return render(request,'view_only.html',context)
 
 
 
