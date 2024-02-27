@@ -66,7 +66,9 @@
     <h3>Access/Service Request Management</h3>
     <hr class="new1">
     <ul class="menu">
-      <li><a href="{% url 'form_submissions' %}">Forms Submitted</a></li>
+      <li><a href="{% url 'form_submissions' %}">Manage Requests</a></li>
+      <li><a href="{% url 'user_list' %}">Manage Roles</a></li>
+      <li><a href="{% url 'form_submissions' %}">Reports</a></li>
       <li><a href="{% url 'approver_list' %}">Approver</a></li>
       <!-- <li>Menu item 2
         <ul class="sub-menu">
@@ -93,8 +95,8 @@
         <div class="nav">
         <a href="{% url 'landing' %}">Home</a>
         <a href="{% url 'access_request' %}">Requests</a>
-        <a href="{% url 'gini' %}">Tabs</a>
-        <a href="{% url 'user_list' %}">User List</a>
+        <!-- <a href="{% url 'gini' %}">Tabs</a> -->
+        
         <div class="chip">
           <img src="{% static 'img/user.png' %}" alt="Person" width="96" height="96">
           <p><strong>{{request.user.EmployeeName}}</strong> </p><br>
