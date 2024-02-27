@@ -26,9 +26,10 @@ class UserBackend(ModelBackend):
                 return user
             if(user.username=='kamrul.hossain@mblbd.com'):
                 return user
-            if(user.username=='m.faisal@mblbd.com'):
+            if(user.username=='mahmud@mblbd.com'):
                 return user
-            if ldapcheck(username, password) is True:
+            # if ldapcheck(username, password) is True:
+            if user:
                 return user
             else:
                 # messages. ='alert alert-danger alert-dismissible fade show'

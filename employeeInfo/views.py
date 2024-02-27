@@ -156,6 +156,17 @@ def create_profile(request):
                 messages.success(request, 'User Creation Successful')
                 
             else:
+                # User.objects.create_user(
+                #     username=request.POST['email'], 
+                #     EmployeeName=response["EmployeeName"],
+                #     EmployeeDesignation=response["EmpDesignation"],
+                #     EmpFunctionalDesignation=funcDesig,
+                #     Placeofposting=response["POP"],
+                #     EmployeeID=response["EmployeeID"],
+                #     password=request.POST['password'],
+                #     signature=uploaded_file1,
+                #     pi=uploaded_file2,
+                #     )
                 messages.success(request, 'Domain Does not match')
                 return redirect('create_profile')
             return redirect('login')
@@ -317,7 +328,7 @@ def access_request(request):
     #IF user is Authorizer
     if(request.user.EmpFunctionalDesignation in FunctionalDesignations):
         
-        if(request.user.EmployeeID=='20190724001'):
+        if(request.user.EmployeeID=='20091007002'):
             #CISO
             user_requests = Service_request.objects.filter(application_status__gte=100).all()
             return render(request,'access_request_ciso.html',{'user_requests': user_requests})
@@ -346,7 +357,7 @@ def access_request_user(request):
 
 def actions(request,variable_1):
 
-    if(request.user.EmployeeID=='20190724001'):
+    if(request.user.EmployeeID=='20091007002'):
         request_no = variable_1
         obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CISO = 'Yes'
@@ -507,10 +518,10 @@ def update_entry(request, entry_id):
 def view_only(request,pid):
     Check = False
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
-    your_model_instance = get_object_or_404(Service_request, request_no=pid)
-    form = RequestForm(instance=your_model_instance)
-    hod_signature = find_HOX(obj.Placeofposting,pid)
-    context = {'hod':find_HOX(obj.Placeofposting,pid),
+    applicant_instance = get_object_or_404(Service_request, request_no=pid)
+    form = RequestForm(instance=applicant_instance)
+    # hod_signature = find_HOX(obj.Placeofposting,pid)
+    context = {'hod':find_HOX(applicant_instance.branch_division_name,pid),
                   'cto':find_CTO_status(pid),
                   'ciso':find_CISO_status(pid),
                   'form': form,

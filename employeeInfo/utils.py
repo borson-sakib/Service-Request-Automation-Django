@@ -175,7 +175,7 @@ def find_HOX(pop,pid):
 
         return hod_obj.signature
 
-    return 'Not Approved'
+    return 'images/signatures/notapproved.jpg'
     
 def find_CTO_status(pid):
     service_req = get_object_or_404(Service_request, request_no=pid)
@@ -184,15 +184,15 @@ def find_CTO_status(pid):
 
         return CTO.signature
     
-    return 'Not Approved'
+    return 'images/signatures/notapproved.jpg'
 
 def find_CISO_status(pid):
     service_req = get_object_or_404(Service_request, request_no=pid)
-    CISO = User.objects.get(EmployeeID='20190724001')
+    CISO = User.objects.get(EmployeeID='20091007002')
     if service_req.approved_by_CISO=='Yes':
 
         return CISO.signature
     
-    return 'Not Approved'
+    return 'images/signatures/notapproved.jpg'
 
 

@@ -21,6 +21,11 @@
     #user-table td {
       font-size: 12px;
     }
+
+    .dataTables_filter{
+      padding: 10px;
+    }
+    
   </style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -107,7 +112,16 @@
         </div>
       
       </div>
+      {% if messages %}
+      {% for message in messages %}
+          <div class="col-md-12">
+              <div style="border-radius: 0px;text-align: center ;margin: 0px;padding: 0px; background-color: #1a8b10; color: #ffffff;">
+                  <p>{{ message }}</p>
 
+              </div>
+          </div>
+      {% endfor %}
+      {% endif %}
       <div>
         {% block content %}
 

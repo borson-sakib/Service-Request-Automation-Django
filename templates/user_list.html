@@ -29,58 +29,60 @@ td {
 </style>
 
 
-<div class="flex-container" style="flex-direction: column; padding: 10px; text-align: center; background-color: white;">
+<div class="container" style="min-height: 100vh;">
 
-       <div>
-        <h3 style="padding: 5px; border: 3px solid #1c39bb;"><strong>User List</strong></h3>
-        <hr>
-        <!-- <label for="search-box">Search:</label> -->
-        <!-- <input type="text" id="search-box" name="q"> -->
-        {% if messages %}
-                    
-        {% for message in messages %}
-        <div class="badge">
-            <span class="border border-success" style="color: red;">{{ message }}</span>
-            <!-- <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p> -->
-    
-        </div>
-                <!-- <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p> -->
-        {% endfor %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="background-color: white;margin: 1%;padding: 1%;">
+                <h5 style="margin: 0px;"><strong>User List</strong></h5>   
+        
+            </div>
             
-    {% endif %}
-
-       </div>
-   
-        <div style="width: 100%; height: 80vh;">
-           
-                 <table id="user-table" >
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <!-- <th>Email</th> -->
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.EmployeeName }} - {{ user.EmployeeID }}</td>
-                    <!-- <td>{{ user.username }}</td> -->
-                    <td>{{ user.EmpFunctionalDesignation }}</td>
-                    <td>{{ user.Placeofposting }}</td>
-                    <td>
-                        <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-success">Analyst</a>
-                        <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-danger">Revoke</a>
-                        <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
-                        <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
-                      </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
         </div>
+        <!-- <div class="col-md-12">
+            <div class="card" style="background-color: white;margin: 1%;padding: 1%;">
+        <label for="search-box">Search:</label>
+        <input type="text" id="search-box" name="q">
+            </div>
+        </div> -->
+
+        <div class="col-md-12">
+           
+            
+            <div class="card" style="padding: 1%;">
+                <table id="user-table" >
+                    <thead>
+                      <tr>
+                          <th>Username</th>
+                          <!-- <th>Email</th> -->
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for user in users %}
+                      <tr>
+                          <td>{{ user.EmployeeName }} - {{ user.EmployeeID }}</td>
+                          <!-- <td>{{ user.username }}</td> -->
+                          <td>{{ user.EmpFunctionalDesignation }}</td>
+                          <td>{{ user.Placeofposting }}</td>
+                          <td>
+                              <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-success">Analyst</a>
+                              <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-danger">Revoke</a>
+                              <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
+                              <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
+                              </td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+     
+   
+       
    
         
         
