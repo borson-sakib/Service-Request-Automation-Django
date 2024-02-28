@@ -1,0 +1,56 @@
+{
+"EmployeeID": "20010410002",
+"EmployeeName": "Irin Jahan",
+"EmpDesignation": "ASSISTANT VICE PRESIDENT",
+"EmpDesignationShort": "AVP",
+"EmpFunctionalDesignation": "GB IN-CHARGE",
+"POP": "Aftab Nagar Branch",
+"POPCode": "240",
+"PhoneNumber": "01714167454",
+"DesigCode": "45",
+"SubDivision": "MANAGER OPERATIONS",
+"PONUMBER": "252",
+"DOMAINID": "irin@mblbd.com"
+}
+{
+"EmployeeID": "20210701001",
+"EmployeeName": "Muhammad Mahmud Hasan",
+"EmpDesignation": "EXECUTIVE VICE PRESIDENT",
+"EmpDesignationShort": "EVP",
+"EmpFunctionalDesignation": "IT Management",
+"POP": "Head Office - Information Technology Division",
+"POPCode": "100",
+"PhoneNumber": "01712934316",
+"DesigCode": "25",
+"SubDivision": "HEAD OF DIVISION",
+"PONUMBER": "1192",
+"DOMAINID": "mahmud.hasan@mblbd.com"
+}
+{
+"EmployeeID": "20210714001",
+"EmployeeName": "Mohammad Kamrul Hossain",
+"EmpDesignation": "SENIOR VICE PRESIDENT",
+"EmpDesignationShort": "SVP",
+"EmpFunctionalDesignation": "IT Management",
+"POP": "Head Office - Information Technology Division",
+"POPCode": "100",
+"PhoneNumber": "01714134990",
+"DesigCode": "30",
+"SubDivision": "OTHERS",
+"PONUMBER": "",
+"DOMAINID": "kamrul.hossain@mblbd.com"
+}
+{
+"EmployeeID": "20070801003",
+"EmployeeName": "Md. Abu Ruheen Chowdhury",
+"EmpDesignation": "VICE PRESIDENT",
+"EmpDesignationShort": "VP",
+"EmpFunctionalDesignation": "IT Management",
+"POP": "Head Office - Information Technology Division",
+"POPCode": "100",
+"PhoneNumber": "01911351760",
+"DesigCode": "32",
+"SubDivision": "OTHERS",
+"PONUMBER": "",
+"DOMAINID": "ruheenchowy@mblbd.com"
+}
