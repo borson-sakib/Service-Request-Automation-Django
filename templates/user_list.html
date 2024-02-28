@@ -58,6 +58,7 @@ td {
                           <th>First Name</th>
                           <th>Last Name</th>
                           <th>Actions</th>
+                          <th>Analyst</th>
                       </tr>
                   </thead>
                   <tbody>
@@ -73,6 +74,7 @@ td {
                               <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
                               <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
                               </td>
+                            <td>{{ user.analyst }}</td>
                       </tr>
                       {% endfor %}
                   </tbody>

@@ -32,6 +32,10 @@ FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FO
 def landing(request):
     name = request.user.EmployeeName
     user_id = request.user.EmployeeID
+    service_requests = Service_request.objects.filter(application_status=300)
+    count = service_requests.count()
+
+
 
     queryset = network_analysts_group.objects.filter(network_analyst_employee_id=user_id)
     if queryset.exists():
@@ -48,7 +52,7 @@ def landing(request):
 
         # return render(request, 'template.html', {'exists': False})
 
-    return render(request,'landing.html',{'Username':name,'analyst':analyst_user,'events': events})
+    return render(request,'landing.html',{'Username':name,'analyst':analyst_user,'events': events,'count':count})
 
 @login_required(login_url='/login')
 def index(request,id):
@@ -417,8 +421,18 @@ def user_list(request):
     query = request.GET.get('q')
     if query:
         users = User.objects.filter(username__icontains=query)
+        print('1' + users)
     else:
         users = User.objects.all()
+        for user in users:
+        # Check if the user's employeeID exists in AnotherTable
+            if network_analysts_group.objects.filter(network_analyst_employee_id=user.EmployeeID).exists():
+                # If exists, add a field 'analyst' with value True to the user object
+                user.analyst = True
+            else:
+                # If not exists, add a field 'analyst' with value False to the user object
+                user.analyst = False
+        print(users)
     context = {'users': users, 'query': query}
     return render(request, 'user_list.html', context)
 
@@ -473,14 +487,20 @@ def reg_test(request):
 ###----------------------------------------------------------###
 def show_entries(request):
     # Fetch data from the models
-    service_requests = Service_request.objects.all()
+    service_requests = Service_request.objects.filter(application_status=300)
+    all_submission = Service_request.objects.all()
     form_67_entries = Service_request_form_67.objects.all()
     exec_log = execution_log.objects.values_list('job_id', flat=True)
+    executed_submission = Service_request.objects.filter(request_no__in=exec_log)
+
+    print(exec_log)
     # Render the HTML page with the data
     return render(request, 'form_submissions.html', {
         'service_requests': service_requests,
         'form_67_entries': form_67_entries,
         'exec_log': exec_log,
+        'all_submission': all_submission,
+        'executed_submission': executed_submission,
     })
 
 def delete_entry(request, entry_id):
@@ -553,17 +573,22 @@ def approver_list(request):
     return render(request, 'approver_list.html', {'form': form})
 
 def task_execute(request):
+    
+    if execution_log.objects.filter(Q(job_id=request.GET.get('id'))).exists():
 
-    execution_log_obj = execution_log(
+        messages.success(request, 'Task Already Executed !')
+        return redirect('form_submissions')
+    else :
+        execution_log_obj = execution_log(
 
-        job_id = request.GET.get('id'),
-        executed_by = request.user.EmployeeID,
-        job_description = request.GET.get('details'),
-        execution_status = request.GET.get('status'),
-        execution_remarks = "None"
-                        )
-    execution_log_obj.save()
-    messages.success(request, 'Successfully Executed the task')
+            job_id = request.GET.get('id'),
+            executed_by = request.user.EmployeeID,
+            job_description = request.GET.get('details'),
+            execution_status = request.GET.get('status'),
+            execution_remarks = "None"
+                            )
+        execution_log_obj.save()
+        messages.success(request, 'Successfully Executed the task')
 
-    return redirect('form_submissions')
+        return redirect('form_submissions')
    
