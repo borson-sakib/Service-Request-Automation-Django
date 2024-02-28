@@ -97,29 +97,29 @@ WSGI_APPLICATION = 'ServiceRequest.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'service_request_automation',
-        'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
-        'PORT': '5432',          # Leave empty to use the default PostgreSQL port (usually 5432)
-    }
-}
-
 # DATABASES = {
-#     "default": {
-#         "ENGINE": "mssql",
-#         "NAME": "db_service_request_automation",
-#         "USER": "borson_new",
-#         "PASSWORD": "1234",
-#         "HOST": "HO-IT-110\SQLEXPRESS",
-#         "PORT": "",
-#         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
-#         },
-#     },
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'service_request_automation',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234',
+#         'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
+#         'PORT': '5432',          # Leave empty to use the default PostgreSQL port (usually 5432)
+#     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "mssql",
+        "NAME": "db_service_request_automation",
+        "USER": "borson_new",
+        "PASSWORD": "1234",
+        "HOST": "HO-IT-110\SQLEXPRESS",
+        "PORT": "",
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
+        },
+    },
+}
 
 AUTHENTICATION_BACKENDS = [
     # 'django.contrib.auth.backends.ModelBackend',

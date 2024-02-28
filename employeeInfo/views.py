@@ -541,6 +541,8 @@ def view_only(request,pid):
     applicant_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=applicant_instance)
     # hod_signature = find_HOX(obj.Placeofposting,pid)
+    if(obj.EmpFunctionalDesignation in FunctionalDesignations):
+        Check = True
     context = {'hod':find_HOX(applicant_instance.branch_division_name,pid),
                   'cto':find_CTO_status(pid),
                   'ciso':find_CISO_status(pid),
@@ -548,13 +550,7 @@ def view_only(request,pid):
                   'user_object':obj,
                   'check':Check}
     # print(hod_signature)
-    if(obj.EmpFunctionalDesignation in FunctionalDesignations):
-        Check = True
-
-    # form = RequestForm(initial={'employee_name': obj.EmployeeName,
-    #                             'designation':obj.EmployeeDesignation,
-    #                             'employee_id':obj.EmployeeID,
-    #                             'branch_division_name':obj.Placeofposting})
+    
 
     return render(request,'view_only.html',context)
 
