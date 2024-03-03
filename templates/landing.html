@@ -1,120 +1,132 @@
 {% extends 'base.html' %}  
   
 {% block content %}  
-<style>
+
+<div class="container" style="height: 100vh;padding: 0px;">
+
+        <div class="row">
+          <div class="col-md-8">
+            {% if analyst %}
   
-</style>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="shadow mb-2 bg-white rounded">
+                  
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Task Management</strong></h5>   
+            
+                </div>
+                </div>
+              </div>
+              <!-- <h4 style="border-left: 4px solid #1c39bb;"><strong>Task Management</strong></h4> -->
+  
+              <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
+              <div class="col-md-12">
+               
+                  
+                <div class="card" style="width: 40%;">
+                  
+                  <div class="card-body">
+                    <h5 class="card-title">Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
+                   
+                    <h6 class="card-subtitle mb-2 text-muted">See New Service Requests</h6>
+                    <a href="{% url 'form_submissions' %}" class="card-link">Click Here</a>
+                    <!-- <a href="#" class="card-link">Another link</a> -->
+                  </div>
+                  
+              </div>
+              </div>
+  
+            </div>
+            {% endif %}
+  
+            <div class="row">
 
-<div class="flex-container" style="height: 80vh">
+              <div class="col-md-12">
+                <div class="shadow mb-2 bg-white rounded">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Forms</strong></h5>   
+                </div>
+                </div>
+              </div>
+  
+              <div class="col-md-12">
+                <div class="card-group">
+                  <div class="card" style="width: 40%;margin: 1%;">
+                    <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-02</strong></div>
+                  <div class="card-body">
+                    <!-- <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-02</h5> -->
+                    <h6 class="card-subtitle mb-2 text-muted">Access/Service Request Form</h6>
+                    <p class="card-text">For IP white listing, User Access Etc.</p>
+                    <a href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">Click to fill up form</a>
+                  </div>
+                </div>
 
-        
-
-        <div class="col-md-8">
-          {% if analyst %}
-
-          <div class="row" style="padding: 20px;">
-            <h4 style="border-left: 4px solid #1c39bb;"><strong>Task Management</strong></h4>
-
-            <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
-            <div class="card" style="width: 40%; border-left: 4px solid #1c39bb ;">
-                <div class="card-body">
-                  <h5 class="card-title">Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
-                 
-                  <h6 class="card-subtitle mb-2 text-muted">See New Service Requests</h6>
-                  <a href="{% url 'form_submissions' %}" class="card-link">Click Here</a>
-                  <!-- <a href="#" class="card-link">Another link</a> -->
+                <div class="card" style="width: 40%;margin: 1%;">
+                  <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-67</strong></div>
+                  <div class="card-body">
+                    <!-- <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-67</h5> -->
+                    <h6 class="card-subtitle mb-2 text-muted">Access/Service Request For Firewall</h6>
+                    <p class="card-text">Network Access, IP Access Etc.</p>
+                    <a href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">Click to fill up form</a>
+                  </div>
+                </div>
                 </div>
                 
+
+                
               </div>
-
-              
-           <br>
-
+                   
+              </div>
+           
           </div>
-          {% endif %}
-
-
+        
+          {% if analyst %}
+  
+          <div class="col-md-4" style="border-left: 3px solid white;">
             <div class="row" style="padding: 20px;">
-              <h4 style="border-left: 4px solid #1c39bb;"><strong>Forms</strong></h4>
-
-
-                 <div class="card" style="width: 40%;border-left: 4px solid #1c39bb ;">
-                <div class="card-body">
-                  <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-02</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Access/Service Request Form</h6>
-                  <p class="card-text">For IP white listing, User Access Etc.</p>
-                  <a href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">Click to fill up form</a>
-                </div>
-              </div>
-
-              <div class="card" style="width: 40%;border-left: 4px solid #1c39bb ;">
-                <div class="card-body">
-                  <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-67</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Access/Service Request For Firewall</h6>
-                  <p class="card-text">Network Access, IP Access Etc.</p>
-                  <a href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">Click to fill up form</a>
-                </div>
-              </div>
-            </div>
+              <h4 style="border: 2px solid #1c39bb; text-align: center;"><strong>Access Expiring Soon</strong></h4>
+  
+              <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
+        
+             <br>
+             {% for event in events %}
+                 <div class="shadow mb-2 bg-white rounded">
+               <div class="row no-gutters">
+                 <!-- First card-body with width 6 (col-md-6) -->
+                 <div class="col-md-9">
+                     <div class="card-body" style="padding: 0rem 1rem;">
+                         <small class="card-title" style="padding: 2px; margin-bottom: 0;"><strong>{{ event.employee_name }} || {{ event.employee_id }}</strong></small>
+                         <br>
+                         <small class="card-title" style="padding: 0px; margin-bottom: 0;">Request No: {{ event.request_no }} </small>
+                         <small class="card-title" style="padding: 0px; margin-bottom: 0;">Date: {{ event.date }}</small>
+                         <!-- <p style="padding: 0px; color: red; margin-bottom: 0rem;float:right;">Days Left: {{ event.days_left }}</p> -->
+                     </div>
+                 </div>
          
-        </div>
-      
-        {% if analyst %}
-
-        <div class="col-md-4" style="border-left: 3px solid white;">
-          <div class="row" style="padding: 20px;">
-            <h4 style="border: 2px solid #1c39bb; text-align: center;"><strong>Access Expiring Soon</strong></h4>
-
-            <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
-      
-           <br>
-           {% for event in events %}
-               <div class="shadow mb-2 bg-white rounded">
-             <div class="row no-gutters">
-               <!-- First card-body with width 6 (col-md-6) -->
-               <div class="col-md-9">
-                   <div class="card-body" style="padding: 0rem 1rem;">
-                       <small class="card-title" style="padding: 2px; margin-bottom: 0;"><strong>{{ event.employee_name }} || {{ event.employee_id }}</strong></small>
-                       <br>
-                       <small class="card-title" style="padding: 0px; margin-bottom: 0;">Request No: {{ event.request_no }} </small>
-                       <small class="card-title" style="padding: 0px; margin-bottom: 0;">Date: {{ event.date }}</small>
-                       <!-- <p style="padding: 0px; color: red; margin-bottom: 0rem;float:right;">Days Left: {{ event.days_left }}</p> -->
-                   </div>
-               </div>
-       
-               <!-- Second card-body with width 6 (col-md-6) -->
-               <div class="col-md-3">
-                   <div class="card-body" style="padding: 0rem 1rem; margin: auto;">
-                     <a href="{% url 'view_only' event.request_no %}"><i class="fas fa-eye"></i> View</a> 
-                      <p style="padding: 0px; color: red; margin-bottom: 0rem;">Days Left: {{ event.days_left }}</p>
-
-                     <!-- <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' event.id %}">View Only</a></button> -->
-                   </div>
-               </div>
-           </div>
-           </div>
-       {% endfor %}
-
-
-       
-
+                 <!-- Second card-body with width 6 (col-md-6) -->
+                 <div class="col-md-3">
+                     <div class="card-body" style="padding: 0rem 1rem; margin: auto;">
+                       <a href="{% url 'view_only' event.request_no %}"><i class="fas fa-eye"></i> View</a> 
+                        <p style="padding: 0px; color: red; margin-bottom: 0rem;">Days Left: {{ event.days_left }}</p>
+  
+                       <!-- <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' event.id %}">View Only</a></button> -->
+                     </div>
+                 </div>
+             </div>
+             </div>
+         {% endfor %}
+  
+  
+         
+  
+            </div>
           </div>
+  
+          {% endif %}
+  
+       
         </div>
- 
-        {% else %}
-
-        <div class="col-md-4" style="border-left: 3px solid blue;">
-          <div class="row" style="padding: 20px;">
-            <h4 style="border: 2px solid black; text-align: center;"><strong>Information Notice</strong></h4>
-
-            <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
-      
-           <br>     
-          </div>
-        </div>
-
-
-        {% endif %}
 
      
      
