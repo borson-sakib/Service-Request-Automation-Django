@@ -135,6 +135,7 @@ width: 82%;
 float: right;
 margin-left: 18%;
 height: 100vh;
+background-color: #ffffff;
 }
 .menu {
 list-style-type: none;
@@ -221,4 +222,10 @@ text-decoration: none;
   }
   
 
+  .section-title {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    margin-bottom: 0.5rem !important;
+    background-color: #ffffff; /* Background color */
+    border-radius: 0.25rem !important; /* Rounded corners */
+}
 

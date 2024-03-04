@@ -33,10 +33,13 @@ td {
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card" style="background-color: white;margin: 1%;padding: 1%;">
-                <h5 style="margin: 0px;"><strong>User List</strong></h5>   
-        
+            <div class="section-title">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>User List</strong></h5>   
+            
+                </div>
             </div>
+           
             
         </div>
         <!-- <div class="col-md-12">
@@ -48,38 +51,40 @@ td {
 
         <div class="col-md-12">
            
-            
-            <div class="card" style="padding: 1%;">
-                <table id="user-table" >
-                    <thead>
-                      <tr>
-                          <th>Username</th>
-                          <!-- <th>Email</th> -->
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Actions</th>
-                          <th>Analyst</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      {% for user in users %}
-                      <tr>
-                          <td>{{ user.EmployeeName }} - {{ user.EmployeeID }}</td>
-                          <!-- <td>{{ user.username }}</td> -->
-                          <td>{{ user.EmpFunctionalDesignation }}</td>
-                          <td>{{ user.Placeofposting }}</td>
-                          <td>
-                              <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-success">Analyst</a>
-                              <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-danger">Revoke</a>
-                              <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
-                              <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
-                              </td>
-                            <td>{{ user.analyst }}</td>
-                      </tr>
-                      {% endfor %}
-                  </tbody>
-              </table>
+            <div class="section-title">
+                <div class="card" style="padding: 1%;">
+                    <table id="user-table" >
+                        <thead>
+                          <tr>
+                              <th>Username</th>
+                              <!-- <th>Email</th> -->
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Actions</th>
+                              <th>Analyst</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for user in users %}
+                          <tr>
+                              <td>{{ user.EmployeeName }} - {{ user.EmployeeID }}</td>
+                              <!-- <td>{{ user.username }}</td> -->
+                              <td>{{ user.EmpFunctionalDesignation }}</td>
+                              <td>{{ user.Placeofposting }}</td>
+                              <td>
+                                  <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-success">Analyst</a>
+                                  <a href="{% url 'set_user_another_table' user.EmployeeID %}" class="btn btn-sm btn-danger">Revoke</a>
+                                  <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
+                                  <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
+                                  </td>
+                                <td>{{ user.analyst }}</td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                </div>
             </div>
+            
         </div>
     </div>
      
