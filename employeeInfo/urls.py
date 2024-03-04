@@ -37,6 +37,11 @@ urlpatterns = [
     path('requestaslist', requestaslist, name='requestaslist'),
     
     
+    # Admin
+    path('addCategory', addCategory, name='addCategory'),
+    
+    
+    
     
     path('gini', gini, name="gini"),
 
