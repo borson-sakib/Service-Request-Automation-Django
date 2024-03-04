@@ -1,0 +1,74 @@
+{% extends 'base.html' %}  
+  
+{% block content %}  
+
+<div class="container" style="height: 100vh;padding: 0px;">
+
+        <div class="row">
+        
+         <div class="col-md-8">
+            <div class="shadow mb-2 bg-white rounded">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Access Expiring Soon</strong></h5>   
+                </div>
+                </div>
+         </div>
+  
+          <div class="col-md-8">
+            <div class="row">
+                
+              <!-- <h4 style="border: 2px solid #1c39bb; text-align: center;"><strong>Access Expiring Soon</strong></h4> -->
+  
+              <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
+        
+             
+             {% for event in events %}
+             <a href="{% url 'view_only' event.request_no %}" style="text-decoration:none">
+                 <div class="shadow mb-2 bg-white rounded">
+               <div class="row no-gutters">
+                 <!-- First card-body with width 6 (col-md-6) -->
+                 <div class="col-md-9">
+                     <div class="card-body" style="padding: 0rem 1rem;">
+                         <small class="card-title" style="padding: 2px; margin-bottom: 0;"><strong>{{ event.employee_name }} || {{ event.employee_id }}</strong></small>
+                         <br>
+                         <small class="text-muted" style="padding: 0px; margin-bottom: 0;">Request No: {{ event.request_no }} </small>
+                         <small class="text-muted" style="padding: 0px; margin-bottom: 0;">Date: {{ event.date }}</small>
+                         <!-- <p style="padding: 0px; color: red; margin-bottom: 0rem;float:right;">Days Left: {{ event.days_left }}</p> -->
+                     </div>
+                 </div>
+         
+                 <!-- Second card-body with width 6 (col-md-6) -->
+                 <div class="col-md-3">
+                     <div class="card-body" style="padding: 0rem 1rem; margin: auto;">
+                       <!-- <a href="{% url 'view_only' event.request_no %}"><i class="fas fa-eye"></i> View</a>  -->
+                        <p style="padding: 0px; color: red; margin-bottom: 0rem;">Days Left: {{ event.days_left }}</p>
+  
+                       <!-- <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' event.id %}">View Only</a></button> -->
+                     </div>
+                 </div>
+             </div>
+             </div>
+            </a>
+         {% endfor %}
+  
+  
+         
+  
+            </div>
+          </div>
+  
+         
+  
+       
+        </div>
+
+     
+     
+</div>
+
+
+
+
+
+
+{% endblock content %}  

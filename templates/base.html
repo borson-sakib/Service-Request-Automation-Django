@@ -51,14 +51,9 @@
 
 </head>
 <body>
-  <!-- Add a sidebar -->
  <div class="page-wrap">
 
-  <!-- Add a navigation panel -->
- 
- 
 
-  <!-- Add the main content -->
   <div class="main">
 
   <div class="side-bar">
@@ -66,10 +61,10 @@
     <h3>Access/Service Request Management</h3>
     <hr class="new1">
     <ul class="menu">
-      <li><a href="{% url 'form_submissions' %}">Manage Requests</a></li>
-      <li><a href="{% url 'user_list' %}">Manage Roles</a></li>
-      <li><a href="{% url 'form_submissions' %}">Reports</a></li>
-      <li><a href="{% url 'approver_list' %}">Approver</a></li>
+      <li class="shadow mb-2"><a href="{% url 'form_submissions' %}">Manage Requests</a></li>
+      <li class="shadow mb-2"><a href="{% url 'user_list' %}">Manage Roles</a></li>
+      <li class="shadow mb-2"><a href="{% url 'form_submissions' %}">Reports</a></li>
+      <li class="shadow mb-2"><a href="{% url 'approver_list' %}">Approver</a></li>
       <!-- <li>Menu item 2
         <ul class="sub-menu">
           <li>Sub-menu item 2</li>
@@ -90,6 +85,7 @@
 
   <div class="content-bar">
     <div class="row">
+      <!-- Navbar Start -->
       <div>
 
         <div class="nav">
@@ -114,6 +110,10 @@
         </div>
       
       </div>
+      <!-- Navbar End -->
+
+      <!-- Alert Start -->
+
       {% if messages %}
       {% for message in messages %}
           <div class="col-md-12">
@@ -124,11 +124,19 @@
           </div>
       {% endfor %}
       {% endif %}
+      <!-- Alert End -->
+
+      <!-- Content Start -->
+
+
       <div>
         {% block content %}
 
         {% endblock content %}
       </div>
+      <!-- Content End -->
+
+
     </div>
     
   

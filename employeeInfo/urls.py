@@ -34,12 +34,13 @@ urlpatterns = [
     path('set_user_another_table/<int:user_id>/', set_user_another_table, name='set_user_another_table'),
     path('delete-entry/<int:entry_id>/', delete_entry, name='delete_entry'),
     path('update-entry/<int:entry_id>/', update_entry, name='update_entry'),
+    path('requestaslist', requestaslist, name='requestaslist'),
     
     
     
     path('gini', gini, name="gini"),
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

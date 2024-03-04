@@ -49,21 +49,45 @@ td {
   background: url(alert-icon.svg) no-repeat center;
 }
 
+.nav-tabs .nav-item {
+    /* margin-bottom: -1px; */
+    /* background: 0 0; */
+    border: 1px solid transparent;
+    color: black;
+    letter-spacing: normal;
+    border-radius: 5px;
+    margin-right: 1%;
+    /* border-top-left-radius: 0.25rem; */
+    /* border-top-right-radius: 0.25rem; */
+}
+.nav-link {
+    /* margin-bottom: -1px;
+    background: 0 0; */
+    border: 1px solid transparent;
+    color: black;
+}
+.nav-tabs .nav-link.active {
+    
+    color: black;
+    background-color:transparent;
+    border-bottom: 3px solid #1C39BB;
+    font-size:larger;
+    
+    
+    /* border-top-left-radius: 0.25rem; */
+    /* border-top-right-radius: 0.25rem; */
+}
+.nav-item a {
+    color: black;
+    padding: 10px 30px;
+}
+
 </style>
 <div class="container">
     <div class="row">
-        <!-- <div class="col-md-4">
-            <div id="logo" class="logo-container">
-                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
-        </div> -->
-        <!-- <div class="col-md-12">
-                <div class="card" style="background-color: white;margin: 1%;padding: 1%;">
-                <h5 style="margin: 0px;"><strong>Access/Service Requests </strong></h5>   
-            </div>
-        </div> -->
-       
+        
         <div class="col-md-12">
-            <ul class="nav nav-tabs" id="myTabs" style="background-color:rgb(120, 120, 120);padding:0px;">
+            <ul class="nav nav-tabs" id="myTabs" style="background-color:transparent;padding:0px;justify-content: center;margin: 1%;">
             <li class="nav-item">
                 <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">Pending</a>
             </li>
@@ -98,7 +122,7 @@ td {
                      </thead>
                      <tbody>
                          {% for entry in service_requests %}
-                        <tr>
+                        <tr style="background-color: white; border-radius: 5px;">
                             
                             <td>{{ entry.request_no }}</td>
                             <td>{{ entry.form_no }}</td>
@@ -170,7 +194,7 @@ td {
 
             </div>
             <div class="tab-pane fade" id="tab3">
-                <input type="text" class="form-control mb-2" id="searchTab3" placeholder="Search Tab 2">
+                <input type="text" class="form-control mb-2" id="searchTab3" placeholder="Search Tab 3">
 
                 <!-- Table for Tab 2 -->
                 <table class="table">
@@ -219,68 +243,8 @@ td {
         <!-- <hr class="my-3"> -->
      </div>
 
-     
-  <!-- <div class="row">
-    <div class="col-md-10">
-        <h2>Service Requests</h2>
-        <ul>
-            {% for entry in service_requests %}
-                <li>
-                    {{ entry.form_no }}/{{ entry.employee_name }}/{{ entry.designation }}
-                    <a href="{% url 'delete_entry' entry.id %}">Delete</a>
-                    <a href="{% url 'update_entry' entry.id %}">Update</a>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-  
-
-    <div>
-           
-        <table id="user-table" >
-    <thead>
-       <tr>
-           <th>Form No.</th>
-           <th>Email</th>
-           <th>Employee Name</th>
-           <th>Employee ID</th>
-           <th>Designation</th>
-           <th>Details of Service</th>
-           <th>Actions</th>
-       </tr>
-    </thead>
-    <tbody>
-        {% for entry in service_requests %}
-       <tr>
-           <td>{{ entry.form_no }}</td>
-           <td>{{ entry.employee_name }}</td>
-           <td>{{ entry.employee_id }}</td>
-           <td>{{ entry.designation }}</td>
-           <td>{{ entry.details }}</td>
-           <td>
-            <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.id %}">View Form</a></button>
-               <a href="{% url 'task_execute' %}?id={{ entry.id }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
-               
-               <a href="{% url 'delete_entry' entry.id %}" class="btn btn-sm btn-danger">Delete</a>
-               <a href="{% url 'update_entry' entry.id %}" class="btn btn-sm btn-success">Update</a>
-               
-             </td>
-       </tr>
-       {% endfor %}
-    </tbody>
-    </table>
-    </div>
-  </div> -->
 
 
-  <div class="row" style="border: 0px;">
-
-    <div class="container mt-4" style="margin-top: 20px; height: 80vh;">
-        <!-- Nav tabs -->
-        
-    </div>
-
-  </div>
 
 
 
@@ -309,7 +273,7 @@ td {
         $("#searchTab3").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#tab3 tbody tr").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -2)
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
     });

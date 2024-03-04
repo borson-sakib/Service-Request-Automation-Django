@@ -588,3 +588,11 @@ def task_execute(request):
 
         return redirect('form_submissions')
    
+
+def requestaslist(request):
+    
+    events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
+
+    context = {'events': events}
+    
+    return render(request,'admin/listOfRequests.html',context)
