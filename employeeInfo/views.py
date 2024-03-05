@@ -596,3 +596,14 @@ def requestaslist(request):
     context = {'events': events}
     
     return render(request,'admin/listOfRequests.html',context)
+
+
+def addCategory(request):
+    
+    if (request.method=="POST"):
+        
+        print(request.POST)
+    
+    form = ServiceCategoryForm()
+    
+    return render(request,'admin/serviceCategory.html',{'form':form})

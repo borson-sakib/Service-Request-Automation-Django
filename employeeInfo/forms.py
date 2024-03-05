@@ -4,6 +4,7 @@ from .models import User,Service_request
 from django import forms
 from django.forms import ModelForm
 from .models import ApproverList
+from .models import ServiceCategory
 
 
 
@@ -129,3 +130,11 @@ class ApproverListForm(forms.ModelForm):
     class Meta:
         model = ApproverList
         fields = ['employee_id', 'designation', 'role', 'approver_level']
+        
+        
+        
+class ServiceCategoryForm(forms.ModelForm):
+    service_category = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','placeholder':'Category Name','id':'category'}))
+    class Meta:
+        model = ServiceCategory
+        fields = ['service_category']

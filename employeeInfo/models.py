@@ -214,4 +214,25 @@ class ApproverList(models.Model):
 
 # class service_status(models.Model):
 
+
+class ServiceCategory(models.Model):
+    service_category = models.CharField(max_length=50)
+    category_id = models.CharField(max_length=20)
     
+    def save(self, *args, **kwargs):
+        # Check if the instance is being created for the first time
+        if not self.pk:
+            # Get the latest category_id from the database
+            latest_category = ServiceCategory.objects.order_by('-category_id').first()
+
+            if latest_category:
+                # Extract the number part of the latest category_id and increment it
+                new_category_number = str(int(latest_category.category_id) + 1).zfill(3)
+            else:
+                # If no categories exist yet, start with '001'
+                new_category_number = '001'
+
+            # Assign the new category_id to the instance
+            self.category_id = new_category_number
+
+        super().save(*args, **kwargs)
