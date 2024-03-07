@@ -28,7 +28,12 @@ class RequestForm(forms.ModelForm):
     pa_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter PA No.', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
     ip_address = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter IP Address', 'aria-label': 'LabelEmail', 'aria-describedby': 'addon-wrapping'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter Email', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
-    
+    request_for = forms.ChoiceField(widget=forms.Select({'class':'form-control'}),
+        choices=[
+        ('access', 'Access'),
+        ('service', 'Service'),
+        
+    ])
     self_type = forms.ChoiceField(
         widget=forms.RadioSelect(attrs={'class': 'form-check-input','placeholder':'Requested for'}),
         choices=[
