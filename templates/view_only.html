@@ -120,8 +120,8 @@
 
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Branch Code:</span>
-                                             {{form.branch_code}}
+                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Request For:</span>
+                                             {{form.request_for.value}}
                                          </div>
                                      </div>
                                     </div>
@@ -170,8 +170,8 @@
                                     </div>
                                      <div class="col-sm-5">
                                          <div class="input-group input-group-sm">
-                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">PA No (if any):</span>
-                                             {{form.pa_no}}
+                                             <span class="input-group-text" id="addon-wrapping" style="width: 44%;">Branch Code:</span>
+                                             {{form.branch_code}}
                                          </div>
                                      </div>
                                  </div>
@@ -263,6 +263,7 @@
                      </div>
                      <br>
                      <div class="card">
+                        {% if form.form_no.value == 'MBL-ISMS-FR-67' %}
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="input-group input-group-sm">
@@ -278,8 +279,6 @@
 
                                 </div>
                             </div> 
-                        </div>
-                        <div class="row">
                             <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Destination Port:</span>
@@ -288,6 +287,18 @@
                                 </div>
                             </div>
                         </div>
+                        {% else %}
+                        <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Tools/Device Required:</span>
+                                        <span style="width: 69%;">{{form.tools_device_required}}</span>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                   
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="input-group input-group-sm">
