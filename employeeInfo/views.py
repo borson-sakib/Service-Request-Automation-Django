@@ -597,13 +597,36 @@ def requestaslist(request):
     
     return render(request,'admin/listOfRequests.html',context)
 
+from urllib.parse import urlparse, parse_qs
 
 def addCategory(request):
     
     if (request.method=="POST"):
         
         print(request.POST)
+        category_already_in_list=[]
+        for category in request.POST.getlist('service_category'):
+
+            if not ServiceCategory.objects.filter(service_category=category).exists():
+                ServiceCategory.objects.create(service_category=category)
+                messages.success(request, 'Category Added to the list !')
+            
+            messages.success(request, 'Category Alreay in the list !')
+        return redirect('addCategory')
+
+    CategoryList=ServiceCategory.objects.all() 
     
     form = ServiceCategoryForm()
+    context = {'form':form,'CatList':CategoryList}
     
-    return render(request,'admin/serviceCategory.html',{'form':form})
+    return render(request,'admin/serviceCategory.html',context)
+
+def delete_category(request, entry_id):
+    # Get the entry using the entry_id
+    entry = get_object_or_404(ServiceCategory, pk=entry_id)
+
+    # Delete the entry
+    entry.delete()
+
+    # Redirect to the page showing the remaining entries
+    return redirect('addCategory')

@@ -39,7 +39,8 @@ urlpatterns = [
     
     # Admin
     path('addCategory', addCategory, name='addCategory'),
-    
+    path('delete-category/<str:entry_id>/', delete_category, name='delete_category'),
+
     
     
     

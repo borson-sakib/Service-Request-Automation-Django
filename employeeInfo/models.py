@@ -46,6 +46,11 @@ class Service_request(models.Model):
     pa_no = models.CharField(max_length=100)
     ip_address = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
+    request_for = models.CharField(max_length=100,blank=True,choices=[
+        ('access', 'Access'),
+        ('service', 'Service'),
+        
+    ])
     self_type = models.CharField(max_length=100,blank=True,
         
         choices=[
@@ -62,8 +67,10 @@ class Service_request(models.Model):
     from_time = models.TimeField(max_length=100,null=True)
     to_time = models.TimeField(max_length=100,null=True)
     to_time_check = models.BooleanField(max_length=100,default=False)
-    reason = models.CharField(max_length=100,blank=True)
-    details = models.CharField(max_length=100,blank=True)
+    reason = models.CharField(max_length=500,blank=True)
+    details = models.CharField(max_length=500,blank=True)
+    tools_device_required =  models.CharField(max_length=200,blank=True)
+
 
     source_ip =models.CharField(max_length=100,blank=True) 
     destination_ip =models.CharField(max_length=100,blank=True) 
@@ -134,8 +141,10 @@ class Service_request_form_67(models.Model):
     from_time = models.TimeField(max_length=100,null=True)
     to_time = models.TimeField(max_length=100,null=True)
     to_time_check = models.BooleanField(max_length=100,default=False)
-    reason = models.CharField(max_length=100,blank=True)
+    reason = models.CharField(max_length=500,blank=True)
     details = models.CharField(max_length=100,blank=True)
+
+    tools_device_required =  models.CharField(max_length=200,blank=True)
 
     source_ip =models.CharField(max_length=100,blank=True) 
     destination_ip =models.CharField(max_length=100,blank=True) 
