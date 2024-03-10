@@ -9,6 +9,13 @@ from .models import ServiceCategory
 
 
 class UserForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    EmployeeName = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    EmployeeDesignation = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    EmpFunctionalDesignation = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    Placeofposting = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    EmployeeID = forms.CharField(widget=forms.TextInput({'class':'form-control'}))
+    
     class Meta:
         model = User
 
