@@ -34,9 +34,9 @@ class RequestForm(forms.ModelForm):
         ('service', 'Service'),
         
     ])
-    choices_category = [(category.category_id, category.service_category) for category in ServiceCategory.objects.all()]
+    # choices_category = [(category.category_id, category.service_category) for category in ServiceCategory.objects.all()]
     
-    category = forms.ChoiceField(widget=forms.Select({'class':'form-control'}),choices=choices_category)
+    category = forms.ChoiceField(widget=forms.Select({'class':'form-control'}))
     
     self_type = forms.ChoiceField(
         widget=forms.RadioSelect(attrs={'class': 'form-check-input','placeholder':'Requested for'}),
@@ -114,8 +114,12 @@ class RequestForm(forms.ModelForm):
         self.fields['team_emp_id4'].required = False
         self.fields['team_lead'].required = False
         self.fields['team_lead_epmloyee_id'].required = False
+        self.fields['category'].choices = self.get_category_choices()
         # self.fields['category'].queryset = ServiceCategory.objects.all()
 
+    def get_category_choices(self):
+        return [(category.category_id, category.service_category) for category in ServiceCategory.objects.all()]
+    
     class Meta:
         model = Service_request
 

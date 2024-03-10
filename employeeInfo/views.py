@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from  .utils import *
+from  .oracle_db import *
 from  .backends import *
 from django.db.models import Q
 
@@ -254,6 +255,8 @@ def service_request(request):
                     # source_ip = request.POST['source_ip'],
                     # destination_ip =request.POST['destination_ip'],
                     # destination_port =request.POST['destination_port'],
+                    category =request.POST['category'],
+                    # tools_device_required =request.POST['tools_device_required'],
                     physical_activity_area =request.POST['physical_activity_area'],
                     chng_exec_req_id =request.POST['chng_exec_req_id'],
 
@@ -308,9 +311,15 @@ def service_request(request):
                     pass
                 
                 try:
-                    Service_request_OBJ.source_ip = request.POST['source_ip'],
-                    Service_request_OBJ.destination_ip =request.POST['destination_ip'],
-                    Service_request_OBJ.destination_port =request.POST['destination_port'],
+                    Service_request_OBJ.tools_device_required =request.POST['tools_device_required']
+
+                except:
+                    pass
+                
+                try:
+                    Service_request_OBJ.source_ip = request.POST['source_ip']
+                    Service_request_OBJ.destination_ip =request.POST['destination_ip']
+                    Service_request_OBJ.destination_port =request.POST['destination_port']
                 except:
                     pass
 
@@ -630,10 +639,33 @@ def addCategory(request):
 
 def delete_category(request, entry_id):
     # Get the entry using the entry_id
-    entry = get_object_or_404(ServiceCategory, pk=entry_id)
+    entry = get_object_or_404(ServiceCategory, category_id=entry_id)
 
     # Delete the entry
     entry.delete()
 
     # Redirect to the page showing the remaining entries
     return redirect('addCategory')
+
+
+import cx_Oracle
+
+def oracle_db_test(request):
+    try:
+        # Attempt to establish connection to the Oracle database
+        credentials = settings.ORACLECRED
+        connection = cx_Oracle.connect(credentials)
+        print("Oracle connection established successfully.")
+        # oracle_cursor = connection.cursor()
+        # oracle_cursor.execute('SELECT PYOFMAIL,PYAMOUNT, PYEMPFLN, PYEMPCDE FROM ORBHRM.V_EMP_DUTY_DSK_DTL')
+        # oracle_data = oracle_cursor.fetchall()
+        # for entry in oracle_data:
+        #     print(entry)
+        # oracle_cursor.close()
+        connection.close()  # Close the connection after checking
+        
+        # print(oracle_data)
+        return HttpResponse('yes')
+    except cx_Oracle.Error as error:
+        print(f"Error connecting to Oracle: {error}")
+        return HttpResponse('no')

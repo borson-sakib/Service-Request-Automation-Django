@@ -39,12 +39,13 @@ urlpatterns = [
     
     # Admin
     path('addCategory', addCategory, name='addCategory'),
-    path('delete-category/<str:entry_id>/', delete_category, name='delete_category'),
+    path('delete_category/<str:entry_id>/', delete_category, name='delete_category'),
 
     
     
     
     path('gini', gini, name="gini"),
+    path('oracle_db_test', oracle_db_test, name="oracle_db_test"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
