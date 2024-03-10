@@ -240,7 +240,7 @@ def service_request(request):
                     designation=request.POST['designation'],
                     employee_id=request.POST['employee_id'],
                     branch_division_name=request.POST['branch_division_name'],
-                    pa_no=request.POST['pa_no'],
+                    request_for=request.POST['request_for'],
                     ip_address=request.POST['ip_address'],
                     email=request.POST['email'],
                     # from_date = request.POST['from_date'],
@@ -250,10 +250,10 @@ def service_request(request):
                     # to_time = request.POST['to_time'],
                     reason = request.POST['reason'],
                     details = request.POST['details'],
-
-                    source_ip = request.POST['source_ip'],
-                    destination_ip =request.POST['destination_ip'],
-                    destination_port =request.POST['destination_port'],
+                    
+                    # source_ip = request.POST['source_ip'],
+                    # destination_ip =request.POST['destination_ip'],
+                    # destination_port =request.POST['destination_port'],
                     physical_activity_area =request.POST['physical_activity_area'],
                     chng_exec_req_id =request.POST['chng_exec_req_id'],
 
@@ -304,6 +304,13 @@ def service_request(request):
             
                 try:
                     Service_request_OBJ.from_date=request.POST['from_date']
+                except:
+                    pass
+                
+                try:
+                    Service_request_OBJ.source_ip = request.POST['source_ip'],
+                    Service_request_OBJ.destination_ip =request.POST['destination_ip'],
+                    Service_request_OBJ.destination_port =request.POST['destination_port'],
                 except:
                     pass
 

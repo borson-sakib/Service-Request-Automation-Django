@@ -22,7 +22,6 @@
             <div class="col-md-4">
                 <div style="text-align: right;"><p>Doc. No : {{ form_no }}</p></div>
             </div>
-            <hr class="my-3" style="margin: 0;">
     
        
               </div>
@@ -145,6 +144,7 @@
                                      </div>
                              </div>
                          </div>
+
                             <br>
                          <div class="card" style="padding: 5px;">
                                 <div class="row">
@@ -159,7 +159,7 @@
                                             {{ choice.tag }}
                                             <label class="form-check-label" for="{{ choice.id_for_label }}">{{ choice.choice_label }}</label>
                                         </div>
-                                    {% endfor %}
+                                            {% endfor %}
                                         
                                         </span>
                                     
@@ -216,6 +216,19 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Category:</span>
+                                        <span style="width: 69%;">{{form.category}}</span>
+    
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                         <div class="card" style="padding: 5px;">
+                           
+                           {% if form_no == 'MBL-ISMS-FR-67' %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="input-group input-group-sm">
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Source IP:</span>
                                         <span style="width: 69%;">{{form.source_ip}}</span>
     
@@ -228,8 +241,6 @@
     
                                     </div>
                                 </div> 
-                            </div>
-                            <div class="row">
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-sm">
                                         <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Destination Port:</span>
@@ -238,6 +249,17 @@
                                     </div>
                                 </div>
                             </div>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text col-form-label-sm" id="addon-wrapping" style="width: 31%;">Tools/Device Required:</span>
+                                        <span style="width: 69%;">{{form.tools_device_required}}</span>
+    
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif%}
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="input-group input-group-sm">

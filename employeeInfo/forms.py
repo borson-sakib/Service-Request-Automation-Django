@@ -34,6 +34,10 @@ class RequestForm(forms.ModelForm):
         ('service', 'Service'),
         
     ])
+    choices_category = [(category.category_id, category.service_category) for category in ServiceCategory.objects.all()]
+    
+    category = forms.ChoiceField(widget=forms.Select({'class':'form-control'}),choices=choices_category)
+    
     self_type = forms.ChoiceField(
         widget=forms.RadioSelect(attrs={'class': 'form-check-input','placeholder':'Requested for'}),
         choices=[
@@ -53,6 +57,7 @@ class RequestForm(forms.ModelForm):
     # to_time_check = forms.BooleanField(widget=forms.CheckboxInput(attrs={'name': 'to-time-check', 'id': 'to-time-check','value':'True'}),required=False,initial=False)
     reason = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'reason of request'}))
     details = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Details of Access/Service'}))
+    tools_device_required = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Details of Access/Service'}))
     
     source_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Source IP'}))
     destination_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Destination IP'}))
@@ -109,7 +114,7 @@ class RequestForm(forms.ModelForm):
         self.fields['team_emp_id4'].required = False
         self.fields['team_lead'].required = False
         self.fields['team_lead_epmloyee_id'].required = False
-        
+        # self.fields['category'].queryset = ServiceCategory.objects.all()
 
     class Meta:
         model = Service_request
