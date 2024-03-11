@@ -15,6 +15,7 @@ from reportlab.platypus import Image
 from reportlab.platypus import PageBreak
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.conf import settings
 from .models import Service_request,User # replace with the name of your model
 # def getUser(usermail):
 #     user = User.objects.get(email=usermail)
@@ -22,7 +23,7 @@ from .models import Service_request,User # replace with the name of your model
 #     return context
 
 def ldapcheck(username, password):
-    servername= 'LDAP://10.10.100.12:389'
+    servername= settings.LDAP
     server = Server(servername, get_info=ALL)  # define an unsecure LDAP server, requesting info on DSE and schema
 
     # define the connection

@@ -15,11 +15,10 @@ class UserBackend(ModelBackend):
             return domainMail + '@mblbd.com'
     def authenticate(self, request, **kwargs):
         username = self.domainMailCheck(kwargs['username'])
-        # username = kwargs['username']
         password = kwargs['password']
 
-        print(username)
-        print(password)
+        # print(username)
+        # print(password)
         try:
             user = User.objects.get(username=username)
             if(user.username=='mahmud.hasan@mblbd.com'):
