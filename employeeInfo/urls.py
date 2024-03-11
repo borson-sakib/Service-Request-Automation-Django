@@ -41,7 +41,8 @@ urlpatterns = [
     path('addCategory', addCategory, name='addCategory'),
     path('delete_category/<str:entry_id>/', delete_category, name='delete_category'),
 
-    
+    #User
+    path('user_profile', user_profile, name='user_profile'),
     
     
     path('gini', gini, name="gini"),

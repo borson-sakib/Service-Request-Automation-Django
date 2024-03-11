@@ -3,6 +3,9 @@
 
 from ldap3 import Server, Connection, ALL
 from .models import *
+from .forms import *
+from django.shortcuts import render
+from urllib import request
 from reportlab.lib.pagesizes import letter,landscape
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -195,4 +198,15 @@ def find_CISO_status(pid):
     
     return 'images/signatures/notapproved.jpg'
 
+
+def anlyst_or_not(uid):
+    analyst_user = False
+    queryset = network_analysts_group.objects.filter(network_analyst_employee_id=uid)
+    if queryset.exists():
+        analyst_user = True
+        
+    else:
+        analyst_user = False
+    
+    return analyst_user
 
