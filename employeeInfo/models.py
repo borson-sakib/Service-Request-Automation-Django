@@ -234,12 +234,36 @@ class network_analysts_group(models.Model):
 
 class execution_log(models.Model):
     job_id= models.CharField(max_length=100,null=True)
+    job_ref= models.CharField(max_length=100,null=True)
     executed_by= models.CharField(max_length=100,null=True)
+    approved_by= models.CharField(max_length=100,null=True)
     job_description= models.CharField(max_length=100,null=True)
     execution_status= models.CharField(max_length=100,null=True)
     execution_remarks= models.CharField(max_length=100,null=True)
-
+    revoke_date_time= models.CharField(max_length=100,null=True)
+    revoked_by= models.CharField(max_length=100,null=True)
     
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.executed_by:
+            self.executed_by_name = User.objects.get(EmployeeID=self.executed_by).EmployeeName
+        else:
+            self.executed_by_name = None
+            
+    def save(self, *args, **kwargs):
+        if not self.job_id:
+            # Get the maximum job_id value from existing objects
+            max_job_id = execution_log.objects.all().aggregate(models.Max('job_id'))['job_id__max']
+
+            # Set the new job_id
+            if max_job_id:
+                new_job_id = str(int(max_job_id) + 1).zfill(6)
+            else:
+                new_job_id = '100001'
+                
+            self.job_id = new_job_id
+
+        super().save(*args, **kwargs)
 
 class ApproverList(models.Model):
     employee_id = models.CharField(max_length=20)
