@@ -452,7 +452,7 @@ def task_execute(request):
     else :
         execution_log_obj = execution_log(
 
-            job_id = request.GET.get('id'),
+            job_ref = request.GET.get('id'),
             executed_by = request.user.EmployeeID,
             job_description = request.GET.get('details'),
             execution_status = request.GET.get('status'),
@@ -518,3 +518,9 @@ def user_profile(request):
     applicant_instance = get_object_or_404(User, EmployeeID=request.user.EmployeeID)
     form = UserForm(instance=applicant_instance)
     return render(request,'user/user_profile.html',{'form':form})
+
+def execution_logs(request):
+    
+    data = execution_log.objects.all()
+    
+    return render(request,'admin/executions.html',{'data':data})
