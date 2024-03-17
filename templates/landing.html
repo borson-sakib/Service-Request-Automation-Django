@@ -43,7 +43,7 @@
                
                   <div class="card-group">
 
-                  <div class="card rounded" style="width: 40%;margin: 1%;">
+                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
                   
                   <div class="card-body">
                     <h5 class="card-title">Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
@@ -57,7 +57,7 @@
                   </div>
                   
                   
-                  <div class="card rounded" style="width: 40%;margin: 1%;">
+                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
                   
                   <div class="card-body">
                     <h5 class="card-title">Expiring Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
@@ -92,24 +92,51 @@
   
               <div class="col-md-12">
                 <div class="card-group">
-                  <div class="card" style="width: 40%;margin: 1%;">
-                    <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-02</strong></div>
-                  <div class="card-body">
-                    <!-- <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-02</h5> -->
-                    <h6 class="card-subtitle mb-2 text-muted">Access/Service Request Form</h6>
-                    <p class="card-text">For IP white listing, User Access Etc.</p>
-                    <a href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">Click to fill up form</a>
-                  </div>
+                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
+                    <!-- <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-02</strong></div> -->
+                    <div class="card-statistic-3 p-4">
+                    <div class="mb-0">
+                        <h5><strong>MBL-ISMS-FR-02</strong></h5>
+                    </div>
+                   
+                    <div class="row align-items-center d-flex">
+                        <div class="col-8">
+                            
+                            <h6 class="card-subtitle text-muted">Access/Service Request Form</h6>
+
+                        </div>
+                        <div class="col-4">
+                            
+                           <a href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">Click to fill up form</a>
+
+                        </div>
+                       
+                    </div>
+                </div>
+                 
                 </div>
 
-                <div class="card" style="width: 40%;margin: 1%;">
-                  <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-67</strong></div>
-                  <div class="card-body">
-                    <!-- <h5 class="card-title" style="font-weight: bolder;">MBL-ISMS-FR-67</h5> -->
-                    <h6 class="card-subtitle mb-2 text-muted">Access/Service Request For Firewall</h6>
-                    <p class="card-text">Network Access, IP Access Etc.</p>
-                    <a href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">Click to fill up form</a>
-                  </div>
+                <div class="card l-bg-base" style="width: 40%;margin: 1%;">
+                  <div class="card-statistic-3 p-4">
+                    <div class="mb-0">
+                        <h5><strong>MBL-ISMS-FR-67</strong></h5>
+                    </div>
+                   
+                    <div class="row align-items-center d-flex">
+                        <div class="col-8">
+                            
+                    <h6 class="card-subtitle text-muted">Access/Service Request For Firewall</h6>
+
+                        </div>
+                        <div class="col-4">
+                            
+                          <a href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">Click to fill up form</a>
+                        </div>
+                       
+                    </div>
+                </div>
+
+                 
                 </div>
                 </div>
                 

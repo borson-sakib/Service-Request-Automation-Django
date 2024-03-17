@@ -59,7 +59,7 @@ class Service_request(models.Model):
     form_no = models.CharField(max_length=100,blank=True)
     service_request_id= models.CharField(max_length=100,null=True)
     service_title = models.CharField(max_length=200,null=True)
-    request_no = models.CharField(max_length=100)
+    request_no = models.CharField(max_length=100, primary_key=True)
     date = models.DateField(max_length=100)
     employee_name = models.CharField(max_length=100)
     branch_code = models.CharField(max_length=100)
@@ -140,70 +140,71 @@ class Service_request(models.Model):
         return 0  # or any other default value if date is not set
    
 class Service_request_form_67(models.Model):
-    form_no = models.CharField(max_length=100,blank=True)
+    pass
+    # form_no = models.CharField(max_length=100,blank=True)
 
-    service_request_id= models.CharField(max_length=100,null=True)
-    service_title = models.CharField(max_length=200,null=True)
-    request_no = models.CharField(max_length=100)
-    date = models.DateField(max_length=100)
-    employee_name = models.CharField(max_length=100)
-    branch_code = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
-    mobile_no = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
-    employee_id = models.CharField(max_length=100)
-    branch_division_name = models.CharField(max_length=100)
-    pa_no = models.CharField(max_length=100)
-    ip_address = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    self_type = models.CharField(max_length=100,blank=True,
+    # service_request_id= models.CharField(max_length=100,null=True)
+    # service_title = models.CharField(max_length=200,null=True)
+    # request_no = models.CharField(max_length=100)
+    # date = models.DateField(max_length=100)
+    # employee_name = models.CharField(max_length=100)
+    # branch_code = models.CharField(max_length=100)
+    # department = models.CharField(max_length=100)
+    # mobile_no = models.CharField(max_length=100)
+    # designation = models.CharField(max_length=100)
+    # employee_id = models.CharField(max_length=100)
+    # branch_division_name = models.CharField(max_length=100)
+    # pa_no = models.CharField(max_length=100)
+    # ip_address = models.CharField(max_length=100)
+    # email = models.EmailField(max_length=100)
+    # self_type = models.CharField(max_length=100,blank=True,
         
-        choices=[
-            ('self', 'Self'),
-            ('selfwithservice', 'Self with Service'),
-            ('serviceprovider', 'Service Provider'),
-            ('team', 'Team'),
-            ('visitor', 'Visitor')
-        ],
-    )
-    from_date = models.DateField(max_length=100,blank=True)
-    to_date = models.DateField(max_length=100,null=True)
-    to_date_check = models.BooleanField(max_length=100,default=False)
-    from_time = models.TimeField(max_length=100,null=True)
-    to_time = models.TimeField(max_length=100,null=True)
-    to_time_check = models.BooleanField(max_length=100,default=False)
-    reason = models.CharField(max_length=500,blank=True)
-    details = models.CharField(max_length=100,blank=True)
+    #     choices=[
+    #         ('self', 'Self'),
+    #         ('selfwithservice', 'Self with Service'),
+    #         ('serviceprovider', 'Service Provider'),
+    #         ('team', 'Team'),
+    #         ('visitor', 'Visitor')
+    #     ],
+    # )
+    # from_date = models.DateField(max_length=100,blank=True)
+    # to_date = models.DateField(max_length=100,null=True)
+    # to_date_check = models.BooleanField(max_length=100,default=False)
+    # from_time = models.TimeField(max_length=100,null=True)
+    # to_time = models.TimeField(max_length=100,null=True)
+    # to_time_check = models.BooleanField(max_length=100,default=False)
+    # reason = models.CharField(max_length=500,blank=True)
+    # details = models.CharField(max_length=100,blank=True)
 
-    tools_device_required =  models.CharField(max_length=200,blank=True)
+    # tools_device_required =  models.CharField(max_length=200,blank=True)
 
-    source_ip =models.CharField(max_length=100,blank=True) 
-    destination_ip =models.CharField(max_length=100,blank=True) 
-    destination_port =models.CharField(max_length=100,blank=True) 
-    physical_activity_area =models.CharField(max_length=300,blank=True) 
-    chng_exec_req_id =models.CharField(max_length=100,blank=True) 
+    # source_ip =models.CharField(max_length=100,blank=True) 
+    # destination_ip =models.CharField(max_length=100,blank=True) 
+    # destination_port =models.CharField(max_length=100,blank=True) 
+    # physical_activity_area =models.CharField(max_length=300,blank=True) 
+    # chng_exec_req_id =models.CharField(max_length=100,blank=True) 
 
-    vendor_name = models.CharField(max_length=100,blank=True)
-    name1 = models.CharField(max_length=100,blank=True)
-    contact_number1 = models.CharField(max_length=100,blank=True)
-    name2 = models.CharField(max_length=100,blank=True)
-    contact_number2 = models.CharField(max_length=100,blank=True)
+    # vendor_name = models.CharField(max_length=100,blank=True)
+    # name1 = models.CharField(max_length=100,blank=True)
+    # contact_number1 = models.CharField(max_length=100,blank=True)
+    # name2 = models.CharField(max_length=100,blank=True)
+    # contact_number2 = models.CharField(max_length=100,blank=True)
 
-    team_name1 = models.CharField(max_length=100,blank=True)
-    team_emp_id1 = models.CharField(max_length=100,blank=True)
-    team_name2 = models.CharField(max_length=100,blank=True)
-    team_emp_id2 = models.CharField(max_length=100,blank=True)
-    team_name3 = models.CharField(max_length=100,blank=True)
-    team_emp_id3 = models.CharField(max_length=100,blank=True)
-    team_name4 = models.CharField(max_length=100,blank=True)
-    team_emp_id4 = models.CharField(max_length=100,blank=True)
-    team_lead = models.CharField(max_length=100,blank=True)
-    team_lead_epmloyee_id = models.CharField(max_length=100,blank=True)
+    # team_name1 = models.CharField(max_length=100,blank=True)
+    # team_emp_id1 = models.CharField(max_length=100,blank=True)
+    # team_name2 = models.CharField(max_length=100,blank=True)
+    # team_emp_id2 = models.CharField(max_length=100,blank=True)
+    # team_name3 = models.CharField(max_length=100,blank=True)
+    # team_emp_id3 = models.CharField(max_length=100,blank=True)
+    # team_name4 = models.CharField(max_length=100,blank=True)
+    # team_emp_id4 = models.CharField(max_length=100,blank=True)
+    # team_lead = models.CharField(max_length=100,blank=True)
+    # team_lead_epmloyee_id = models.CharField(max_length=100,blank=True)
 
-    approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
-    approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
-    approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
-    application_status = models.IntegerField(max_length=100,null=True,default="0")
+    # approved_by_HOB = models.CharField(max_length=100,null=True,default="No")
+    # approved_by_CISO = models.CharField(max_length=100,null=True,default="No")
+    # approved_by_CTO = models.CharField(max_length=100,null=True,default="No")
+    # application_status = models.IntegerField(max_length=100,null=True,default="0")
 
     
 
@@ -234,7 +235,7 @@ class network_analysts_group(models.Model):
 
 class execution_log(models.Model):
     job_id= models.CharField(max_length=100,null=True)
-    job_ref= models.CharField(max_length=100,null=True)
+    job_ref = models.ForeignKey(Service_request, on_delete=models.CASCADE, related_name='execution_logs', null=True)
     executed_by= models.CharField(max_length=100,null=True)
     approved_by= models.CharField(max_length=100,null=True)
     job_description= models.CharField(max_length=100,null=True)
@@ -262,7 +263,8 @@ class execution_log(models.Model):
                 new_job_id = '100001'
                 
             self.job_id = new_job_id
-
+            
+            
         super().save(*args, **kwargs)
 
 class ApproverList(models.Model):

@@ -32,14 +32,16 @@ urlpatterns = [
     path('update/<int:user_id>/', user_update, name='user_update'),
     path('delete/<int:user_id>/', user_delete, name='user_delete'),
     path('set_user_another_table/<int:user_id>/', set_user_another_table, name='set_user_another_table'),
-    path('delete-entry/<int:entry_id>/', delete_entry, name='delete_entry'),
-    path('update-entry/<int:entry_id>/', update_entry, name='update_entry'),
+    path('delete-entry/<str:entry_id>/', delete_entry, name='delete_entry'),
+    path('update-entry/<str:entry_id>/', update_entry, name='update_entry'),
     path('requestaslist', requestaslist, name='requestaslist'),
     
     
     # Admin
     path('addCategory', addCategory, name='addCategory'),
     path('delete_category/<str:entry_id>/', delete_category, name='delete_category'),
+    path('advanceSearch', advanceSearch, name='advanceSearch'),
+    path('advanceSearch/<str:category>/', advanceSearch, name='advanceSearch_category'),
 
     #User
     path('user_profile', user_profile, name='user_profile'),
@@ -48,6 +50,7 @@ urlpatterns = [
     path('gini', gini, name="gini"),
     path('oracle_db_test', oracle_db_test, name="oracle_db_test"),
     path('execution_logs', execution_logs, name="execution_logs"),
+    path('fake_user', fake_user, name="fake_user"),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

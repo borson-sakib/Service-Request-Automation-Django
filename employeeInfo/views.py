@@ -83,12 +83,13 @@ def loginView(request):
         username = request.POST['employeeId']
         password = request.POST['password']
 
+        
         user = authenticate(request,username=username,password=password)
 
         if user is not None:
             login(request,user)
             return redirect('landing')
-
+        
         messages.warning(request, 'You are not authorized to Enter')      
         
         return redirect('login')
@@ -379,13 +380,9 @@ def show_entries(request):
     })
 
 def delete_entry(request, entry_id):
-    # Get the entry using the entry_id
-    entry = get_object_or_404(Service_request, pk=entry_id)
+    
+    delete_any('Service_request',entry_id)
 
-    # Delete the entry
-    entry.delete()
-
-    # Redirect to the page showing the remaining entries
     return redirect('form_submissions')
 
 def update_entry(request, entry_id):
@@ -452,7 +449,8 @@ def task_execute(request):
     else :
         execution_log_obj = execution_log(
 
-            job_ref = request.GET.get('id'),
+            # job_ref = request.GET.get('id'),
+            job_ref = Service_request.objects.get(request_no=request.GET.get('id')),
             executed_by = request.user.EmployeeID,
             job_description = request.GET.get('details'),
             execution_status = request.GET.get('status'),
@@ -524,3 +522,25 @@ def execution_logs(request):
     data = execution_log.objects.all()
     
     return render(request,'admin/executions.html',{'data':data})
+
+from .fakeuser import *
+
+def fake_user(request):
+    
+    generate_fake_users(5)
+    
+    return HttpResponse('Done')
+
+def advanceSearch(request,category=None):
+    
+    obj= ServiceCategory.objects.all()
+    
+    if category is not None:
+        
+        service_request = Service_request.objects.filter(category=category)
+        
+        return render(request,'admin/advanceSearch.html',{'service_request':service_request,'obj':obj})    
+    
+    else:
+        
+        return render(request,'admin/advanceSearch.html',{'obj':obj})
