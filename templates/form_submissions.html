@@ -222,10 +222,10 @@ td {
                             <td>{{ entry.details }}</td>
                             <td>
                              <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.request_no %}">View Form</a></button>
-                                <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
-                                
+                                <!-- <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
+                                -->
                                 <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>
+                                <!-- <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>  -->
                                 <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
                                 <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
                               </td>

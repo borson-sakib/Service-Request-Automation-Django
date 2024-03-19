@@ -42,9 +42,19 @@ def landing(request):
     return render(request,'landing.html',{'Username':name,'count':count})
 
 @login_required(login_url='/login')
-def index(request,id):
+def index(request,id=None):
     
-    context= form_navigator(request.user.EmployeeID,id)
+    if id is not None:
+        context= form_navigator(request.user.EmployeeID,id)
+        return render(request,'test.html',context)
+        
+    if request.GET.get('empid'):
+        print(request.GET.get('empid'))
+        print(request.GET.get('form_no'))
+        context= form_navigator(request.GET.get('empid'),request.GET.get('form_no'))
+        return render(request,'test.html',context)
+    
+        
     
     # if Service_request.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(form_no=id)).exists():
 
@@ -58,7 +68,7 @@ def index(request,id):
 
     #     form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
         
-    return render(request,'test.html',context)
+        
 
 @login_required(login_url='/login')
 def form67(request):
@@ -224,7 +234,8 @@ def access_request(request):
     #IF user is Maker
     else:
         obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
-        return render(request,'access_request_user.html',{'access_request':obj})
+        obj_others = Service_request.objects.filter(submitted_by=request.user.EmployeeID).exclude(employee_id=request.user.EmployeeID).all()
+        return render(request,'access_request_user.html',{'access_request':obj,'access_request_others':obj_others})
 
 
 
@@ -544,3 +555,17 @@ def advanceSearch(request,category=None):
     else:
         
         return render(request,'admin/advanceSearch.html',{'obj':obj})
+    
+
+def other_user(request,form_no):
+    if request.method == 'POST':
+        
+        other_user=User.objects.filter(EmployeeID=request.POST['employeeid']).first()
+        
+        # print(other_user.EmployeeName)
+        
+        return render(request,'user/other_user.html',{'other_user':other_user,'form_no':form_no})
+        
+    
+    return render(request,'user/other_user.html')
+    

@@ -1,0 +1,119 @@
+
+{% extends 'base.html' %}  
+{% load static %}
+
+{% block content %}  
+
+<style>
+    label{
+        margin-bottom: 5px;
+        font-size: large;
+    }
+    
+    .form-control{
+        background-color: rgba(128, 128, 128, 0.251);
+    }
+</style>
+
+<div class="container" style="min-height: 100vh;">
+    <div class="card-group" style="min-height: 40vh;margin:auto;margin-top:10%">
+
+        <div class="card">
+
+    <div class="card-statistic-3 p-4">
+                    <div class="mb-0" style="text-align: center;">
+                        <h5><strong>Enter Employee ID</strong></h5>
+                        <hr>
+                    </div>
+                 
+                    <form action="" method="post">
+                    {% csrf_token %}
+
+                          <div class="form-group" style="margin-top: 40px;">
+                            <label for="employeeid"><strong>Employee ID:</strong></label>
+                            <input class="form-control" type="text" name="employeeid" id="employeeid">
+
+                            <button class="btn btn-primary" style="margin-top: 30px;float:right;" type="submit">Search</button>
+
+                            </div>
+                    </form>
+
+                   
+                   
+                </div>
+
+   </div>
+
+   {% if other_user %}
+   <div class="card" style="width: 700px;">
+
+    <!-- <div class="card-title">
+        <h6>{{ other_user.EmployeeName }}</h6>
+        <h6>{{ other_user.EmployeeID }}</h6>
+    </div> -->
+
+    <div class="card-statistic-3 p-4">
+                    <div class="mb-0" style="text-align: center;">
+                        <h5><strong>{{ other_user.EmployeeName }}</strong></h5>
+                        <hr>
+                    </div>
+                 
+                    <div class="row align-items-center d-flex">
+                        <div class="col-6">
+                            <p class="card-subtitle text-muted">EmployeeID</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-subtitle">{{ other_user.EmployeeID }}</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-subtitle text-muted">EmployeeDesignation</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-subtitle">{{ other_user.EmployeeDesignation }}</p>
+                        </div>
+                        
+                        <div class="col-6">
+                            <p class="card-subtitle text-muted">EmpFunctionalDesignation</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-subtitle">{{ other_user.EmpFunctionalDesignation }}</p>
+                        </div>
+                        
+                        <div class="col-6">
+                            <p class="card-subtitle text-muted">Placeofposting</p>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-subtitle">{{ other_user.Placeofposting }}</p>
+                        </div>
+                        
+                       
+                    </div>
+
+                   
+                   <div class="mb-0" style="text-align: center;">
+                        
+                        <hr>
+                        <a class="btn btn-success" style="width: 50%;" href="{% url 'index' %}?empid={{ other_user.EmployeeID }}&form_no={{form_no}}">Confirm</a>
+                    </div>
+                </div>
+
+   </div>
+    {% endif %}
+
+    </div>
+
+   
+   
+        
+        
+        
+</div>
+
+
+
+
+
+{% endblock content %}  
+
+
+

@@ -98,7 +98,8 @@ def store_request(request):
                     team_name4 = request.POST['team_name4'],
                     team_emp_id4 = request.POST['team_emp_id4'],
                     team_lead = request.POST['team_lead'],
-                    team_lead_epmloyee_id = request.POST['team_lead_epmloyee_id']
+                    team_lead_epmloyee_id = request.POST['team_lead_epmloyee_id'],
+                    submitted_by = request.user.EmployeeID
                     # to_date_check = request.POST['to_date_check'],
                     # to_time_check = request.POST['to_time_check']
                 )

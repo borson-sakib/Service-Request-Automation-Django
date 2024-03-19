@@ -127,6 +127,7 @@ class Service_request(models.Model):
     
     
     category = models.CharField(max_length=50,null=True)
+    submitted_by = models.CharField(max_length=50,null=True)
 
    
    

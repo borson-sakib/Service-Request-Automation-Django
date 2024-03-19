@@ -39,7 +39,7 @@
             </div> -->
 
               <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
-              <div class="col-md-12">
+              <div class="col-md-6 col-md-6">
                
                   <div class="card-group">
 
@@ -90,7 +90,7 @@
                 </div>
               </div>
   
-              <div class="col-md-12">
+              <div class="col-md-8 col-md-6">
                 <div class="card-group">
                   <div class="card l-bg-base" style="width: 40%;margin: 1%;">
                     <!-- <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-02</strong></div> -->
@@ -100,14 +100,16 @@
                     </div>
                    
                     <div class="row align-items-center d-flex">
-                        <div class="col-8">
+                        <div class="col-6">
                             
                             <h6 class="card-subtitle text-muted">Access/Service Request Form</h6>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             
-                           <a href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">Click to fill up form</a>
+                           <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">For Self</a>
+                           <a class="btn btn-primary btn-sm" style="margin: 2px;border:none;" href="{% url 'other_user' form_no='MBL-ISMS-FR-02' %}" class="card-link">For a Collegue</a>
+
 
                         </div>
                        
@@ -123,14 +125,16 @@
                     </div>
                    
                     <div class="row align-items-center d-flex">
-                        <div class="col-8">
+                        <div class="col-6">
                             
                     <h6 class="card-subtitle text-muted">Access/Service Request For Firewall</h6>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-6">
                             
-                          <a href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">Click to fill up form</a>
+                          <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">For Self</a>
+                          <br>
+                          <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'other_user' form_no='MBL-ISMS-FR-67' %}" class="card-link">For a Collegue</a>
                         </div>
                        
                     </div>

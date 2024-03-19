@@ -11,7 +11,10 @@ from django.contrib.auth.middleware import AuthenticationMiddleware
 
 urlpatterns = [
     path('view_only/<str:pid>/', view_only, name="view_only"),
+    
     path('form/<str:id>/', index, name="index"),
+    path('form/', index, name="index"),
+    
     path('form67', form67, name="form67"),
     path('approver_list', approver_list, name="approver_list"),
     path('form_submissions', show_entries, name="form_submissions"),
@@ -45,6 +48,7 @@ urlpatterns = [
 
     #User
     path('user_profile', user_profile, name='user_profile'),
+    path('other_user/<str:form_no>/', other_user, name='other_user'),
     
     
     path('gini', gini, name="gini"),
