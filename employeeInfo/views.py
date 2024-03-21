@@ -42,9 +42,19 @@ def landing(request):
     return render(request,'landing.html',{'Username':name,'count':count})
 
 @login_required(login_url='/login')
-def index(request,id):
+def index(request,id=None):
     
-    context= form_navigator(request.user.EmployeeID,id)
+    if id is not None:
+        context= form_navigator(request.user.EmployeeID,id)
+        return render(request,'test.html',context)
+        
+    if request.GET.get('empid'):
+        print(request.GET.get('empid'))
+        print(request.GET.get('form_no'))
+        context= form_navigator(request.GET.get('empid'),request.GET.get('form_no'))
+        return render(request,'test.html',context)
+    
+        
     
     # if Service_request.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(form_no=id)).exists():
 
@@ -58,7 +68,7 @@ def index(request,id):
 
     #     form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
         
-    return render(request,'test.html',context)
+        
 
 @login_required(login_url='/login')
 def form67(request):
@@ -83,12 +93,13 @@ def loginView(request):
         username = request.POST['employeeId']
         password = request.POST['password']
 
+        
         user = authenticate(request,username=username,password=password)
 
         if user is not None:
             login(request,user)
             return redirect('landing')
-
+        
         messages.warning(request, 'You are not authorized to Enter')      
         
         return redirect('login')
@@ -223,7 +234,8 @@ def access_request(request):
     #IF user is Maker
     else:
         obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
-        return render(request,'access_request_user.html',{'access_request':obj})
+        obj_others = Service_request.objects.filter(submitted_by=request.user.EmployeeID).exclude(employee_id=request.user.EmployeeID).all()
+        return render(request,'access_request_user.html',{'access_request':obj,'access_request_others':obj_others})
 
 
 
@@ -379,13 +391,9 @@ def show_entries(request):
     })
 
 def delete_entry(request, entry_id):
-    # Get the entry using the entry_id
-    entry = get_object_or_404(Service_request, pk=entry_id)
+    
+    delete_any('Service_request',entry_id)
 
-    # Delete the entry
-    entry.delete()
-
-    # Redirect to the page showing the remaining entries
     return redirect('form_submissions')
 
 def update_entry(request, entry_id):
@@ -452,7 +460,8 @@ def task_execute(request):
     else :
         execution_log_obj = execution_log(
 
-            job_ref = request.GET.get('id'),
+            # job_ref = request.GET.get('id'),
+            job_ref = Service_request.objects.get(request_no=request.GET.get('id')),
             executed_by = request.user.EmployeeID,
             job_description = request.GET.get('details'),
             execution_status = request.GET.get('status'),
@@ -524,3 +533,39 @@ def execution_logs(request):
     data = execution_log.objects.all()
     
     return render(request,'admin/executions.html',{'data':data})
+
+from .fakeuser import *
+
+def fake_user(request):
+    
+    generate_fake_users(5)
+    
+    return HttpResponse('Done')
+
+def advanceSearch(request,category=None):
+    
+    obj= ServiceCategory.objects.all()
+    
+    if category is not None:
+        
+        service_request = Service_request.objects.filter(category=category)
+        
+        return render(request,'admin/advanceSearch.html',{'service_request':service_request,'obj':obj})    
+    
+    else:
+        
+        return render(request,'admin/advanceSearch.html',{'obj':obj})
+    
+
+def other_user(request,form_no):
+    if request.method == 'POST':
+        
+        other_user=User.objects.filter(EmployeeID=request.POST['employeeid']).first()
+        
+        # print(other_user.EmployeeName)
+        
+        return render(request,'user/other_user.html',{'other_user':other_user,'form_no':form_no})
+        
+    
+    return render(request,'user/other_user.html')
+    

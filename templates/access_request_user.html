@@ -4,9 +4,9 @@
 {% block content %}  
 
 <style>
-   table {
+   .table {
     border-collapse: collapse;
-    width: 95%;
+    vertical-align: middle;
 }
 
 th, td {
@@ -22,7 +22,7 @@ th {
 }
 
 td {
-    font-size: 13px;
+    font-size: 12px;
 }
 
 
@@ -72,7 +72,7 @@ td {
         <div class="col-md-12">
             <div class="section-title">
                 <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Access/Service Requests </strong></h5>   
+                    <h5 style="margin: 0px;"><strong>Self </strong></h5>   
             
                 </div>
             </div>
@@ -82,14 +82,16 @@ td {
         <div class="col-md-12">
             <div class="section-title">
                  <div class="card" style="padding: 1%;">
-                 <table class="table table-lg">
+                 <table class="table table-sm">
                 <thead>
                     <tr>
+                        <th>Employee ID.</th>
                         <th>Form No.</th>
-                        <th>Date of Application</th>
-                        <th>Approved by HOB/HOD</th>
-                        <th>Approved by CISO</th>
-                        <th>Approved by CTO</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>HOB/HOD</th>
+                        <th>CISO</th>
+                        <th>CTO</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -97,8 +99,64 @@ td {
                 <tbody>
                     {% for entity in access_request %}
                     <tr>
+                        <td>{{ entity.employee_id }}</td>
                         <td>{{ entity.form_no }}</td>
                         <td>{{ entity.date }}</td>
+                        <td>{{ entity.details }}</td>
+                        <td>{{ entity.approved_by_HOB }}</td>
+                        <td>{{ entity.approved_by_CISO }}</td>
+                        <td>{{ entity.approved_by_CTO }}</td>
+                        <td><button type="button" class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button></td>
+                        <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+           
+            </div>
+           
+            
+            
+        </div>
+        
+        <div class="col-md-12">
+            <div class="section-title">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Others </strong></h5>   
+            
+                </div>
+            </div>
+           
+        </div>
+        
+        <div class="col-md-12">
+            <div class="section-title">
+                 <div class="card" style="padding: 1%;">
+                 <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Employee ID.</th>
+                        <th>Form No.</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                        <th>HOB/HOD</th>
+                        <th>CISO</th>
+                        <th>CTO</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entity in access_request_others %}
+                    <tr>
+                        <td>{{ entity.employee_name }}</td>
+                        <td>{{ entity.employee_id }}</td>
+                        <td>{{ entity.form_no }}</td>
+                        <td>{{ entity.date }}</td>
+                        <td>{{ entity.details }}</td>
                         <td>{{ entity.approved_by_HOB }}</td>
                         <td>{{ entity.approved_by_CISO }}</td>
                         <td>{{ entity.approved_by_CTO }}</td>

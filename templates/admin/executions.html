@@ -34,20 +34,26 @@
       <th>Execution Remarks</th>
       <th>Revoke Date/Time</th>
       <th>Revoked By</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     {% for entry in data %}
     <tr>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.job_id }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.job_ref }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.executed_by_name }} - {{ entry.executed_by }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.approved_by }} </strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.job_description }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.execution_status }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.execution_remarks }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.revoke_date_time }}</strong></a></td>
-      <td><a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none"><strong>{{ entry.revoked_by }}</strong></a></td>
+      <td><strong>{{ entry.job_id }}</strong></td>
+      <td><strong>{{ entry.job_ref.request_no }}</strong></td>
+      <td><strong>{{ entry.executed_by_name }} - {{ entry.executed_by }}</strong></td>
+      <td><strong>{{ entry.approved_by }} </strong></td>
+      <td><strong>{{ entry.job_description }}</strong></td>
+      <td><strong>{{ entry.execution_status }}</strong></td>
+      <td><strong>{{ entry.execution_remarks }}</strong></td>
+      <td><strong>{{ entry.revoke_date_time }}</strong></td>
+      <td><strong>{{ entry.revoked_by }}</strong></td>
+      <td>
+        <a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none">Viewonly</a>
+        <a href="{% url 'delete_entry' entry.job_id %}" style="text-decoration:none">Delete</a>
+    
+    </td>
                 
       
     </tr>

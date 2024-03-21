@@ -17,7 +17,8 @@ from django.db.models import Q
 from django.utils.crypto import get_random_string
 from datetime import datetime
 from .models import *
-
+from django.apps import apps
+from django.http import JsonResponse
 
 def form_navigator(uid,form_no):
     
@@ -97,7 +98,8 @@ def store_request(request):
                     team_name4 = request.POST['team_name4'],
                     team_emp_id4 = request.POST['team_emp_id4'],
                     team_lead = request.POST['team_lead'],
-                    team_lead_epmloyee_id = request.POST['team_lead_epmloyee_id']
+                    team_lead_epmloyee_id = request.POST['team_lead_epmloyee_id'],
+                    submitted_by = request.user.EmployeeID
                     # to_date_check = request.POST['to_date_check'],
                     # to_time_check = request.POST['to_time_check']
                 )
@@ -154,4 +156,24 @@ def store_request(request):
     except:
         messages.success(request, 'Something went wrong. Try again with correct information')
 
+
+
+
+def delete_any(model_name, entry_id):
+    model_class = apps.get_model('employeeInfo', model_name)
+    try:
+        # Dynamically get the model class
+        # model_class = apps.get_model('employeeInfo', model_name)
+        
+        # Attempt to get the object to delete
+        obj = model_class.objects.get(request_no=entry_id)
+        
+        # Delete the object
+        obj.delete()
+        messages.success(request, 'Entry deleted successfully')
     
+    except model_class.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Entry does not exist'})
+    
+    except Exception as e:
+        return JsonResponse({'success': False, 'message': str(e)})
