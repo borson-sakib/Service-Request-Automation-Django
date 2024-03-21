@@ -265,8 +265,8 @@ footer a {
 }
 
 .l-bg-base {
-  background: linear-gradient(to right, #373b44, #1C39BB) !important;
-  color: #fff;
+  background: linear-gradient(to top, #fff, #1c39bbc7) !important;
+  color: #000000;
 }
 
 .l-bg-green-dark {
