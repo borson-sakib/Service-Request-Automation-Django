@@ -1,4 +1,9 @@
+django
 django-environ
 ldap3
 reportlab
 cx_Oracle
+pyodbc
+mssql-django
+requests
+faker

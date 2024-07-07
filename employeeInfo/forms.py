@@ -21,6 +21,11 @@ class UserForm(forms.ModelForm):
 
         fields = '__all__'
 
+class SignatureUploadForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['signature']
+
 
 class RequestForm(forms.ModelForm):
     request_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Please enter request no.', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))

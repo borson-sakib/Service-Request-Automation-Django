@@ -90,18 +90,26 @@ def form67(request):
 
 def loginView(request):
     if (request.method == "POST"):
+        empid = request.POST['empid']
         username = request.POST['employeeId']
         password = request.POST['password']
 
         
-        user = authenticate(request,username=username,password=password)
+        try:
+            user = authenticate(request,username=username,password=password)
 
-        if user is not None:
-            login(request,user)
-            return redirect('landing')
+            if user is not None:
+                login(request,user)
+                return redirect('landing')
+        except:
+            auto_create_profile(empid,username,password)
+            user = authenticate(request,username=username,password=password)
+
+            if user is not None:
+                login(request,user)
+                return redirect('landing')
         
         messages.warning(request, 'You are not authorized to Enter')      
-        
         return redirect('login')
     else:
         user=User.objects.filter(is_staff=0).all()
@@ -316,9 +324,16 @@ def user_list(request):
             if network_analysts_group.objects.filter(network_analyst_employee_id=user.EmployeeID).exists():
                 # If exists, add a field 'analyst' with value True to the user object
                 user.analyst = True
+                print('Analyst')
+                print(user.EmployeeID)
             else:
                 # If not exists, add a field 'analyst' with value False to the user object
+
                 user.analyst = False
+                print('Non Analyst')
+                print(user)
+
+
         print(users)
     context = {'users': users, 'query': query}
     return render(request, 'user_list.html', context)
@@ -519,7 +534,7 @@ def delete_category(request, entry_id):
 
 def oracle_db_test(request):
     
-    data = check_oracle_connection(20210714001)
+    data = check_oracle_connection(20151228002)
 
     return HttpResponse(data)
     
@@ -569,3 +584,46 @@ def other_user(request,form_no):
     
     return render(request,'user/other_user.html')
     
+
+def auto_create_profile(empid,domain,pwd):
+   
+    url = str(employeeURL) + str(empid)
+    response = requests.post(url)
+ 
+    response = response.json()
+
+    if response["EmployeeID"] is not None:
+        
+        uploaded_file1 = 'None'
+        uploaded_file2 = 'None'
+        
+        funcDesig="others"
+        if response["EmpFunctionalDesignation"] in FunctionalDesignations:
+            funcDesig=response["EmpFunctionalDesignation"]
+        email = domainMailCheck(domain)
+            
+        User.objects.create_user(
+            username=email, 
+            EmployeeName=response["EmployeeName"],
+            EmployeeDesignation=response["EmpDesignation"],
+            EmpFunctionalDesignation=funcDesig,
+            Placeofposting=response["POP"],
+            EmployeeID=response["EmployeeID"],
+            password=pwd,
+            )
+                    
+        
+
+    
+def upload_signature(request):
+    instance = get_object_or_404(User, username=request.user)
+    if request.method == 'POST':
+        
+        form = SignatureUploadForm(request.POST, request.FILES , instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_signature')
+    else:
+        form = SignatureUploadForm()
+        # print(instance.signature)
+    return render(request, 'user/upload_signature.html', {'form': form,'instance':instance})

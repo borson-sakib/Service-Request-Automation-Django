@@ -1,0 +1,31 @@
+{% extends 'base.html' %}  
+  
+{% block content %}  
+
+
+<div class="row">
+
+        <div class="col-md-4" style="border: 1px solid black; padding: 10px; margin: 1%;">
+            <h3>Upload Signature</h3>
+            <form action="{% url 'upload_signature' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+   </div>
+
+   <div class="col-md-4" style="border: 1px solid black; padding: 10px; margin: 1%;">
+
+    <img src="/media/{{ instance.signature }}"  alt="John Doe's signature" style="width: 250px;">
+</div>
+</div>
+
+
+
+
+
+
+{% endblock content %}  
+
+
+

@@ -55,6 +55,9 @@ urlpatterns = [
     path('oracle_db_test', oracle_db_test, name="oracle_db_test"),
     path('execution_logs', execution_logs, name="execution_logs"),
     path('fake_user', fake_user, name="fake_user"),
+    
+    
+    path('upload_signature', upload_signature, name='upload_signature'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
