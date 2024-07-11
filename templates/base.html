@@ -60,6 +60,7 @@
 <script src="{% static 'cdn/jquery-3.5.1.slim.min.js' %}"></script>
 <script src="{% static 'cdn/jquery-3.6.0.min.js' %}"></script>
 <script src="{% static 'cdn/bootstrap.min.js' %}"></script>
+
 <!-- <script src="{% static 'cdn/popper.min.js' %}"></script> -->
 
 <link rel="stylesheet" type="text/css" href="{% static 'cdn/datatables.min.css' %}" />
@@ -69,11 +70,11 @@
 <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
 <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
 <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
-<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
  <!-- <link rel="stylesheet" href="{% static 'css/css_bootstrap.css' %}"> -->
 
+ <link rel="stylesheet" href="{% static 'css/adminpanel.css' %}">
 
 
 </head>
@@ -86,6 +87,10 @@
   <div class="side-bar">
     
     <p><strong>Access/Service Request Management</strong></p>
+    <a href="{% url 'user_profile' %}" style="font-size: small;color: #1a8b10;">
+          
+     @{{request.user.EmployeeName}}
+         </a>
     <hr class="new1">
     
     {% if analyst %}
@@ -133,16 +138,9 @@
         <!-- <a href="{% url 'gini' %}">Tabs</a> -->
         
         
-        <div class="chip">
-          <img src="{% static 'img/user.png' %}" alt="Person" width="96" height="96">
-          <a href="{% url 'user_profile' %}" style="padding: 0px;color:black;float:none;">
-          
-        {{request.user.EmployeeName}}
-           </a>
-        </div>
-       
+        
 
-        <div class="logout" style="position:absolute; color: white;right: 20px;">
+        <div class="logout" style="position:absolute; color: white;right: 20px;top: 5px; bottom: 5px;">
           <!-- <a style="padding: 0px;margin-right: 25px;">{{request.user.EmployeeName}} <br> <small>{{request.user.Placeofposting}}</small></a> -->
           <a type="button" class="btn btn-outline-light btn-sm" style="border-radius: 25px; padding: auto;" href="{% url 'logout' %}">Logout
           </a>

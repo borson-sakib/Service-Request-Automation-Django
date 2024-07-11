@@ -3,6 +3,7 @@
 {% block content %}  
 
 <div class="container" style="height: 100vh;padding: 0px;">
+  {% if analyst %}
   <div class="row">
     <div class="col-xl-3 col-sm-6 col-12"> 
       <div class="card">
@@ -13,8 +14,25 @@
                 <i class="icon-pencil primary font-large-2 float-left"></i>
               </div>
               <div class="media-body text-right">
-                <h3>278</h3>
-                <span>New Posts</span>
+                <h3 style="color: red;">{{count}}</h3>
+                <span><a href="{% url 'form_submissions' %}">See Requests</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 col-12"> 
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
+              <div class="align-self-center">
+                <i class="icon-settings primary font-large-2 float-left"></i>
+              </div>
+              <div class="media-body text-right">
+                <h3>{{count}}</h3>
+                <span><a href="{% url 'requestaslist' %}">Expiring Requests</a></span>
               </div>
             </div>
           </div>
@@ -22,63 +40,10 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
         <div class="row">
-          <div class="col-md-12">
-            {% if analyst %}
-  
-            <div class="row">
-              <div class="col-md-12">
-                <div class="shadow mb-2 bg-white rounded">
-                  
-                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Task Management</strong></h5>   
-            
-                </div>
-                </div>
-              </div>
-             
-              <div class="col-md-6 col-md-6">
-               
-                  <div class="card-group">
-
-                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
-                  
-                  <div class="card-body">
-                    <h5 class="card-title">Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
-                   
-                    <h6 class="card-subtitle mb-2">See New Service Requests</h6>
-                    <div class="card-footer bg-transparent border-primary" style="text-align: center;"><a href="{% url 'form_submissions' %}" class="card-link">See Requests</a></div>
-                    
-                    <!-- <a href="#" class="card-link">Another link</a> -->
-                  </div>
-                  
-                  </div>
-                  
-                  
-                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
-                  
-                  <div class="card-body">
-                    <h5 class="card-title">Expiring Requests <span class="badge rounded-pill bg-danger">{{count}}</span></h5>
-                   
-                    <h6 class="card-subtitle mb-2">See Expiring Service Requests</h6>
-                    
-                    <div class="card-footer bg-transparent border-primary" style="text-align: center;"><a href="{% url 'requestaslist' %}" class="card-link">Click Here</a></div>
-
-                    <!-- <a href="#" class="card-link">Another link</a> -->
-                  </div>
-                  
-              </div>
-
-
-                  </div>
-            
-
-              </div>
-  
-            </div>
-            {% endif %}
-  
+          <div class="col-md-12">  
             <div class="row">
 
               <div class="col-md-12">

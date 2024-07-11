@@ -80,7 +80,7 @@ border: 2px; */
   position: relative;
   background-color: #4968f1;
   /* border-radius: 20px; */
-  padding: 10px;
+  /* padding: 10px; */
   margin: auto;
   width: 100%;
   font: 'Roboto-Bold';
@@ -101,10 +101,11 @@ border: 2px; */
 }
 
 .nav a:hover {
-  background-color: #ffffff;
+  background-color: #ffffffaf;
   color: rgb(35, 12, 240);
   font-weight: 600;
-  border-radius: 15px;
+  border-color: #000;
+  /* border-radius: 15px; */
   box-shadow: 0 1px 3px rgba(230, 222, 222, 0.12), 0 1px 2px rgba(255, 255, 255, 0.24);
 }
 
