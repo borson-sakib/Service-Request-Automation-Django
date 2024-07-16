@@ -90,7 +90,7 @@ def form67(request):
 
 def loginView(request):
     if (request.method == "POST"):
-        empid = request.POST['empid']
+        # empid = request.POST['empid']
         username = request.POST['employeeId']
         password = request.POST['password']
 
@@ -102,15 +102,8 @@ def loginView(request):
                 login(request,user)
                 return redirect('landing')
         except:
-            auto_create_profile(empid,username,password)
-            user = authenticate(request,username=username,password=password)
-
-            if user is not None:
-                login(request,user)
-                return redirect('landing')
-        
-        messages.warning(request, 'You are not authorized to Enter')      
-        return redirect('login')
+            messages.warning(request, 'You are not authorized to Enter')      
+            return redirect('login')
     else:
         user=User.objects.filter(is_staff=0).all()
         return render(request,'login.html',{'test':user})
@@ -119,73 +112,89 @@ def loginView(request):
 def create_profile(request):
     if request.method == 'POST':
         # print(request.POST)
-        url = str(employeeURL) + str(request.POST["employeeId"])
-        response = requests.post(url)
-        # print("-------------------------------------")
-        # print(response)
-        response = response.json()
-
-        if response["EmployeeID"] is not None:
-            # print(request.POST["employeeId"])
-            # print(request.POST["EmpFunctionalDesignation"])
-            # Get the uploaded file
-            
-            uploaded_file1 = request.FILES['signature']
-            uploaded_file2 = request.FILES['pi']
-
-            print(uploaded_file1)
-            print(uploaded_file2)
-            # Create a Photo instance using the uploaded file
-            # photo = Photo(image=uploaded_file, caption='My photo')
-            # photo.save()
-            # form = ImageForm(request.POST, request.FILES)
-            # if form.is_valid():
-            #     form.save()
-            # Do something with the file...
-            
-            funcDesig="others"
-            if response["EmpFunctionalDesignation"] in FunctionalDesignations:
-                funcDesig=response["EmpFunctionalDesignation"]
-            email = domainMailCheck(request.POST['email'])
-
-            if ldapcheck(email,request.POST['password']):
-                
-                User.objects.create_user(
-                    username=request.POST['email'], 
-                    EmployeeName=response["EmployeeName"],
-                    EmployeeDesignation=response["EmpDesignation"],
-                    EmpFunctionalDesignation=funcDesig,
-                    Placeofposting=response["POP"],
-                    EmployeeID=response["EmployeeID"],
-                    password=request.POST['password'],
-                    signature=uploaded_file1,
-                    pi=uploaded_file2,
-                    )
-                
-                messages.success(request, 'User Creation Successful')
-                
-            else:
-                # User.objects.create_user(
-                #     username=request.POST['email'], 
-                #     EmployeeName=response["EmployeeName"],
-                #     EmployeeDesignation=response["EmpDesignation"],
-                #     EmpFunctionalDesignation=funcDesig,
-                #     Placeofposting=response["POP"],
-                #     EmployeeID=response["EmployeeID"],
-                #     password=request.POST['password'],
-                #     signature=uploaded_file1,
-                #     pi=uploaded_file2,
-                #     )
-                messages.success(request, 'Domain Does not match')
-                return redirect('create_profile')
-            return redirect('login')
-            
-
-        else:
-            messages.success(request, 'Unable to find the user ID !')
+        empid=request.POST["employeeId"]
+        email=request.POST["email"]
+        password=request.POST["password"]
+        if User.objects.filter(username=email).exists():
+            messages.success(request, 'User Already Exists !')
             return redirect('create_profile')
-    else:
-        return render(request,'create_profile.html')
+        try:
+            auto_create_profile(empid,email,password)
+            messages.success(request, 'User Creation Successful. Log in with your domain username and password.')
+            return redirect('login')
+        except:
+            messages.success(request, 'Domain Does not match')
+            return redirect('create_profile')
+        
+    return render(request,'create_profile.html')
+
+    #     url = str(employeeURL) + str(request.POST["employeeId"])
+    #     response = requests.post(url)
+    #     # print("-------------------------------------")
+    #     # print(response)
+    #     response = response.json()
+
+    #     if response["EmployeeID"] is not None:
+    #         # print(request.POST["employeeId"])
+    #         # print(request.POST["EmpFunctionalDesignation"])
+    #         # Get the uploaded file
+            
+    #         uploaded_file1 = request.FILES['signature']
+    #         uploaded_file2 = request.FILES['pi']
+
+    #         print(uploaded_file1)
+    #         print(uploaded_file2)
+    #         # Create a Photo instance using the uploaded file
+    #         # photo = Photo(image=uploaded_file, caption='My photo')
+    #         # photo.save()
+    #         # form = ImageForm(request.POST, request.FILES)
+    #         # if form.is_valid():
+    #         #     form.save()
+    #         # Do something with the file...
+            
+    #         funcDesig="others"
+    #         if response["EmpFunctionalDesignation"] in FunctionalDesignations:
+    #             funcDesig=response["EmpFunctionalDesignation"]
+    #         email = domainMailCheck(request.POST['email'])
+
+    #         if ldapcheck(email,request.POST['password']):
+                
+    #             User.objects.create_user(
+    #                 username=request.POST['email'], 
+    #                 EmployeeName=response["EmployeeName"],
+    #                 EmployeeDesignation=response["EmpDesignation"],
+    #                 EmpFunctionalDesignation=funcDesig,
+    #                 Placeofposting=response["POP"],
+    #                 EmployeeID=response["EmployeeID"],
+    #                 password=request.POST['password'],
+    #                 signature=uploaded_file1,
+    #                 pi=uploaded_file2,
+    #                 )
+                
+    #             messages.success(request, 'User Creation Successful')
+                
+    #         else:
+    #             # User.objects.create_user(
+    #             #     username=request.POST['email'], 
+    #             #     EmployeeName=response["EmployeeName"],
+    #             #     EmployeeDesignation=response["EmpDesignation"],
+    #             #     EmpFunctionalDesignation=funcDesig,
+    #             #     Placeofposting=response["POP"],
+    #             #     EmployeeID=response["EmployeeID"],
+    #             #     password=request.POST['password'],
+    #             #     signature=uploaded_file1,
+    #             #     pi=uploaded_file2,
+    #             #     )
+    #             messages.success(request, 'Domain Does not match')
+    #             return redirect('create_profile')
+    #         return redirect('login')
+            
+
+    #     else:
+    #         messages.success(request, 'Unable to find the user ID !')
+    #         return redirect('create_profile')
+    # else:
+    #     return render(request,'create_profile.html')
 
 def checkId(request):
     if (request.method == "POST"):
@@ -468,7 +477,7 @@ def approver_list(request):
 
 def task_execute(request):
     
-    if execution_log.objects.filter(Q(job_id=request.GET.get('id'))).exists():
+    if execution_log.objects.filter(Q(request_no=request.GET.get('id'))).exists():
 
         messages.success(request, 'Task Already Executed !')
         return redirect('form_submissions')
@@ -476,7 +485,7 @@ def task_execute(request):
         execution_log_obj = execution_log(
 
             # job_ref = request.GET.get('id'),
-            job_ref = Service_request.objects.get(request_no=request.GET.get('id')),
+            request_no = Service_request.objects.get(request_no=request.GET.get('id')),
             executed_by = request.user.EmployeeID,
             job_description = request.GET.get('details'),
             execution_status = request.GET.get('status'),

@@ -10,6 +10,7 @@ class User(AbstractUser):
     EmployeeDesignation = models.CharField(max_length=200)
     EmpFunctionalDesignation = models.CharField(max_length=200)
     Placeofposting = models.CharField(max_length=200)
+    Mobile = models.CharField(max_length=200,null=True)
     EmployeeID = models.CharField(unique=True,max_length=11,primary_key=True)
     signature = models.ImageField(upload_to='images/signatures',blank=True)
     pi = models.ImageField(upload_to='images/pi',blank=True)
@@ -235,9 +236,9 @@ class network_analysts_group(models.Model):
     network_analyst_email= models.CharField(max_length=100,null=True)
 
 class execution_log(models.Model):
-    job_id= models.CharField(max_length=100,null=True)
-    job_ref = models.ForeignKey(Service_request, on_delete=models.CASCADE, related_name='execution_logs', null=True)
-    executed_by= models.CharField(max_length=100,null=True)
+    job_id= models.AutoField(primary_key=True)
+    request_no = models.CharField(max_length=100)
+    executed_by= models.CharField(max_length=100)
     approved_by= models.CharField(max_length=100,null=True)
     job_description= models.CharField(max_length=100,null=True)
     execution_status= models.CharField(max_length=100,null=True)
@@ -245,28 +246,28 @@ class execution_log(models.Model):
     revoke_date_time= models.CharField(max_length=100,null=True)
     revoked_by= models.CharField(max_length=100,null=True)
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.executed_by:
-            self.executed_by_name = User.objects.get(EmployeeID=self.executed_by).EmployeeName
-        else:
-            self.executed_by_name = None
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     if self.executed_by:
+    #         self.executed_by_name = User.objects.get(EmployeeID=self.executed_by).EmployeeName
+    #     else:
+    #         self.executed_by_name = None
             
-    def save(self, *args, **kwargs):
-        if not self.job_id:
-            # Get the maximum job_id value from existing objects
-            max_job_id = execution_log.objects.all().aggregate(models.Max('job_id'))['job_id__max']
+    # def save(self, *args, **kwargs):
+    #     if not self.job_id:
+    #         # Get the maximum job_id value from existing objects
+    #         max_job_id = execution_log.objects.all().aggregate(models.Max('job_id'))['job_id__max']
 
-            # Set the new job_id
-            if max_job_id:
-                new_job_id = str(int(max_job_id) + 1).zfill(6)
-            else:
-                new_job_id = '100001'
+    #         # Set the new job_id
+    #         if max_job_id:
+    #             new_job_id = str(int(max_job_id) + 1).zfill(6)
+    #         else:
+    #             new_job_id = '100001'
                 
-            self.job_id = new_job_id
+    #         self.job_id = new_job_id
             
             
-        super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
 
 class ApproverList(models.Model):
     employee_id = models.CharField(max_length=20)

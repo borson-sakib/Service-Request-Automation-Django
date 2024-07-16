@@ -4,33 +4,26 @@
 <html>
 <head>
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
-	<title>Registration</title>
-
-
-
+	<title>Create User</title>
 </head>
 
 
 
 <body>
 	<div class="registration-box">
-
-		<h1>Registration</h1>
+		<h1>Create User</h1>
 		<hr class="new1">
 		{% if messages %}
-				
 			{% for message in messages %}
 					<p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
 			{% endfor %}
-				
 		{% endif %}
+
 		<form action="{% url 'create_profile' %}" enctype="multipart/form-data" onsubmit="return validateForm()" method="post">
 			{% csrf_token %}
 		<div class="flex-container">
 
-			<div>
-				
-		
+			
 						<div class="basic-reg" style="display: flow-root;">
 						<span style="white-space: nowrap;">
 							<label for="email">Domain Id</label>
@@ -41,112 +34,21 @@
 							<input type="password" id="password" name="password" placeholder="Password" required>
 						</span>
 							
-						
+						<span style="white-space: nowrap;">
+							<label for="EmployeeID">EmployeeID:</label>
+							<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" value="20211228037" required>
+						</span>
 						
 						</div>
-						<div class="basic-reg" style="display: flow-root;">
-							<span style="white-space: nowrap;">
-								<label for="EmployeeID">EmployeeID:</label>
-								<input type="text" name="employeeId" id="employeeId" placeholder="Employee ID" value="20211228037" required>
-							</span>
-							
-						</div>
-						<button type="button" id="submitBtn">Check</button>
-		
-						
-						
-		
-				
 					
-				
-		
-					<!-- <input type="email" id="email" name="email" placeholder="Domain" required>
-					<input type="password" id="password" name="password" placeholder="Password" required> -->
-					<!-- <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-type Password" required> -->
-					<br>
-				  
-	
-			</div>
-
-			
-			<div>	
-			<div class="basic-reg" id="details" name="details">
-				<!-- <label for="EmployeeID">EmployeeID</label>
-				<input class="custom-input" type="text" id="EmployeeID" disabled> -->
-				<span style="white-space: nowrap;">
-					<label for="EmployeeName">Employee Name : </label>
-					<input type="text" id="EmployeeName" value="none" disabled>
-				</span>
-				<span style="white-space: nowrap;">
-					<label for="EmployeeName">Designation : </label>
-
-					<input type="text" id="EmpDesignation" value="none" disabled>
-
-				</span>
-				<span style="white-space: nowrap;">
-
-					<label for="EmployeeName">Functional Designation : </label>
-					<input type="text" id="EmpFunctionalDesignation" value="none" disabled>
-				</span>
-				<span style="white-space: nowrap;">
-					<label for="EmployeeName">Place of Posting : </label>
-
-					<input type="text" id="POP" value="none" disabled>
-				</span>
-
-			
-			</div>
-			</div>
-
-		</div>
-
-		<div class="flex-container">
-			<div>
-				<div class="section">
-					<div class="preview-container">
-						
-						<div>
-							<label for="signature"><strong>Upload Signature</strong></label><br><br>	
-							<input type="file" id="signature" name="signature" accept="image/*" onchange="previewImage(this, 'preview1')">
-						</div>
-						<div>
-							<img id="preview1" style="display: none; width: 100px;" src="#" alt="Image Preview"/>
-						</div>
-					</div>
-				</div>
-	
-		
-			
-				  <!-- </div> -->
-				
-				<!-- <input type="submit" value="Upload"> -->
-			   
-		
-			</div>
-			<div>
-				<div class="section">
-	
-				
-					<div class="preview-container">
-						<div>
-							<label for="pi"><strong>Upload PI</strong></label><br><br>			
-							<input type="file" id="pi" name="pi" accept="image/*" onchange="previewImage(this, 'preview2')"><br>
-						</div>
-						<div>
-							<img id="preview2" style="display: none; width: 100px;" src="#" alt="Image Preview"/><br>
-						</div>
-					</div>
-				</div>
-			
-			</div>
-	
-
 			
 
 		</div>
+
+	
 		
 		<div class="flex-container">
-			<input type="submit" value="Sign up">
+			<input type="submit" value="Submit">
 			</form>
 		</div>
 
