@@ -16,6 +16,7 @@ urlpatterns = [
     path('form/', index, name="index"),
     
     path('form67', form67, name="form67"),
+    path('master_view', master_view, name="master_view"),
     path('approver_list', approver_list, name="approver_list"),
     path('form_submissions', show_entries, name="form_submissions"),
     path('', landing, name="landing"),

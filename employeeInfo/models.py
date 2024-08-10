@@ -237,13 +237,19 @@ class network_analysts_group(models.Model):
 
 class execution_log(models.Model):
     job_id= models.AutoField(primary_key=True)
+    request_no_empid = models.CharField(max_length=100)
     request_no = models.CharField(max_length=100)
-    executed_by= models.CharField(max_length=100)
-    approved_by= models.CharField(max_length=100,null=True)
     job_description= models.CharField(max_length=100,null=True)
     execution_status= models.CharField(max_length=100,null=True)
+    executed_by= models.CharField(max_length=100)
+    executed_by_timestamp= models.DateTimeField(auto_now_add=True)
+    
+    #Optional
+    approved_by= models.CharField(max_length=100,null=True)
+    approved_by_timestamp= models.DateTimeField(null=True)
     execution_remarks= models.CharField(max_length=100,null=True)
-    revoke_date_time= models.CharField(max_length=100,null=True)
+    
+    revoke_date_time= models.DateTimeField(null=True)
     revoked_by= models.CharField(max_length=100,null=True)
     
     # def __init__(self, *args, **kwargs):

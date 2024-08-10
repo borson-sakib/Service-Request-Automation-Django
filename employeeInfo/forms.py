@@ -142,9 +142,9 @@ class RequestForm(forms.ModelForm):
 
 class ApproverListForm(forms.ModelForm):
     APPROVER_LEVEL_CHOICES = [
-        ('primary', 'Primary Approver'),
-        ('secondary', 'Secondary Approver'),
-        ('final', 'Final Approver'),
+        ('cto', 'CTO'),
+        ('ciso', 'CISO'),
+        ('analyst', 'Analyst'),
     ]
 
     employee_id = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))

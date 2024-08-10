@@ -1,80 +1,80 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
+{% extends 'base.html' %}
 
-<div class="container" style="height: 100vh;padding: 0px;">
+{% block content %}
+<style>
+  th {
+    /* background-color: #026492;
+    color: white; */
+    font-size: small;
+  }
 
-        <div class="row">
-        
-         <div class="col-md-12">
-            <div class="shadow mb-2 bg-white rounded">
-                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Execution Log</strong></h5>   
-                </div>
-                </div>
-         </div>
-  
-          <div class="col-md-12">
-            <div class="row">
-                
-              <!-- <h4 style="border: 2px solid #1c39bb; text-align: center;"><strong>Access Expiring Soon</strong></h4> -->
-  
-              <!-- <p>See New Task <a href="{% url 'form_submissions' %}">Requests</a></p> -->
-        
-             
-             <table class="table">
-  <thead>
-    <tr>
-      <th>Job ID</th>
-      <th>Job Ref</th>
-      <th>Executed By</th>
-      <th>Approved By</th>
-      <th>Job Description</th>
-      <th>Execution Status</th>
-      <th>Execution Remarks</th>
-      <th>Revoke Date/Time</th>
-      <th>Revoked By</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entry in data %}
-    <tr>
-      <td><strong>{{ entry.job_id }}</strong></td>
-      <td><strong>{{ entry.job_ref.request_no }}</strong></td>
-      <td><strong>{{ entry.executed_by_name }} - {{ entry.executed_by }}</strong></td>
-      <td><strong>{{ entry.approved_by }} </strong></td>
-      <td><strong>{{ entry.job_description }}</strong></td>
-      <td><strong>{{ entry.execution_status }}</strong></td>
-      <td><strong>{{ entry.execution_remarks }}</strong></td>
-      <td><strong>{{ entry.revoke_date_time }}</strong></td>
-      <td><strong>{{ entry.revoked_by }}</strong></td>
-      <td>
-        <a href="{% url 'view_only' entry.job_id %}" style="text-decoration:none">Viewonly</a>
-        <a href="{% url 'delete_entry' entry.job_id %}" style="text-decoration:none">Delete</a>
-    
-    </td>
-                
-      
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  td {
+    font-size: 12px;
+  }
 
-  
-  
-         
-  
-            </div>
-          </div>
-  
-         
-  
-       
-        </div>
+  .table {
+    margin: auto;
+    padding: 20px;
+  }
+</style>
+<div class="container">
 
-     
-     
+
+
+
+
+
+
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Job ID</th>
+        <th>Job Ref</th>
+        <th>Executed By</th>
+        <th>Approved By</th>
+        <th>Execution Status</th>
+        <th>Execution Remarks</th>
+        <th>Revoke Date/Time</th>
+        <th>Revoked By</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entry in data %}
+      <tr>
+        <td><strong>{{ entry.job_id }}</strong></td>
+        <td><strong>{{ entry.request_no }}</strong></td>
+        <td><strong>{{ entry.executor_name }}</strong></td>
+        <td><strong>{{ entry.approved_by }} </strong></td>
+        <td><strong>{{ entry.execution_status }}</strong></td>
+        <td><strong>{{ entry.execution_remarks }}</strong></td>
+        <td><strong>{{ entry.revoke_date_time }}</strong></td>
+        <td><strong>{{ entry.revoked_by }}</strong></td>
+        <td>
+          <a href="{% url 'view_only' entry.request_no %}" style="text-decoration:none">Viewonly</a>
+          <a href="{% url 'delete_entry' entry.job_id %}" style="text-decoration:none">Delete</a>
+
+        </td>
+
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 
@@ -82,4 +82,4 @@
 
 
 
-{% endblock content %}  
+{% endblock content %}

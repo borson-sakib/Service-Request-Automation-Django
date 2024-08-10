@@ -1,9 +1,9 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
+{% extends 'base.html' %}
+
+{% block content %}
 
 <style>
-   /* table {
+    /* table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -14,234 +14,255 @@ th, td {
     text-align: center;
 } */
 
-th {
-    /* background-color: #026492;
+    th {
+        /* background-color: #026492;
     color: white; */
-    font-size: 16px;
-}
+        font-size: small;
+    }
 
-td {
-    font-size: 12px;
-}
+    td {
+        font-size: 12px;
+    }
+
+    .table {
+        margin: auto;
+        padding: 20px;
+    }
 
 
-.badge {
-  /* background-color: rgb(235, 71, 71); */
-  /* background-color: rgb(243, 243, 243); */
-  color: rgb(236, 15, 15);
-  padding: 2px 2px;
-  width: 50%; 
-  margin: 5px auto; 
-  justify-self: center;
-  border: 2px;
-  border-color: black;
-  
-  /* border-radius: 100%; */
-}
-.badge:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  background: url(alert-icon.svg) no-repeat center;
-}
+    .badge {
+        /* background-color: rgb(235, 71, 71); */
+        /* background-color: rgb(243, 243, 243); */
+        color: rgb(236, 15, 15);
+        padding: 2px 2px;
+        width: 50%;
+        margin: 5px auto;
+        justify-self: center;
+        border: 2px;
+        border-color: black;
 
-.nav-tabs .nav-item {
-    /* margin-bottom: -1px; */
-    /* background: 0 0; */
-    border: 1px solid transparent;
-    color: black;
-    letter-spacing: normal;
-    border-radius: 5px;
-    margin-right: 1%;
-    /* border-top-left-radius: 0.25rem; */
-    /* border-top-right-radius: 0.25rem; */
-}
-.nav-link {
-    /* margin-bottom: -1px;
+        /* border-radius: 100%; */
+    }
+
+    .badge:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background: url(alert-icon.svg) no-repeat center;
+    }
+
+    .nav-tabs .nav-item {
+        /* margin-bottom: -1px; */
+        /* background: 0 0; */
+        border: 1px solid transparent;
+        color: black;
+        letter-spacing: normal;
+        border-radius: 5px;
+        margin-right: 1%;
+        /* border-top-left-radius: 0.25rem; */
+        /* border-top-right-radius: 0.25rem; */
+    }
+
+    .nav-link {
+        /* margin-bottom: -1px;
     background: 0 0; */
-    border: 1px solid transparent;
-    color: black;
-}
-.nav-tabs .nav-link.active {
-    
-    color: black;
-    background-color:transparent;
-    border-bottom: 3px solid #1C39BB;
-    font-size:larger;
-    
-    
-    /* border-top-left-radius: 0.25rem; */
-    /* border-top-right-radius: 0.25rem; */
-}
-.nav-item a {
-    color: black;
-    padding: 10px 30px;
-}
+        border: 1px solid transparent;
+        color: black;
+    }
 
+    .nav-tabs .nav-link.active {
+
+        color: black;
+        background-color: transparent;
+        border-bottom: 3px solid #1C39BB;
+        font-size: small;
+
+
+        /* border-top-left-radius: 0.25rem; */
+        /* border-top-right-radius: 0.25rem; */
+    }
+
+    .nav-item a {
+        color: black;
+        padding: 10px 30px;
+    }
 </style>
 <div class="container">
     <div class="row">
-        
+
         <div class="col-md-12">
-            <ul class="nav nav-tabs" id="myTabs" style="background-color:transparent;padding:0px;justify-content: center;margin: 1%;">
-            <li class="nav-item">
-                <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">Pending</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Completed</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">All Submission</a>
-            </li>
-            <!-- Add more tabs as needed -->
-        </ul>
-    
-        <!-- Tab panes -->
-        <div class="tab-content mt-2">
-            <div class="tab-pane fade show active" id="tab1">
-            <input type="text" class="form-control mb-2" id="searchTab1" placeholder="Search Tab 1">
+            <ul class="nav nav-tabs" id="myTabs"
+                style="background-color:transparent;padding:0px;justify-content: center;margin: 1%;">
+                <li class="nav-item">
+                    <a class="nav-link active" id="tab1-tab" data-toggle="tab" href="#tab1">Pending</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab2-tab" data-toggle="tab" href="#tab2">Completed</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tab3-tab" data-toggle="tab" href="#tab3">All Submission</a>
+                </li>
+                <!-- Add more tabs as needed -->
+            </ul>
 
-                <!-- Table for Tab 1 -->
-                <table class="table">
-                   
-                    <thead>
-                        <tr>
-                            <th>Request No.</th>
-                            <th>Form No.</th>
-                            <!-- <th>Email</th> -->
-                            <th>Employee Name</th>
-                            <th>Employee ID</th>
-                            <!-- <th>Designation</th> -->
-                            <th>Details of Service</th>
-                            <th>Actions</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                         {% for entry in service_requests %}
-                        <tr style="background-color: white; border-radius: 5px;">
-                            
-                            <td>{{ entry.request_no }}</td>
-                            <td>{{ entry.form_no }}</td>
-                            <td>{{ entry.employee_name }}</td>
-                            <td>{{ entry.employee_id }}</td>
-                            <!-- <td>{{ entry.designation }}</td> -->
-                            <td>{{ entry.details }}</td>
-                            <td>
-                             <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.request_no %}">View Form</a></button>
-                                <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
-                                
-                                <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>
-                                <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
-                                <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
-                              </td>
-                        </tr>
-                        {% endfor %}
-                     </tbody>
-    
-    
-    
-                </table>
-            </div>
-            <div class="tab-pane fade" id="tab2">
-                <input type="text" class="form-control mb-2" id="searchTab2" placeholder="Search Tab 2">
+            <!-- Tab panes -->
+            <div class="tab-content mt-2">
+                <div class="tab-pane fade show active" id="tab1">
+                    <input type="text" class="form-control mb-2" id="searchTab1" placeholder="Search Tab 1">
 
-                <!-- Table for Tab 2 -->
-              <table class="table">
-                   
-                    <thead>
-                        <tr>
-                            <th>Request No.</th>
-                            <th>Form No.</th>
-                            <!-- <th>Email</th> -->
-                            <th>Employee Name</th>
-                            <th>Employee ID</th>
-                            <!-- <th>Designation</th> -->
-                            <th>Details of Service</th>
-                            <th>Actions</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                         {% for entry in executed_submission %}
-                        <tr>
-                            <td>{{ entry.request_no}}</td>
-                            <td>{{ entry.form_no }}</td>
-                            <td>{{ entry.employee_name }}</td>
-                            <td>{{ entry.employee_id }}</td>
-                            <!-- <td>{{ entry.designation }}</td> -->
-                            <td>{{ entry.details }}</td>
-                            <td>
-                             <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.request_no %}">View Form</a></button>
-                                <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
-                                
-                                <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a>
-                                <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>
-                                <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
-                                <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
-                              </td>
-                        </tr>
-                        {% endfor %}
-                     </tbody>
-    
-    
-    
-                </table>
+                    <!-- Table for Tab 1 -->
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Request No.</th>
+                                <th>Form No.</th>
+                                <!-- <th>Email</th> -->
+                                <th>Employee Name</th>
+                                <th>Employee ID</th>
+                                <!-- <th>Designation</th> -->
+                                <th>Details of Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in service_requests %}
+                            <tr style="background-color: white; border-radius: 5px;">
+
+                                <td>{{ entry.request_no }}</td>
+                                <td>{{ entry.form_no }}</td>
+                                <td>{{ entry.employee_name }}</td>
+                                <td>{{ entry.employee_id }}</td>
+                                <!-- <td>{{ entry.designation }}</td> -->
+                                <td>{{ entry.details }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                                            href="{% url 'view_only' entry.request_no %}">View Form</a></button>
+                                    <a {% if entry.id in exec_log %} disabled {% endif %}
+                                        href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1"
+                                        class="btn btn-sm btn-primary"> Task Executed </a>
+
+                                    <a href="{% url 'delete_entry' entry.request_no %}"
+                                        class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{% url 'update_entry' entry.request_no %}"
+                                        class="btn btn-sm btn-success">Update</a>
+                                    <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
+                                    <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
 
 
-            </div>
-            <div class="tab-pane fade" id="tab3">
-                <input type="text" class="form-control mb-2" id="searchTab3" placeholder="Search Tab 3">
 
-                <!-- Table for Tab 2 -->
-                <table class="table">
-                   
-                    <thead>
-                        <tr>
-                            <th>Request No.</th>
-                            <th>Form No.</th>
-                            <!-- <th>Email</th> -->
-                            <th>Employee Name</th>
-                            <th>Employee ID</th>
-                            <!-- <th>Designation</th> -->
-                            <th>Details of Service</th>
-                            <th>Actions</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                         {% for entry in all_submission %}
-                        <tr>
-                            <td>{{ entry.request_no }}</td>
-                            <td>{{ entry.form_no }}</td>
-                            <td>{{ entry.employee_name }}</td>
-                            <td>{{ entry.employee_id }}</td>
-                            <!-- <td>{{ entry.designation }}</td> -->
-                            <td>{{ entry.details }}</td>
-                            <td>
-                             <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entry.request_no %}">View Form</a></button>
-                                <!-- <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="tab2">
+                    <input type="text" class="form-control mb-2" id="searchTab2" placeholder="Search Tab 2">
+
+                    <!-- Table for Tab 2 -->
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Request No.</th>
+                                <th>Form No.</th>
+                                <!-- <th>Email</th> -->
+                                <th>Employee Name</th>
+                                <th>Employee ID</th>
+                                <!-- <th>Designation</th> -->
+                                <th>Details of Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in executed_submission %}
+                            <tr>
+                                <td>{{ entry.request_no}}</td>
+                                <td>{{ entry.form_no }}</td>
+                                <td>{{ entry.employee_name }}</td>
+                                <td>{{ entry.employee_id }}</td>
+                                <!-- <td>{{ entry.designation }}</td> -->
+                                <td>{{ entry.details }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                                            href="{% url 'view_only' entry.request_no %}">View Form</a></button>
+                                    <a {% if entry.id in exec_log %}disabled{% endif%}
+                                        href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1"
+                                        class="btn btn-sm btn-primary">Task Executed</a>
+
+                                    <a href="{% url 'delete_entry' entry.request_no %}"
+                                        class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="{% url 'update_entry' entry.request_no %}"
+                                        class="btn btn-sm btn-success">Update</a>
+                                    <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
+                                    <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+
+
+                    </table>
+
+
+                </div>
+                <div class="tab-pane fade" id="tab3">
+                    <input type="text" class="form-control mb-2" id="searchTab3" placeholder="Search Tab 3">
+
+                    <!-- Table for Tab 2 -->
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Request No.</th>
+                                <th>Form No.</th>
+                                <!-- <th>Email</th> -->
+                                <th>Employee Name</th>
+                                <th>Employee ID</th>
+                                <!-- <th>Designation</th> -->
+                                <th>Details of Service</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in all_submission %}
+                            <tr>
+                                <td>{{ entry.request_no }}</td>
+                                <td>{{ entry.form_no }}</td>
+                                <td>{{ entry.employee_name }}</td>
+                                <td>{{ entry.employee_id }}</td>
+                                <!-- <td>{{ entry.designation }}</td> -->
+                                <td>{{ entry.details }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                                            href="{% url 'view_only' entry.request_no %}">View Form</a></button>
+                                    <!-- <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1" class="btn btn-sm btn-primary" {% if entry.id in exec_log %}disabled{% endif %}>Task Executed</a>
                                 -->
-                                <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a>
-                                <!-- <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>  -->
-                                <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
-                                <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
-                              </td>
-                        </tr>
-                        {% endfor %}
-                     </tbody>
-    
-    
-    
-                </table>
+                                    <a href="{% url 'delete_entry' entry.request_no %}"
+                                        class="btn btn-sm btn-danger">Delete</a>
+                                    <!-- <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>  -->
+                                    <!-- <a href="{% url 'user_update' user.EmployeeID %}" class="btn btn-primary">Update</a> -->
+                                    <!-- <a href="{% url 'user_delete' user.EmployeeID %}" class="btn btn-danger">Delete</a> -->
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+
+
+                    </table>
+                </div>
+                <!-- Add more tab content divs as needed -->
             </div>
-            <!-- Add more tab content divs as needed -->
-        </div>
         </div>
         <!-- <hr class="my-3"> -->
-     </div>
+    </div>
 
 
 
@@ -253,30 +274,30 @@ td {
 </div>
 
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         // Tab 1 Search
-        $("#searchTab1").on("keyup", function() {
+        $("#searchTab1").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#tab1 tbody tr").filter(function() {
+            $("#tab1 tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
 
         // Tab 2 Search
-        $("#searchTab2").on("keyup", function() {
+        $("#searchTab2").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#tab2 tbody tr").filter(function() {
+            $("#tab2 tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
         // Tab 3 Search
-        $("#searchTab3").on("keyup", function() {
+        $("#searchTab3").on("keyup", function () {
             var value = $(this).val().toLowerCase();
-            $("#tab3 tbody tr").filter(function() {
+            $("#tab3 tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
     });
 </script>
 
-{% endblock content %}  
+{% endblock content %}

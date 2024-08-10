@@ -1,9 +1,9 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
+{% extends 'base.html' %}
+
+{% block content %}
 
 <style>
-   /* table {
+    /* table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -13,77 +13,75 @@ th, td {
     padding: 6px;
     text-align: center;
 } */
-
-th {
-    /* background-color: #026492;
+    th {
+        /* background-color: #026492;
     color: white; */
-    font-size: 16px;
-}
+        font-size: small;
+    }
 
-td {
-    font-size: 12px;
-}
+    td {
+        font-size: small;
+    }
+
+    .table {
+        margin: auto;
+        padding: 20px;
+    }
+
+    .table td,
+    th {
+
+        padding: 5px;
+    }
 </style>
 
 <div class="table">
-    <div class="row">
-        <div class="col-md-4">
-            <div id="logo" class="logo-container">
-                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="jumbotron" style="margin: 10px auto;">
-                <h3 class="display-8">Access/Service Requests </h3>
-              
-                
-              
-              
-              </div>
-        </div>
-        <hr class="my-3">
-     </div>
 
-     
-    <table class="table table-sm">
-    <thead>
-        <tr>
+    <p>HOB/HOD View</p>
 
-            <th>Form No.</th>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Designation</th>
-            <th>Place of Posting</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user_request in user_requests %}
-        <tr>
-            <td>{{ user_request.form_no }}</td>
-            <td>{{ user_request.employee_name }}</td>
-            <td>{{ user_request.department }}</td>
-            <td>{{ user_request.designation }}</td>
-            <td>{{ user_request.branch_division_name }}</td>
-            <td>
-                {% if user_request.approved_by_HOB == 'Yes' %}
-                
-                <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
+    <table class="table">
+        <thead>
+            <tr>
 
-                {% else %}
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
+                <th>Form No.</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Place of Posting</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_request in user_requests %}
+            <tr>
+                <td>{{ user_request.form_no }}</td>
+                <td>{{ user_request.employee_name }}</td>
+                <td>{{ user_request.department }}</td>
+                <td>{{ user_request.designation }}</td>
+                <td>{{ user_request.branch_division_name }}</td>
+                <td>
+                    {% if user_request.approved_by_HOB == 'Yes' %}
 
-                <a href="{% url 'actions' user_request.request_no %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
-                <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
-               {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                    <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
+                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                            href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
+
+                    {% else %}
+                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                            href="{% url 'view_only' user_request.request_no %}">View Only</a></button>
+
+                    <a href="{% url 'actions' user_request.request_no %}" type="button"
+                        class="btn btn-outline-success btn-sm">Accept</a>
+                    <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 
 </div>
 
 
-{% endblock content %}  
+{% endblock content %}

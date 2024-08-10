@@ -1,11 +1,27 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
+{% extends 'base.html' %}
 
-<div class="container" style="height: 100vh;padding: 0px;">
+{% block content %}
+
+
+<style>
+  .row-admin {
+    display: flex;
+    margin: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.433);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #88888840;
+    background-color: rgba(212, 207, 207, 0.241);
+
+  }
+
+  .row-admin .card {
+    margin-bottom: 10px;
+  }
+</style>
+<div class="container">
   {% if analyst %}
-  <div class="row">
-    <div class="col-xl-3 col-sm-6 col-12"> 
+  <div class="row-admin">
+    <div class="col-xl-3 col-sm-6 col-12">
       <div class="card">
         <div class="card-content">
           <div class="card-body">
@@ -22,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-3 col-sm-6 col-12"> 
+    <div class="col-xl-3 col-sm-6 col-12">
       <div class="card">
         <div class="card-content">
           <div class="card-body">
@@ -42,87 +58,62 @@
   </div>
   {% endif %}
 
-        <div class="row">
-          <div class="col-md-12">  
-            <div class="row">
+  <div class="row">
+    <div class="col-xl-4 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
 
-              <div class="col-md-12">
-                <div class="shadow mb-2 bg-white rounded">
-                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Forms</strong></h5>   
+              <div class="media-body">
+                <p style="margin-bottom: 0px;">MBL-ISMS-FR-02</p>
+                <small style="color: grey;">Access/Service Request Form</small>
+                <div class="media-body">
+                  <span>
+                    <a class="btn btn-primary btn-sm" style="margin: 0px; border:none;"
+                      href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">For Self</a>
+                    <a class="btn btn-primary btn-sm" style="margin: 2px;border:none;"
+                      href="{% url 'other_user' form_no='MBL-ISMS-FR-02' %}" class="card-link">For a Collegue</a>
+                  </span>
                 </div>
-                </div>
+
               </div>
-  
-              <div class="col-md-8 col-md-6">
-                <div class="card-group">
-                  <div class="card l-bg-base" style="width: 40%;margin: 1%;">
-                    <!-- <div class="card-header bg-transparent border-primary"><strong>MBL-ISMS-FR-02</strong></div> -->
-                    <div class="card-statistic-3 p-4">
-                    <div class="mb-0">
-                        <h5><strong>MBL-ISMS-FR-02</strong></h5>
-                    </div>
-                   
-                    <div class="row align-items-center d-flex">
-                        <div class="col-6">
-                            
-                            <h6 class="card-subtitle">Access/Service Request Form</h6>
-
-                        </div>
-                        <div class="col-6">
-                            
-                           <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'index' id='MBL-ISMS-FR-02' %}" class="card-link">For Self</a>
-                           <a class="btn btn-primary btn-sm" style="margin: 2px;border:none;" href="{% url 'other_user' form_no='MBL-ISMS-FR-02' %}" class="card-link">For a Collegue</a>
-
-
-                        </div>
-                       
-                    </div>
-                </div>
-                 
-                </div>
-
-                <div class="card l-bg-base" style="width: 40%;margin: 1%;">
-                  <div class="card-statistic-3 p-4">
-                    <div class="mb-0">
-                        <h5><strong>MBL-ISMS-FR-67</strong></h5>
-                    </div>
-                   
-                    <div class="row align-items-center d-flex">
-                        <div class="col-6">
-                            
-                    <h6 class="card-subtitle">Access/Service Request For Firewall</h6>
-
-                        </div>
-                        <div class="col-6">
-                            
-                          <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">For Self</a>
-                          <br>
-                          <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;" href="{% url 'other_user' form_no='MBL-ISMS-FR-67' %}" class="card-link">For a Collegue</a>
-                        </div>
-                       
-                    </div>
-                </div>
-
-                 
-                </div>
-                </div>
-                
-
-                
-              </div>
-                   
-              </div>
-           
+            </div>
           </div>
-        
-          
-  
-       
         </div>
+      </div>
+    </div>
+    <div class="col-xl-4 col-sm-6 col-12">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="media d-flex">
 
-     
-     
+              <div class="media-body">
+                <p style="margin-bottom: 0px;">MBL-ISMS-FR-67</p>
+                <small style="color: grey;">Access/Service Request For Firewall</small>
+                <div class="media-body">
+                  <span>
+                    <a class="btn btn-primary btn-sm" style="margin: 0px; border:none;"
+                      href="{% url 'index' id='MBL-ISMS-FR-67' %}" class="card-link">For Self</a>
+                    <a class="btn btn-primary btn-sm" style="margin: 2px; border:none;"
+                      href="{% url 'other_user' form_no='MBL-ISMS-FR-67' %}" class="card-link">For a Collegue</a>
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+
 </div>
 
 
@@ -130,4 +121,4 @@
 
 
 
-{% endblock content %}  
+{% endblock content %}

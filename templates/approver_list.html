@@ -1,41 +1,158 @@
+{% extends 'base.html' %}
 
+{% block content %}
 
-{% extends 'base.html' %}  
-  
-{% block content %}  
+<style>
+    .col-md-6 {
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid grey;
+        border-radius: 10px;
+    }
 
+    .form-control {
+        margin-bottom: 5px;
+    }
 
-<div class="flex-container">
+    .container {
+        margin-top: 10px;
+        background-color: white;
+        box-shadow: none;
+    }
 
-    <div>
-        <div class="col-md-6">
-            <h4><strong>Approver Input</strong></h4>
-            <form method="post" action="">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-        <!-- <div class="col-md-4"></div>
-        <div class="col-md-4"></div> -->
-    </div>
- 
-     
-     
-     
+    table {
+        background-color: rgba(181, 179, 179, 0.153);
+        margin: auto;
+        width: 100%;
+    }
+
+    th {
+        border: 1px solid black;
+        padding: 5px;
+        font-size: small;
+    }
+
+    td {
+        padding: 5px;
+        text-align: justify;
+        border-bottom: 1px solid grey;
+        font-size: small;
+
+    }
+
+    .search-bar {
+        margin: 0 0 10px;
+    }
+</style>
+<div class="container">
+
+    <input class="search-bar" type="text" id="searchInput" placeholder="Search for employees..."
+        onkeyup="searchTable()" />
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Domain</th>
+            <th>Designation</th>
+            <th>Func.Designation</th>
+            <th>POP</th>
+            <th>Mobile</th>
+            <th>Role</th>
+        </tr>
+
+        {% for user in users %}
+        <tr>
+            <td>{{user.EmployeeName}}</td>
+            <td>{{user.EmployeeID}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.EmployeeDesignation}}</td>
+            <td>{{user.EmpFunctionalDesignation}}</td>
+            <td>{{user.Placeofposting}}</td>
+            <td>{{user.Mobile}}</td>
+            <td>
+                <select class="role-select" data-employee-id="{{ user.EmployeeID }}">
+                    <option value="None">None</option>
+                    <option value="analyst">Analyst</option>
+                    <option value="hob">HOB</option>
+                    <option value="hod">HOD</option>
+                    <option value="cto">CTO</option>
+                    <option value="ciso">CISO</option>
+                </select>
+                <button class="save-btn">Save</button>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
 </div>
+<script>
+    function searchTable() {
+        // Declare variables
+        let input = document.getElementById('searchInput');
+        let filter = input.value.toLowerCase();
+        let table = document.querySelector('table');
+        let trs = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (let i = 1; i < trs.length; i++) { // Start at 1 to skip the table header
+            let tds = trs[i].getElementsByTagName('td');
+            let rowContainsSearchTerm = false;
+
+            for (let j = 0; j < tds.length; j++) {
+                if (tds[j].textContent.toLowerCase().includes(filter)) {
+                    rowContainsSearchTerm = true;
+                    break;
+                }
+            }
+
+            trs[i].style.display = rowContainsSearchTerm ? '' : 'none';
+        }
+    }
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.save-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Get the corresponding select element
+                let select = this.previousElementSibling;
+                let selectedRole = select.value;
+                let employeeID = select.getAttribute('data-employee-id');
+
+                // Prepare the data to be sent
+                let data = {
+                    'employee_id': employeeID,
+                    'selected_role': selectedRole,
+                };
+
+                // Send the data to the server via AJAX
+                fetch('approver_list', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Role saved successfully!');
+                        } else {
+                            alert('Failed to save role. Please try again.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+
+</script>
 
 
 
-
-
-
-{% endblock content %}  
-
-
-
-<form method="post" action="">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
+{% endblock content %}

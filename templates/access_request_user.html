@@ -1,188 +1,181 @@
-{% extends 'base.html' %}  
-  {% load static %}
+{% extends 'base.html' %}
+{% load static %}
 
-{% block content %}  
+{% block content %}
 
 <style>
-   .table {
-    border-collapse: collapse;
-    vertical-align: middle;
-}
+    .table {
+        margin: auto;
+        padding: 20px;
+    }
 
-th, td {
-    /* border: 2px solid #000000; */
-    padding: 6px;
-    text-align: center;
-}
+    .table td,
+    th {
 
-th {
-    /* background-color: #026492;
+        padding: 5px;
+    }
+
+    th {
+        /* background-color: #026492;
     color: white; */
-    font-size: 16px;
-}
+        font-size: small;
+    }
 
-td {
-    font-size: 12px;
-}
+    td {
+        font-size: small;
+    }
 
 
-.badge {
-  /* background-color: rgb(235, 71, 71); */
-  /* background-color: rgb(243, 243, 243); */
-  color: rgb(236, 15, 15);
-  padding: 2px 2px;
-  width: 50%; 
-  margin: 5px auto; 
-  justify-self: center;
-  border: 2px;
-  border-color: black;
-  
-  /* border-radius: 100%; */
-}
-.badge:before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
-  background: url(alert-icon.svg) no-repeat center;
-}
-.alert {
-    
-    
-    
-    background-color: #1a8b10;
-    /* border: 1px solid #f5c6cb; */
-    color: #ffffff;
-    /* border-radius: 5px; */
-}
+    .badge {
+        /* background-color: rgb(235, 71, 71); */
+        /* background-color: rgb(243, 243, 243); */
+        color: rgb(236, 15, 15);
+        padding: 2px 2px;
+        width: 50%;
+        margin: 5px auto;
+        justify-self: center;
+        border: 2px;
+        border-color: black;
+
+        /* border-radius: 100%; */
+    }
+
+    .badge:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        background: url(alert-icon.svg) no-repeat center;
+    }
+
+    .alert {
 
 
 
+        background-color: #1a8b10;
+        /* border: 1px solid #f5c6cb; */
+        color: #ffffff;
+        /* border-radius: 5px; */
+    }
 </style>
-<div class="container" style="min-height: 100vh;">
-    <div class="row">
-        <!-- <div class="col-md-4">
+
+<!-- <div class="col-md-4">
             <div id="logo" class="logo-container">
                 <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
         </div> -->
-       
-        <div class="col-md-12">
-            <div class="section-title">
-                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Self </strong></h5>   
-            
-                </div>
-            </div>
-           
-        </div>
-        
-        <div class="col-md-12">
-            <div class="section-title">
-                 <div class="card" style="padding: 1%;">
-                 <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Employee ID.</th>
-                        <th>Form No.</th>
-                        <th>Date</th>
-                        <th>Details</th>
-                        <th>HOB/HOD</th>
-                        <th>CISO</th>
-                        <th>CTO</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entity in access_request %}
-                    <tr>
-                        <td>{{ entity.employee_id }}</td>
-                        <td>{{ entity.form_no }}</td>
-                        <td>{{ entity.date }}</td>
-                        <td>{{ entity.details }}</td>
-                        <td>{{ entity.approved_by_HOB }}</td>
-                        <td>{{ entity.approved_by_CISO }}</td>
-                        <td>{{ entity.approved_by_CTO }}</td>
-                        <td><button type="button" class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button></td>
-                        <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
-                        
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
-            </div>
-           
-            </div>
-           
-            
-            
-        </div>
-        
-        <div class="col-md-12">
-            <div class="section-title">
-                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
-                    <h5 style="margin: 0px;"><strong>Others </strong></h5>   
-            
-                </div>
-            </div>
-           
-        </div>
-        
-        <div class="col-md-12">
-            <div class="section-title">
-                 <div class="card" style="padding: 1%;">
-                 <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Employee Name</th>
-                        <th>Employee ID.</th>
-                        <th>Form No.</th>
-                        <th>Date</th>
-                        <th>Details</th>
-                        <th>HOB/HOD</th>
-                        <th>CISO</th>
-                        <th>CTO</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entity in access_request_others %}
-                    <tr>
-                        <td>{{ entity.employee_name }}</td>
-                        <td>{{ entity.employee_id }}</td>
-                        <td>{{ entity.form_no }}</td>
-                        <td>{{ entity.date }}</td>
-                        <td>{{ entity.details }}</td>
-                        <td>{{ entity.approved_by_HOB }}</td>
-                        <td>{{ entity.approved_by_CISO }}</td>
-                        <td>{{ entity.approved_by_CTO }}</td>
-                        <td><button type="button" class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button></td>
-                        <td><button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
-                        
-                    </tr>
-                    {% endfor %}
-                </tbody>
-                </table>
-            </div>
-           
-            </div>
-           
-            
-            
-        </div>
-    
-     </div>
 
-     
-  
+<!-- <div class="col-md-12">
+            <div class="section-title">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Self </strong></h5>
+
+                </div>
+            </div>
+
+        </div> -->
+
+<div class="table">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Employee ID.</th>
+                <th>Form No.</th>
+                <th>Details</th>
+                <th>HOB/HOD</th>
+                <th>CISO</th>
+                <th>CTO</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entity in access_request %}
+            <tr>
+                <td>{{ entity.date }}</td>
+                <td>{{ entity.employee_id }}</td>
+                <td>{{ entity.form_no }}</td>
+                <td>{{ entity.details }}</td>
+                <td>{{ entity.approved_by_HOB }}</td>
+                <td>{{ entity.approved_by_CISO }}</td>
+                <td>{{ entity.approved_by_CTO }}</td>
+                <td><button type="button"
+                        class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button>
+                </td>
+                <td><button type="button" class="btn btn-outline-success btn-sm"><a
+                            href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
 
 
 </div>
 
+<!-- <div class="col-md-12">
+            <div class="section-title">
+                <div class="card" style="background-color: white;margin-top: 1%;padding: 1%;">
+                    <h5 style="margin: 0px;"><strong>Others </strong></h5>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="section-title">
+                <div class="card" style="padding: 1%;">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Employee ID.</th>
+                                <th>Form No.</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                                <th>HOB/HOD</th>
+                                <th>CISO</th>
+                                <th>CTO</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entity in access_request_others %}
+                            <tr>
+                                <td>{{ entity.employee_name }}</td>
+                                <td>{{ entity.employee_id }}</td>
+                                <td>{{ entity.form_no }}</td>
+                                <td>{{ entity.date }}</td>
+                                <td>{{ entity.details }}</td>
+                                <td>{{ entity.approved_by_HOB }}</td>
+                                <td>{{ entity.approved_by_CISO }}</td>
+                                <td>{{ entity.approved_by_CTO }}</td>
+                                <td><button type="button"
+                                        class="btn btn-outline-success btn-sm">{{ entity.application_status }}</button>
+                                </td>
+                                <td><button type="button" class="btn btn-outline-success btn-sm"><a
+                                            href="{% url 'view_only' entity.request_no %}">View Only</a></button></td>
+
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
 
 
-{% endblock content %}  
+
+        </div> -->
+
+
+
+
+{% endblock content %}

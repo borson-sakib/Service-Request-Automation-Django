@@ -96,12 +96,14 @@ def loginView(request):
 
         
         try:
-            user = authenticate(request,username=username,password=password)
-
+            # user = authenticate(request,username=username,password=password)
+            user = User.objects.get(username=username)
+            print(user)
             if user is not None:
                 login(request,user)
                 return redirect('landing')
-        except:
+        except Exception as e:
+            print(e)
             messages.warning(request, 'You are not authorized to Enter')      
             return redirect('login')
     else:
@@ -235,22 +237,30 @@ def access_request(request):
     #IF user is Authorizer
     if(request.user.EmpFunctionalDesignation in FunctionalDesignations):
         
-        if(request.user.EmployeeID=='20091007002'):
+        # if(request.user.EmployeeID=='20091007002'):
+        if(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='ciso').exists()):
             #CISO
-            user_requests = Service_request.objects.filter(application_status__gte=100).all()
+            print('ciso')
+            user_requests = Service_request.objects.filter(application_status__gte=100).order_by('application_status')
             return render(request,'access_request_ciso.html',{'user_requests': user_requests})
 
-        elif(request.user.EmployeeID=='20210701001'):
+        # elif(request.user.EmployeeID=='20210701001'):
+        elif(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='cto').exists()):
             #CTO
-            user_requests = Service_request.objects.filter(application_status__gte=200).all()
+            print('cto')
+
+            user_requests = Service_request.objects.filter(application_status__gte=200).order_by('application_status')
             return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
             #HOB
-            user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).all()
+            print('hob')
+            user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).order_by('application_status')
             return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker
     else:
-        obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
+        print('regular')
+        # obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
+        obj = Service_request.objects.filter(submitted_by=request.user.EmployeeID).all()
         obj_others = Service_request.objects.filter(submitted_by=request.user.EmployeeID).exclude(employee_id=request.user.EmployeeID).all()
         return render(request,'access_request_user.html',{'access_request':obj,'access_request_others':obj_others})
 
@@ -265,14 +275,14 @@ def access_request_user(request):
 
 def actions(request,variable_1):
 
-    if(request.user.EmployeeID=='20091007002'):
+    if(request.user.EmployeeID==ApproverList.objects.get(role='ciso').employee_id):
         request_no = variable_1
         obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CISO = 'Yes'
         obj.application_status = '200'
         obj.save()
         return redirect('access_request')
-    elif(request.user.EmployeeID=='20210701001'):
+    elif(request.user.EmployeeID==ApproverList.objects.get(role='cto').employee_id):
         request_no = variable_1
         obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CTO = 'Yes'
@@ -333,17 +343,17 @@ def user_list(request):
             if network_analysts_group.objects.filter(network_analyst_employee_id=user.EmployeeID).exists():
                 # If exists, add a field 'analyst' with value True to the user object
                 user.analyst = True
-                print('Analyst')
-                print(user.EmployeeID)
+                # print('Analyst')
+                # print(user.EmployeeID)
             else:
                 # If not exists, add a field 'analyst' with value False to the user object
 
                 user.analyst = False
-                print('Non Analyst')
-                print(user)
+                # print('Non Analyst')
+                # print(user)
 
 
-        print(users)
+        # print(users)
     context = {'users': users, 'query': query}
     return render(request, 'user_list.html', context)
 
@@ -398,21 +408,25 @@ def reg_test(request):
 ###----------------------------------------------------------###
 def show_entries(request):
     # Fetch data from the models
-    service_requests = Service_request.objects.filter(application_status=300)
+    
     all_submission = Service_request.objects.all()
     form_67_entries = Service_request_form_67.objects.all()
-    exec_log = execution_log.objects.values_list('job_id', flat=True)
-    executed_submission = Service_request.objects.filter(request_no__in=exec_log)
-
-    print(exec_log)
+    exec_log = execution_log.objects.values_list('request_no', flat=True)
+    service_requests = Service_request.objects.filter(application_status=300).exclude(request_no__in=exec_log)
+    try:
+        executed_submission = Service_request.objects.filter(request_no__in=exec_log)
+    except Exception as e:
+        executed_submission = None
+    # print(exec_log)
     # Render the HTML page with the data
-    return render(request, 'form_submissions.html', {
+    context={
         'service_requests': service_requests,
         'form_67_entries': form_67_entries,
         'exec_log': exec_log,
         'all_submission': all_submission,
         'executed_submission': executed_submission,
-    })
+    }
+    return render(request, 'form_submissions.html',context )
 
 def delete_entry(request, entry_id):
     
@@ -447,6 +461,8 @@ def view_only(request,pid):
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
     applicant_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=applicant_instance)
+    x=find_CTO_status(pid)
+    print(x)
     # hod_signature = find_HOX(obj.Placeofposting,pid)
     if(obj.EmpFunctionalDesignation in FunctionalDesignations):
         Check = True
@@ -466,43 +482,66 @@ def view_only(request,pid):
 
 def approver_list(request):
     if request.method == 'POST':
-        form = ApproverListForm(request.POST)
-        if form.is_valid():
-            # Process the form data
-            form.save()
-    else:
-        form = ApproverListForm()
-
-    return render(request, 'approver_list.html', {'form': form})
+        data = json.loads(request.body)
+        employee_id = data.get('employee_id')
+        selected_role = data.get('selected_role')
+        try:
+            user_obj=get_object_or_404(User,EmployeeID=employee_id)
+            ApproverList.objects.create(
+                employee_id=user_obj.EmployeeID,
+                name=user_obj.EmployeeName,
+                designation=user_obj.EmployeeDesignation,
+                role=selected_role,
+                approver_level='Primary')
+            # messages.success(request, 'Role Changed Successfully !')
+            print('Role Changed Successfully !')
+            return JsonResponse({'success': True})
+        except Exception as e:
+            print(e)
+            messages.error(request, f'{e}')
+            return JsonResponse({'success': False, 'error': f'{e}'})
+  
+    print('base')
+    users = User.objects.all()
+    context = {'users':users}
+    return render(request, 'approver_list.html', context)
 
 def task_execute(request):
-    
-    if execution_log.objects.filter(Q(request_no=request.GET.get('id'))).exists():
+    request_no=request.GET.get('id')
+    print(request.GET.get('id'))
+    if execution_log.objects.filter(request_no=request_no).exists():
 
         messages.success(request, 'Task Already Executed !')
         return redirect('form_submissions')
     else :
-        execution_log_obj = execution_log(
+        try:
+            execution_log_obj = execution_log(
 
-            # job_ref = request.GET.get('id'),
-            request_no = Service_request.objects.get(request_no=request.GET.get('id')),
-            executed_by = request.user.EmployeeID,
-            job_description = request.GET.get('details'),
-            execution_status = request.GET.get('status'),
-            execution_remarks = "None"
-                            )
-        execution_log_obj.save()
-        messages.success(request, 'Successfully Executed the task')
-
-        return redirect('form_submissions')
+                # job_ref = request.GET.get('id'),
+                request_no = Service_request.objects.get(request_no=request.GET.get('id')).request_no,
+                request_no_empid = Service_request.objects.get(request_no=request.GET.get('id')).employee_id,
+                executed_by = request.user.EmployeeID,
+                job_description = request.GET.get('details'),
+                execution_status = request.GET.get('status'),
+                execution_remarks = "None"
+                                )
+            execution_log_obj.save()
+            messages.success(request, 'Successfully Executed the task')
+        except Exception as e:
+            messages.success(request, e)
+    return redirect('form_submissions')
    
 
 def requestaslist(request):
     
-    events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
-
-    context = {'events': events}
-    
+    try:
+        events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
+        print(type(events))
+        context = {'events': events}
+    except Exception as e:
+        print(e)
+        context = {'events': None}
+        
     return render(request,'admin/listOfRequests.html',context)
 
 from urllib.parse import urlparse, parse_qs
@@ -555,6 +594,9 @@ def user_profile(request):
 def execution_logs(request):
     
     data = execution_log.objects.all()
+    
+    for each in data:
+        each.executor_name= User.objects.get(EmployeeID=each.executed_by).EmployeeName
     
     return render(request,'admin/executions.html',{'data':data})
 
@@ -636,3 +678,22 @@ def upload_signature(request):
         form = SignatureUploadForm()
         # print(instance.signature)
     return render(request, 'user/upload_signature.html', {'form': form,'instance':instance})
+
+
+
+def master_view(request):
+    
+    service_request=Service_request.objects.all()
+    execution_log_obj=execution_log.objects.all()
+    # Step 2: Create a set of request_no from execution_log_obj for quick lookup
+    execution_log_request_nos = set(execution_log_obj.values_list('request_no', flat=True))
+
+    for item in service_request:
+        if item.request_no in execution_log_request_nos:
+            item.execution_status = 'Complete' 
+        else:
+            item.execution_status = 'Pending' 
+            
+    context={'service_requests':service_request}
+    
+    return render(request,'admin/masterView.html',context)

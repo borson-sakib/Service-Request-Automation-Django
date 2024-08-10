@@ -183,22 +183,31 @@ def find_HOX(pop,pid):
     
 def find_CTO_status(pid):
     service_req = get_object_or_404(Service_request, request_no=pid)
-    CTO = User.objects.get(EmployeeID='20210701001')
-    if service_req.approved_by_CTO=='Yes':
+    try:
+        CTO = User.objects.get(EmployeeID=ApproverList.objects.get(role='cto').employee_id)
+        
+        print('----')
+        print(CTO)
+        print('----')
+        
+        if service_req.approved_by_CTO=='Yes':
 
-        return CTO.signature
-    
-    return 'images/signatures/notapproved.jpg'
+            return CTO.signature
+    except:
+           
+        return 'images/signatures/notapproved.jpg'
 
 def find_CISO_status(pid):
     service_req = get_object_or_404(Service_request, request_no=pid)
-    CISO = User.objects.get(EmployeeID='20091007002')
-    if service_req.approved_by_CISO=='Yes':
 
-        return CISO.signature
-    
-    return 'images/signatures/notapproved.jpg'
+    try:
+        CISO = User.objects.get(EmployeeID=ApproverList.objects.get(role='ciso').employee_id)
+        if service_req.approved_by_CISO=='Yes':
 
+            return CISO.signature
+    except:
+        CISO = None    
+        return 'images/signatures/notapproved.jpg'
 
 def anlyst_or_not(uid):
     analyst_user = False
