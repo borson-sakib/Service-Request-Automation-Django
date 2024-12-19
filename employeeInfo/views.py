@@ -5,7 +5,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from  .utils import *
@@ -30,6 +30,12 @@ import environ
 employeeURL= settings.APIURL
 
 FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management","CISO"]
+
+def logout_view(request):
+
+    logout(request)
+    return redirect('login')
+
 
 @login_required(login_url='/login')
 def landing(request):
@@ -506,6 +512,17 @@ def approver_list(request):
     context = {'users':users}
     return render(request, 'approver_list.html', context)
 
+
+def task_revoke(request,entry_id):
+    request_no= entry_id
+    if execution_log.objects.filter(request_no=request_no).exists():
+        execution_log.objects.filter(request_no=request_no).update(revoked_by=str(request.user),revoke_date_time=datetime.now())
+        messages.success(request, 'Task Revoked Successfully')
+        return redirect('master_view')
+
+    messages.success(request, 'Something Went Wrong. Please Try Again !')
+    return redirect('master_view')
+
 def task_execute(request):
     request_no=request.GET.get('id')
     print(request.GET.get('id'))
@@ -642,6 +659,7 @@ def auto_create_profile(empid,domain,pwd):
     response = requests.post(url)
  
     response = response.json()
+    print(response)
 
     if response["EmployeeID"] is not None:
         
@@ -660,11 +678,27 @@ def auto_create_profile(empid,domain,pwd):
             EmpFunctionalDesignation=funcDesig,
             Placeofposting=response["POP"],
             EmployeeID=response["EmployeeID"],
+            Mobile=clean_phone_numbers(response["PhoneNumber"]),
             password=pwd,
             )
                     
         
+def clean_phone_numbers(phone_numbers):
+    """
+    Cleans a string of phone numbers by removing duplicates 
+    and ensuring consistent formatting.
+    """
+    if not phone_numbers:
+        return None
 
+    # Split the phone numbers into a list
+    phone_list = phone_numbers.split(',')
+
+    # Remove duplicates and strip any extra whitespace
+    unique_phones = set(phone.strip() for phone in phone_list)
+
+    # Return a comma-separated string of unique phone numbers
+    return ','.join(unique_phones)
     
 def upload_signature(request):
     instance = get_object_or_404(User, username=request.user)

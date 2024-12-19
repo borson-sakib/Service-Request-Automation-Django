@@ -33,9 +33,9 @@
         <th>Job ID</th>
         <th>Job Ref</th>
         <th>Executed By</th>
-        <th>Approved By</th>
+        <!-- <th>Approved By</th> -->
         <th>Execution Status</th>
-        <th>Execution Remarks</th>
+        <!-- <th>Execution Remarks</th> -->
         <th>Revoke Date/Time</th>
         <th>Revoked By</th>
         <th>Actions</th>
@@ -47,9 +47,9 @@
         <td><strong>{{ entry.job_id }}</strong></td>
         <td><strong>{{ entry.request_no }}</strong></td>
         <td><strong>{{ entry.executor_name }}</strong></td>
-        <td><strong>{{ entry.approved_by }} </strong></td>
-        <td><strong>{{ entry.execution_status }}</strong></td>
-        <td><strong>{{ entry.execution_remarks }}</strong></td>
+        <!-- <td><strong>{{ entry.approved_by }} </strong></td> -->
+        <td><strong>{% if entry.execution_status == '1' %}Complete {% else %} Incomplete {% endif %}</strong></td>
+        <!-- <td><strong>{{ entry.execution_remarks }}</strong></td> -->
         <td><strong>{{ entry.revoke_date_time }}</strong></td>
         <td><strong>{{ entry.revoked_by }}</strong></td>
         <td>

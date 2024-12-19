@@ -66,7 +66,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
 AUTH_USER_MODEL = 'employeeInfo.User'
 LOGIN_URL = "login/"
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL ='/'
+LOGOUT_REDIRECT_URL ='login/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE = 10 * 60
 
@@ -111,30 +111,30 @@ WSGI_APPLICATION = 'ServiceRequest.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "mssql",
-#         "NAME": "db_service_request_automation",
-#         "USER": "borson_new",
-#         "PASSWORD": "1234",
-#         "HOST": "HO-IT-110\SQLEXPRESS",
-#         "PORT": "",
-#         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
-#         },
-#     },
-# }
-
-
 DATABASES = {
     "default": {
-        "ENGINE": env('DB_ENGINE'),
-        "NAME": env('DB_NAME'),
-        "USER": env('DB_USER'),
-        "PASSWORD": env('DB_PW'),
-        "HOST": env('DB_HOST'),
-        "PORT": env('DB_PORT'),
+        "ENGINE": "mssql",
+        "NAME": "db_service_request_automation",
+        "USER": "borson_new",
+        "PASSWORD": "1234",
+        "HOST": "HO-IT-110\SQLEXPRESS",
+        "PORT": "",
+        "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },
+    },
 }
+
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": env('DB_ENGINE'),
+#         "NAME": env('DB_NAME'),
+#         "USER": env('DB_USER'),
+#         "PASSWORD": env('DB_PW'),
+#         "HOST": env('DB_HOST'),
+#         "PORT": env('DB_PORT'),
+#         },
+# }
 
 
 AUTHENTICATION_BACKENDS = [

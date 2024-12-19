@@ -27,6 +27,8 @@ class UserBackend(ModelBackend):
                 return user
             if(user.username=='mahmud@mblbd.com'):
                 return user
+            if(user.username=='monzurul@mblbd.com'):
+                return user
             # if ldapcheck(username, password) is True:
             if user:
                 return user

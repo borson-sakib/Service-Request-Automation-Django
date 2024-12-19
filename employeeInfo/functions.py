@@ -27,7 +27,7 @@ def form_navigator(uid,form_no):
     if obj.EmpFunctionalDesignation in FunctionalDesignations:
         authorizer = True
 
-    form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
+    form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting,'email':obj.username,'mobile_no':obj.Mobile})
         
     return {'form': form,'user_object':obj,'authorizer':authorizer,'form_no':form_no}
 

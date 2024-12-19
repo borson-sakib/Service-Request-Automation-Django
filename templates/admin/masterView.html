@@ -103,6 +103,7 @@
                             Task Executed
                         </a>
 
+                        <a href="{% url 'task_revoke' entry.request_no %}" class="btn btn-sm btn-danger">Revoke</a>
                         <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a>
                         <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>
                     </div>
