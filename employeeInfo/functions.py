@@ -15,7 +15,7 @@ from  .backends import *
 from django.db.models import Q
 
 from django.utils.crypto import get_random_string
-from datetime import datetime
+from datetime import datetime,date
 from .models import *
 from django.apps import apps
 from django.http import JsonResponse
@@ -27,7 +27,7 @@ def form_navigator(uid,form_no):
     if obj.EmpFunctionalDesignation in FunctionalDesignations:
         authorizer = True
 
-    form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting,'email':obj.username,'mobile_no':obj.Mobile})
+    form = RequestForm(initial={'date':date.today,'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting,'email':obj.username,'mobile_no':obj.Mobile})
         
     return {'form': form,'user_object':obj,'authorizer':authorizer,'form_no':form_no}
 

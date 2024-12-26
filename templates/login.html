@@ -118,7 +118,7 @@
             .left-side,
             .right-side {
                 flex: 1;
-                height: 100%;
+                /* height: 100%; */
             }
 
             .left-side {
@@ -131,7 +131,8 @@
 
             .right-side {
                 display: flex;
-                align-items: center;
+                flex-direction: column;
+                /* align-items: center; */
                 justify-content: center;
                 padding: 20px;
             }
@@ -176,6 +177,10 @@
 
         </div>
         <div class="right-side">
+            <a href="static/doc/manual.pdf" download="manual.pdf">
+                <button>Download User Manual</button>
+            </a>
+
             <div class="login-box">
 
                 <h2>Login</h2>
@@ -232,7 +237,7 @@
 
                 <!-- <a href="#">Forgot password?</a> -->
             </div>
-
+         
         </div>
 
 
