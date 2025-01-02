@@ -37,6 +37,7 @@ urlpatterns = [
     path('delete/<int:user_id>/', user_delete, name='user_delete'),
     path('set_user_another_table/<int:user_id>/', set_user_another_table, name='set_user_another_table'),
     path('task_revoke/<str:entry_id>/', task_revoke, name='task_revoke'),
+    path('task_approve/<str:entry_id>/', task_approve, name='task_approve'),
     path('delete-entry/<str:entry_id>/', delete_entry, name='delete_entry'),
     path('update-entry/<str:entry_id>/', update_entry, name='update_entry'),
     path('requestaslist', requestaslist, name='requestaslist'),

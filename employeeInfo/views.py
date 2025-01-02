@@ -547,7 +547,14 @@ def task_execute(request):
         except Exception as e:
             messages.success(request, e)
     return redirect('form_submissions')
-   
+
+def task_approve(request,entry_id):
+    request_no= entry_id
+    if execution_log.objects.filter(request_no=request_no).exists():
+        execution_log.objects.filter(request_no=request_no).update(approved_by=str(request.user),approved_by_timestamp=datetime.now())
+        messages.success(request, 'Task Approved Successfully')
+        return redirect('master_view')
+
 
 def requestaslist(request):
     
