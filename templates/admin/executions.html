@@ -2,20 +2,29 @@
 
 {% block content %}
 <style>
-  th {
-    /* background-color: #026492;
-    color: white; */
-    font-size: small;
-  }
+    table {
+        padding: 5px;
+        background-color: rgba(181, 179, 179, 0.153);
+        margin: auto;
+        width: 100%;
+    }
 
-  td {
-    font-size: 12px;
-  }
+    th {
+        border: 1px solid black;
+        padding: 5px;
+        font-size: small;
+    }
 
-  .table {
-    margin: auto;
-    padding: 20px;
-  }
+    td {
+    padding: 0px;
+    padding-left: 3px;
+    border-bottom: 1px solid grey;
+    font-size: 11px;
+    word-wrap: break-word;      /* Legacy support for older browsers */
+    overflow-wrap: break-word;  /* Modern browsers */
+    max-width: 150px;           /* Adjust as needed for your layout */
+}
+
 </style>
 <div class="container">
 
@@ -27,27 +36,27 @@
 
 
 
-  <table class="table">
-    <thead>
+  <table>
+   
       <tr>
         <th>Job ID</th>
         <th>Job Ref</th>
         <th>Executed By</th>
-        <!-- <th>Approved By</th> -->
+        <th>Approved By</th>
         <th>Execution Status</th>
         <!-- <th>Execution Remarks</th> -->
         <th>Revoke Date/Time</th>
         <th>Revoked By</th>
         <th>Actions</th>
       </tr>
-    </thead>
-    <tbody>
+    
+  
       {% for entry in data %}
       <tr>
         <td><strong>{{ entry.job_id }}</strong></td>
         <td><strong>{{ entry.request_no }}</strong></td>
         <td><strong>{{ entry.executor_name }}</strong></td>
-        <!-- <td><strong>{{ entry.approved_by }} </strong></td> -->
+        <td><strong>{{ entry.approved_by }} </strong></td>
         <td><strong>{% if entry.execution_status == '1' %}Complete {% else %} Incomplete {% endif %}</strong></td>
         <!-- <td><strong>{{ entry.execution_remarks }}</strong></td> -->
         <td><strong>{{ entry.revoke_date_time }}</strong></td>
@@ -61,7 +70,7 @@
 
       </tr>
       {% endfor %}
-    </tbody>
+   
   </table>
 
 

@@ -490,25 +490,39 @@ def approver_list(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         employee_id = data.get('employee_id')
+
         selected_role = data.get('selected_role')
         try:
             user_obj=get_object_or_404(User,EmployeeID=employee_id)
-            ApproverList.objects.create(
-                employee_id=user_obj.EmployeeID,
-                name=user_obj.EmployeeName,
-                designation=user_obj.EmployeeDesignation,
-                role=selected_role,
-                approver_level='Primary')
-            # messages.success(request, 'Role Changed Successfully !')
-            print('Role Changed Successfully !')
-            return JsonResponse({'success': True})
+            if ApproverList.objects.filter(employee_id=employee_id).exists():
+                alert_msg='Role Already Exists!'
+            else:
+                ApproverList.objects.create(
+                    employee_id=user_obj.EmployeeID,
+                    name=user_obj.EmployeeName,
+                    designation=user_obj.EmployeeDesignation,
+                    role=selected_role,
+                    approver_level='Primary')
+                alert_msg='Role Changed Successfully!'
+                # messages.success(request, 'Role Changed Successfully !')
+                print('Role Changed Successfully !')
+            return JsonResponse({'success': True,'alert_msg':alert_msg})
         except Exception as e:
             print(e)
             messages.error(request, f'{e}')
             return JsonResponse({'success': False, 'error': f'{e}'})
   
-    print('base')
+    
     users = User.objects.all()
+    print(users)
+    for user in users:
+        try:
+            approver = ApproverList.objects.filter(employee_id=user.EmployeeID).first()
+            user.Role = approver.role
+            print(approver.role)
+        except:
+            user.Role = 'None'
+            print('Not found')
     context = {'users':users}
     return render(request, 'approver_list.html', context)
 
@@ -724,9 +738,11 @@ def upload_signature(request):
 
 def master_view(request):
     
-    service_request=Service_request.objects.all()
+    service_request=Service_request.objects.all().order_by('-date')
     execution_log_obj=execution_log.objects.all()
+    is_approver = ApproverList.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(role='approver')).exists()
     # Step 2: Create a set of request_no from execution_log_obj for quick lookup
+    print(request.user.EmployeeID)
     execution_log_request_nos = set(execution_log_obj.values_list('request_no', flat=True))
 
     for item in service_request:
@@ -735,6 +751,6 @@ def master_view(request):
         else:
             item.execution_status = 'Pending' 
             
-    context={'service_requests':service_request}
+    context={'service_requests':service_request,'is_approver':is_approver}
     
     return render(request,'admin/masterView.html',context)

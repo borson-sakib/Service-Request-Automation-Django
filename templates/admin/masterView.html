@@ -17,6 +17,9 @@
     .table td {
         font-size: 12px;
         padding: 1px;
+        word-wrap: break-word;      /* Legacy support for older browsers */
+        overflow-wrap: break-word;  /* Modern browsers */
+        max-width: 150px; 
     }
 
     .table tr:hover {
@@ -68,7 +71,9 @@
                 <th>Status</th>
                 <th>Execution Status</th>
                 <th>Actions</th>
+                {% if is_approver %}
                 <th>Approve</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -109,8 +114,9 @@
                         <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a>
                     </div>
                 </td>
-                <td><a href="{% url 'task_approve' entry.request_no %}" class="btn btn-sm btn-success">Approve</a></td>
-
+                {% if is_approver %}
+                <td><a href="{% url 'task_approve' entry.request_no %}" class="btn btn-sm btn-success" >Approve</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>

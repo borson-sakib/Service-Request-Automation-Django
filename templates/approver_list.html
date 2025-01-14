@@ -33,12 +33,15 @@
     }
 
     td {
-        padding: 5px;
-        text-align: justify;
-        border-bottom: 1px solid grey;
-        font-size: small;
+    padding: 0px;
+    padding-left: 3px;
+    border-bottom: 1px solid grey;
+    font-size: 11px;
+    word-wrap: break-word;      /* Legacy support for older browsers */
+    overflow-wrap: break-word;  /* Modern browsers */
+    max-width: 150px;           /* Adjust as needed for your layout */
+}
 
-    }
 
     .search-bar {
         margin: 0 0 10px;
@@ -58,7 +61,8 @@
             <th>Func.Designation</th>
             <th>POP</th>
             <th>Mobile</th>
-            <th>Role</th>
+            <th>Current Role</th>
+            <th>Add Role</th>
         </tr>
 
         {% for user in users %}
@@ -69,10 +73,12 @@
             <td>{{user.EmployeeDesignation}}</td>
             <td>{{user.EmpFunctionalDesignation}}</td>
             <td>{{user.Placeofposting}}</td>
+            <td>{{user.Role}}</td>
             <td>{{user.Mobile}}</td>
             <td>
                 <select class="role-select" data-employee-id="{{ user.EmployeeID }}">
                     <option value="None">None</option>
+                    <option value="approver">Approver</option>
                     <option value="analyst">Analyst</option>
                     <option value="hob">HOB</option>
                     <option value="hod">HOD</option>
@@ -141,7 +147,8 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            alert('Role saved successfully!');
+                            alert(data.alert_msg);
+                            location.reload();
                         } else {
                             alert('Failed to save role. Please try again.');
                         }
