@@ -14,6 +14,9 @@ from  .oracle_db import *
 from  .backends import *
 from django.db.models import Q
 import cx_Oracle
+import os
+import logging
+logger = logging.getLogger('email_logger')
 
 
 from .models import *
@@ -260,6 +263,12 @@ def access_request(request):
         else:
             #HOB
             print('hob')
+            print(request.user)
+            if str(request.user)=='kamrul.hossain@mblbd.com':
+                print('true')
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Head Office - Digital Banking & Innovation Department')).order_by('application_status')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
             user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).order_by('application_status')
             return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker
@@ -467,9 +476,19 @@ def view_only(request,pid):
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
     applicant_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=applicant_instance)
-    x=find_CTO_status(pid)
-    print(x)
+    # x=find_CTO_status(pid)
+    # print(x)
     # hod_signature = find_HOX(obj.Placeofposting,pid)
+    # email = find_HOX_email(applicant_instance.branch_division_name)
+    # print('email------------------')
+    # print(email)
+    try:
+        execution_instance=get_object_or_404(execution_log,request_no=pid)
+        user_instance=User.objects.get(EmployeeID=execution_instance.executed_by)
+        execution_instance.employeename=user_instance.EmployeeName
+    except:
+        execution_instance=None
+
     if(obj.EmpFunctionalDesignation in FunctionalDesignations):
         Check = True
     context = {'hod':find_HOX(applicant_instance.branch_division_name,pid),
@@ -477,6 +496,7 @@ def view_only(request,pid):
                   'ciso':find_CISO_status(pid),
                   'form': form,
                   'user_object':obj,
+                  'exe_obj':execution_instance,
                   'check':Check}
     # print(hod_signature)
     
@@ -754,3 +774,4 @@ def master_view(request):
     context={'service_requests':service_request,'is_approver':is_approver}
     
     return render(request,'admin/masterView.html',context)
+

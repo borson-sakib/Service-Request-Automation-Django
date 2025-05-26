@@ -12,6 +12,7 @@ from  .utils import *
 from  .views import *
 from  .oracle_db import *
 from  .backends import *
+from  .emailservices import *
 from django.db.models import Q
 
 from django.utils.crypto import get_random_string
@@ -152,6 +153,10 @@ def store_request(request):
     try:
         Service_request_OBJ.save()
         messages.success(request, 'Form Successfully Submitted and Waiting For Approval')
+        hox_email = find_HOX_email(request.POST['branch_division_name'])
+        if hox_email != None:
+            send_email(hox_email)
+
         
     except:
         messages.success(request, 'Something went wrong. Try again with correct information')

@@ -476,6 +476,107 @@
                     </div>
                 </div>
 
+  <!-- After Signature -->
+  <div class="card" style="margin-bottom: 5px;">    
+    <div class="row g-0" >
+      <!-- Column 1: Centered Text -->
+      <div class="col-lg-3 p-0 px-2 d-flex justify-content-center align-items-center text-center" style="background-color:#e9ecef">
+        <div class="w-100">Service/Access/Escort Provider Details:<br>(Bank Personel)</div>             
+      </div>
+
+      <!-- Column 2: 3 Form Fields with horizontal padding -->
+      <div class="col-lg-3 p-0 px-2">
+        <div class="input-group input-group-sm mb-1">
+          {{ exe_obj.employeename }}
+        </div>
+        <!-- <div class="input-group input-group-sm mb-1">
+          {{ exe_obj.executed_by }}
+        </div> -->
+        <div class="input-group input-group-sm mb-1">
+          {{ exe_obj.executed_by_timestamp }}
+        </div>
+      </div>
+
+      <!-- Column 3: Centered Text -->
+      <div class="col-lg-3 p-0 px-2 d-flex justify-content-center align-items-center text-center" style="background-color:#e9ecef">
+        <div class="w-100">Approved/Acknowledged By</div>
+      </div>
+
+      <!-- Column 4: 3 Form Fields with horizontal padding -->
+      <div class="col-lg-3 p-0 px-2">
+        <div class="input-group input-group-sm mb-1">
+            {{ exe_obj.approved_by }}
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          {{ exe_obj.approved_by_timestamp }}
+        </div>
+        <div class="input-group input-group-sm mb-1">
+          <!-- Optional third field -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Provided Access/Service Information -->
+  <div class="row">
+      <div class="col-md-12">
+          <div class="jumbotron" style="margin: 10px auto;">
+              <!-- <h4 class="display-8">Vendor  Engagement</h4> -->					 
+              <span class="input-group-text col-form-label-sm justify-content-center" id="addon-wrapping" style="width: 100%;">
+                  <strong>Provided Access/Service Information</strong> 
+              </span>						 				
+          </div>
+      </div>
+  </div>
+  <!-- After Provided Access/Service Information -->
+  <div class="card" style="margin-bottom: 5px;">    
+    <div class="row g-0" >
+      <!-- Column 1: Centered Text -->
+      <div class="col-lg-3 p-0 px-2 d-flex justify-content-center align-items-center text-center" style="background-color:#e9ecef">
+        <div class="w-100">Provided Service/Access Details</div>             
+      </div>
+
+      <!-- Column 2: 3 Form Fields with horizontal padding -->
+      <div class="col-lg-3 p-0 px-2">
+        
+      </div>
+    </div>
+  </div>
+  <!-- Revoke / Return Date -->
+  <div class="card" style="margin-bottom: 15px;">    
+    <div class="row g-0" >					
+      <div class="col-lg-3 p-0 px-2 d-flex justify-content-center align-items-center text-center" style="background-color:#e9ecef">
+        <div class="w-100">Revoke/Return Date & Time:<br>(While Temporary)</div>             
+      </div>
+      <div class="col-lg-4 p-0 px-2 py-1">
+          <div class="input-group input-group-sm mb-2">
+              <!-- <label class="input-group-text">Date</label>
+              <input type="date" class="form-control form-control-sm" name="date"> -->
+              {{ exe_obj.revoke_date_time }}
+          </div>
+
+          <!-- <div class="input-group input-group-sm">
+              <label class="input-group-text">Time</label>
+              <input type="time" class="form-control form-control-sm" name="time">
+          </div>				   -->
+      </div>
+      <div class="col-lg-1 p-0 px-2">
+        
+      </div>
+      <div class="col-lg-2 p-0 px-2 d-flex justify-content-center align-items-center text-center" style="background-color:#e9ecef">
+        <div class="w-100">Revoke By:  </div>    
+        <div class="col-lg-3 p-0 px-2">
+            <div class="input-group input-group-sm mb-2">
+                <!-- <label class="input-group-text">Date</label>
+                <input type="date" class="form-control form-control-sm" name="date"> -->
+                {{ exe_obj.revoked_by }}
+            </div>
+          </div>         
+      </div>
+   
+    </div>
+  </div>
+
+              
              </div>
 
        

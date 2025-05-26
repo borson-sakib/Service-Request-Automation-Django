@@ -33,6 +33,13 @@ th, td {
 
         padding: 5px;
     }
+    .side-bar{
+        display: none;
+    }
+    .content-bar{
+        width: 100%;
+        margin-left: 0;
+    }
 </style>
 
 <div class="table">
@@ -43,6 +50,7 @@ th, td {
         <thead>
             <tr>
 
+                <th>Date</th>
                 <th>Form No.</th>
                 <th>Name</th>
                 <th>Department</th>
@@ -54,6 +62,7 @@ th, td {
         <tbody>
             {% for user_request in user_requests %}
             <tr>
+                <td>{{ user_request.date }}</td>
                 <td>{{ user_request.form_no }}</td>
                 <td>{{ user_request.employee_name }}</td>
                 <td>{{ user_request.department }}</td>

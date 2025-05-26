@@ -63,12 +63,36 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ServiceRequest.urls'
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+LOG_ROOT = os.path.join(BASE_DIR,"logs")
 AUTH_USER_MODEL = 'employeeInfo.User'
 LOGIN_URL = "login/"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL ='login/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE = 10 * 60
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'email_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_ROOT, 'email_logs.log'),
+        }
+    },
+    'loggers': {
+        'email_logger': {
+            'handlers': ['email_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+
+    },
+}
+
 
 TEMPLATES = [
     {
@@ -86,6 +110,30 @@ TEMPLATES = [
         },
     },
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '10.10.100.24'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'najmus@mblbd.com'
+EMAIL_HOST_PASSWORD = 'mblitd@0000'
+
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False  # Usually not used if no authentication
+
+
+import ssl
+EMAIL_SSL_KEYFILE = None
+EMAIL_SSL_CERTFILE = None
+EMAIL_SSL_TRUST = '*'
+
+# Custom SSL context
+EMAIL_SSL_CONTEXT = ssl.create_default_context()
+
+
+
+
+
+
 
 WSGI_APPLICATION = 'ServiceRequest.wsgi.application'
 
