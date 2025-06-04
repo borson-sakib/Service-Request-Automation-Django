@@ -62,6 +62,7 @@ urlpatterns = [
     
     path('upload_signature', upload_signature, name='upload_signature'),
     path('send_email', send_email, name='send_email'),
+    path('submit-remarks', submit_remarks, name='submit-remarks'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -12,11 +12,12 @@ from  .utils import *
 from  .functions import *
 from  .oracle_db import *
 from  .backends import *
+from  .emailservices import *
 from django.db.models import Q
 import cx_Oracle
 import os
 import logging
-logger = logging.getLogger('email_logger')
+logger = logging.getLogger('ops_logger')
 
 
 from .models import *
@@ -105,14 +106,17 @@ def loginView(request):
 
         
         try:
-            # user = authenticate(request,username=username,password=password)
-            user = User.objects.get(username=username)
+            user = authenticate(request,username=username,password=password)
+            # user = User.objects.get(username=username)
             print(user)
             if user is not None:
                 login(request,user)
                 return redirect('landing')
+            else:
+                return redirect('login')
         except Exception as e:
             print(e)
+            logger.info(f"{datetime.now() } - ERROR -  {e} ")
             messages.warning(request, 'You are not authorized to Enter')      
             return redirect('login')
     else:
@@ -296,6 +300,7 @@ def actions(request,variable_1):
         obj.approved_by_CISO = 'Yes'
         obj.application_status = '200'
         obj.save()
+        send_email('mahmud.hasan@mblbd.com')
         return redirect('access_request')
     elif(request.user.EmployeeID==ApproverList.objects.get(role='cto').employee_id):
         request_no = variable_1
@@ -310,6 +315,9 @@ def actions(request,variable_1):
         obj.approved_by_HOB = 'Yes'
         obj.application_status = '100'
         obj.save()
+
+        send_email('mahmud@mblbd.com')
+
         return redirect('access_request')
 
 
@@ -775,3 +783,14 @@ def master_view(request):
     
     return render(request,'admin/masterView.html',context)
 
+
+
+@csrf_exempt
+def submit_remarks(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        reason = data.get('ror', '')
+        if reason:
+            print(reason)
+            return JsonResponse({'message': 'Rejection reason saved successfully!'})
+        return JsonResponse({'message': 'Reason cannot be empty'}, status=400)

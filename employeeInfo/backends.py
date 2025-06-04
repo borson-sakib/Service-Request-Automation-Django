@@ -29,12 +29,13 @@ class UserBackend(ModelBackend):
                 return user
             if(user.username=='monzurul@mblbd.com'):
                 return user
-            # if ldapcheck(username, password) is True:
-            if user:
+            if ldapcheck(username, password) is True:
+            # if user:
                 return user
             else:
                 # messages. ='alert alert-danger alert-dismissible fade show'
                 messages.add_message(request, messages.ERROR, 'Username or Password mismatch!')
+                return None
         except User.DoesNotExist:
             print("user not found")
             pass #RAISE username or password invalid

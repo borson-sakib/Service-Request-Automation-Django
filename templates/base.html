@@ -28,6 +28,81 @@
         padding: 10px;
       }
     </style>
+    <style>
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  }
+
+  .modal-content-customized {
+    background-color: #cecece;
+    margin: 10% auto;
+    padding: 5px;
+    border-radius: 10px;
+    width: 40%;
+  }
+
+  .close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .styled-form {
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  .styled-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .styled-form input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+  }
+
+  .styled-form input[type="text"]:focus {
+    border-color: #4a90e2;
+    outline: none;
+  }
+
+  .styled-form button {
+    width: 100%;
+    padding: 10px 14px;
+    background-color: #0c67cf;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .styled-form button:hover {
+    background-color: #01437c;
+  }
+</style>
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 
     <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/> -->
@@ -192,9 +267,78 @@
       </div>
 
     </div>
+<div id="myModal" class="modal">
+  <div class="modal-content-customized">
+    <span id="closeModalBtn" class="close">&times;</span>
+    <h4 style="font-family: 'Times New Roman', Times, serif; color: #ffffff; background-color: #f01847; border-top-left-radius: 10px; border-top-right-radius: 10px; padding: 5px; text-align: center;">Feedback/Remarks</h4>
+      <form id="rejectionForm" class="styled-form">
+        <label for="ror">Reason of Rejection</label>
+        <input id="ror" name="ror" type="text" placeholder="Reason of Rejection">
+        <button type="submit">Submit</button>
+      </form>
 
+    <!-- <p>This is a modal window.</p> -->
+  </div>
+</div>
     <footer> Copyright &copy; 2022
     </footer>
   </body>
+<script>
+  const modal = document.getElementById('myModal');
+  const openBtn = document.getElementById('openModalBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+
+  openBtn.onclick = () => modal.style.display = 'block';
+  closeBtn.onclick = () => modal.style.display = 'none';
+  window.onclick = (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
+</script>
+
+<script>
+  document.getElementById('rejectionForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const ror = document.getElementById('ror').value;
+
+    fetch('/submit-remarks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify({ ror: ror })
+    })
+    .then(response => response.json())
+    .then(data => {
+      window.location.reload();
+      
+      document.getElementById('message').innerText = data.message;
+      document.getElementById('rejectionForm').reset();
+      
+
+    })
+    .catch(error => console.error('Error:', error));
+  });
+
+  // CSRF token function
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+</script>
 
 </html>

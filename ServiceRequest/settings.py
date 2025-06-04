@@ -81,11 +81,24 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOG_ROOT, 'email_logs.log'),
-        }
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_ROOT, 'access_logs.log'),
+        },
     },
     'loggers': {
         'email_logger': {
             'handlers': ['email_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+
+    },
+    'loggers': {
+        'ops_logger': {
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         }
