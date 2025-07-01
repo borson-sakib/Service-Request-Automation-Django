@@ -80,6 +80,8 @@
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Department:</span>
                                                 {{form.department}}
+                                                <datalist id="departmentSuggestions"></datalist>
+
                                             </div>
                                         </div>
                                          <div class="col-sm-5">
@@ -382,6 +384,31 @@
         </div>
      </div>
 
+<script>
+document.getElementById('id_department').addEventListener('focus', function () {
+    const branchDivision = document.getElementById('id_branch_division_name').value.trim();
+    const datalist = document.getElementById('departmentSuggestions');
+
+    // Clear previous options
+    datalist.innerHTML = '';
+
+    // Define suggestions for different divisions
+    const suggestionsMap = {
+        'Head Office - Information Technology Division': ['Database','Software Development', 'Systems', 'Payment Systems','Network','Hardware'],
+        'Head Office - Digital Banking & Innovation Department': ['DBID'],
+        'Head Office - Information Security & Governance Division': ['ISGD']
+    };
+
+    const suggestions = suggestionsMap[branchDivision] || [];
+
+    // Populate datalist options
+    suggestions.forEach(function (item) {
+        const option = document.createElement('option');
+        option.value = item;
+        datalist.appendChild(option);
+    });
+});
+</script>
 
     <script>
     document.getElementById('to-date-check').onchange = function() {
