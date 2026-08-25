@@ -21,20 +21,25 @@ class UserForm(forms.ModelForm):
 
         fields = '__all__'
 
+class SignatureUploadForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['signature']
+
 
 class RequestForm(forms.ModelForm):
-    request_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control form-control-sm', 'placeholder': 'Please enter request no.', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
+    request_no = forms.CharField(widget=forms.TextInput(attrs={'value':'Will Be filled Automatically','class': 'form-control form-control-sm', 'placeholder': 'Please enter request no.', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping','readonly': True}))
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date','class': 'form-control', 'placeholder': 'Please enter date', 'aria-label': 'LabelDate', 'aria-describedby': 'addon-wrapping'}))
     employee_name = forms.CharField(initial='',widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter employee name', 'aria-label': 'LabelEmployeeName', 'aria-describedby': 'addon-wrapping'}))
-    branch_code = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter branch code', 'aria-label': 'LabelBranchCode', 'aria-describedby': 'addon-wrapping'}))
-    department = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter department', 'aria-label': 'LabelDepartment', 'aria-describedby': 'addon-wrapping'}))
-    mobile_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter mobile no.', 'aria-label': 'LabelMobileNo', 'aria-describedby': 'addon-wrapping'}))
-    designation = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter designation', 'aria-label': 'LabelDesignation', 'aria-describedby': 'addon-wrapping'}))
-    employee_id = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter employee id', 'aria-label': 'LabelEmployeeID', 'aria-describedby': 'addon-wrapping'}))
-    branch_division_name = forms.CharField(initial='',widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter branch/ division name', 'aria-label': 'LabelBranchDivisionName', 'aria-describedby': 'addon-wrapping'}))
-    pa_no = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter PA No.', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
-    ip_address = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter IP Address', 'aria-label': 'LabelEmail', 'aria-describedby': 'addon-wrapping'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Please enter Email', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
+    branch_code = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter branch code', 'aria-label': 'LabelBranchCode', 'aria-describedby': 'addon-wrapping'}))
+    department = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter department', 'aria-label': 'LabelDepartment', 'aria-describedby': 'addon-wrapping','list':'departmentSuggestions'}))
+    mobile_no = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter mobile no.', 'aria-label': 'LabelMobileNo', 'aria-describedby': 'addon-wrapping'}))
+    designation = forms.CharField(initial='',widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter designation', 'aria-label': 'LabelDesignation', 'aria-describedby': 'addon-wrapping'}))
+    employee_id = forms.CharField(initial='',widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter employee id', 'aria-label': 'LabelEmployeeID', 'aria-describedby': 'addon-wrapping'}))
+    branch_division_name = forms.CharField(initial='',widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter branch/ division name', 'aria-label': 'LabelBranchDivisionName', 'aria-describedby': 'addon-wrapping'}))
+    pa_no = forms.CharField(widget=forms.TextInput(attrs={'value':'None','class': 'form-control', 'placeholder': 'Please enter PA No.', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
+    ip_address = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter IP Address', 'aria-label': 'LabelEmail', 'aria-describedby': 'addon-wrapping'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Please enter Email', 'aria-label': 'LabelPANo', 'aria-describedby': 'addon-wrapping'}))
     request_for = forms.ChoiceField(widget=forms.Select({'class':'form-control'}),
         choices=[
         ('access', 'Access'),
@@ -62,15 +67,15 @@ class RequestForm(forms.ModelForm):
     from_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time', 'name': 'from-time', 'id': 'from-time'}))
     to_time = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time', 'name': 'to-time', 'id': 'to-time'}))
     # to_time_check = forms.BooleanField(widget=forms.CheckboxInput(attrs={'name': 'to-time-check', 'id': 'to-time-check','value':'True'}),required=False,initial=False)
-    reason = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'reason of request'}))
-    details = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Details of Access/Service'}))
-    tools_device_required = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Details of Access/Service'}))
+    reason = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'reason of request'}))
+    details = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control','rows': 4, 'placeholder': 'Details of Access/Service'}))
+    tools_device_required = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tools/Device Required'}),required=False)
     
-    source_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Source IP'}))
-    destination_ip = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Destination IP'}))
-    destination_port = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Destination Port'}))
-    physical_activity_area = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Physical Activity Area'}))
-    chng_exec_req_id = forms.CharField(widget=forms.TextInput(attrs={'value':'xyz','class': 'form-control', 'placeholder': 'Change/Execution Request ID'}))
+    source_ip = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Source IP'}))
+    destination_ip = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control','rows': 8, 'placeholder': 'Destination IP'}))
+    destination_port = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Destination Port'}))
+    physical_activity_area = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Physical Activity Area'}),required=False)
+    chng_exec_req_id = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Change/Execution Request ID'}),required=False)
     
     
     vendor_name = forms.CharField(widget=forms.TextInput(attrs={'value':'','class': 'form-control form-control-sm', 'placeholder': 'Please enter Vendor Name', 'aria-label': 'LabelRequestNo', 'aria-describedby': 'addon-wrapping'}))
@@ -137,9 +142,9 @@ class RequestForm(forms.ModelForm):
 
 class ApproverListForm(forms.ModelForm):
     APPROVER_LEVEL_CHOICES = [
-        ('primary', 'Primary Approver'),
-        ('secondary', 'Secondary Approver'),
-        ('final', 'Final Approver'),
+        ('cto', 'CTO'),
+        ('ciso', 'CISO'),
+        ('analyst', 'Analyst'),
     ]
 
     employee_id = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))

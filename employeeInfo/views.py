@@ -5,15 +5,17 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from  .utils import *
 from  .functions import *
 from  .oracle_db import *
 from  .backends import *
+from  .emailservices import *
 from django.db.models import Q
-import cx_Oracle
+# import cx_Oracle
+from django.utils.timezone import localtime
 
 
 from .models import *
@@ -22,20 +24,28 @@ from .models import *
 import requests
 import json
 import environ
-
+import logging
+logger = logging.getLogger('ops_logger')
 # from bs4 import BeautifulSoup
 
 
 
 employeeURL= settings.APIURL
 
-FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","IT Management","CISO"]
+FunctionalDesignations = ["HOD","HOB","MOP","DEPUTY HEAD","CREDIT IN-CHARGE","FOREIGN TRADE IN-CHARGE","GB IN-CHARGE","CASH","CASH IN CHARGE","UPOSHAKHA IN-CHARGE","IT Management","CISO"]
+
+def logout_view(request):
+
+    logout(request)
+    return redirect('login')
+
 
 @login_required(login_url='/login')
 def landing(request):
     name = request.user.EmployeeName
     service_requests = Service_request.objects.filter(application_status=300)
-    count = service_requests.count()
+    executed_requests = execution_log.objects.all()
+    count = service_requests.count() - executed_requests.count()
 
 
 
@@ -90,94 +100,116 @@ def form67(request):
 
 def loginView(request):
     if (request.method == "POST"):
+        # empid = request.POST['empid']
         username = request.POST['employeeId']
         password = request.POST['password']
 
         
-        user = authenticate(request,username=username,password=password)
-
-        if user is not None:
-            login(request,user)
-            return redirect('landing')
-        
-        messages.warning(request, 'You are not authorized to Enter')      
-        
-        return redirect('login')
+        try:
+            user = authenticate(request,username=username,password=password)
+            # user = User.objects.get(username=username)
+            print(user)
+            if user is not None:
+                login(request,user)
+                return redirect('landing')
+            else:
+                return redirect('login')
+        except Exception as e:
+            print(e)
+            logger.info(f"{datetime.now() } - ERROR -  {e} {username}/{password} ")
+            messages.warning(request, 'You are not authorized to Enter')      
+            return redirect('login')
     else:
-        user=User.objects.filter(is_staff=0).all()
-        return render(request,'login.html',{'test':user})
+        # user=User.objects.filter(is_staff=0).all()
+        return render(request,'login.html')
 
 
 def create_profile(request):
     if request.method == 'POST':
         # print(request.POST)
-        url = str(employeeURL) + str(request.POST["employeeId"])
-        response = requests.post(url)
-        # print("-------------------------------------")
-        # print(response)
-        response = response.json()
-
-        if response["EmployeeID"] is not None:
-            # print(request.POST["employeeId"])
-            # print(request.POST["EmpFunctionalDesignation"])
-            # Get the uploaded file
-            
-            uploaded_file1 = request.FILES['signature']
-            uploaded_file2 = request.FILES['pi']
-
-            print(uploaded_file1)
-            print(uploaded_file2)
-            # Create a Photo instance using the uploaded file
-            # photo = Photo(image=uploaded_file, caption='My photo')
-            # photo.save()
-            # form = ImageForm(request.POST, request.FILES)
-            # if form.is_valid():
-            #     form.save()
-            # Do something with the file...
-            
-            funcDesig="others"
-            if response["EmpFunctionalDesignation"] in FunctionalDesignations:
-                funcDesig=response["EmpFunctionalDesignation"]
-            email = domainMailCheck(request.POST['email'])
-
-            if ldapcheck(email,request.POST['password']):
-                
-                User.objects.create_user(
-                    username=request.POST['email'], 
-                    EmployeeName=response["EmployeeName"],
-                    EmployeeDesignation=response["EmpDesignation"],
-                    EmpFunctionalDesignation=funcDesig,
-                    Placeofposting=response["POP"],
-                    EmployeeID=response["EmployeeID"],
-                    password=request.POST['password'],
-                    signature=uploaded_file1,
-                    pi=uploaded_file2,
-                    )
-                
-                messages.success(request, 'User Creation Successful')
-                
-            else:
-                # User.objects.create_user(
-                #     username=request.POST['email'], 
-                #     EmployeeName=response["EmployeeName"],
-                #     EmployeeDesignation=response["EmpDesignation"],
-                #     EmpFunctionalDesignation=funcDesig,
-                #     Placeofposting=response["POP"],
-                #     EmployeeID=response["EmployeeID"],
-                #     password=request.POST['password'],
-                #     signature=uploaded_file1,
-                #     pi=uploaded_file2,
-                #     )
-                messages.success(request, 'Domain Does not match')
-                return redirect('create_profile')
-            return redirect('login')
-            
-
-        else:
-            messages.success(request, 'Unable to find the user ID !')
+        empid=request.POST["employeeId"]
+        email=request.POST["email"]
+        password=request.POST["password"]
+        if User.objects.filter(username=email).exists():
+            messages.success(request, 'User Already Exists !')
             return redirect('create_profile')
-    else:
-        return render(request,'create_profile.html')
+        try:
+            auto_create_profile(empid,email,password)
+            messages.success(request, 'User Creation Successful. Log in with your domain username and password.')
+            return redirect('login')
+        except:
+            messages.success(request, 'Domain Does not match')
+            return redirect('create_profile')
+        
+    return render(request,'create_profile.html')
+
+    #     url = str(employeeURL) + str(request.POST["employeeId"])
+    #     response = requests.post(url)
+    #     # print("-------------------------------------")
+    #     # print(response)
+    #     response = response.json()
+
+    #     if response["EmployeeID"] is not None:
+    #         # print(request.POST["employeeId"])
+    #         # print(request.POST["EmpFunctionalDesignation"])
+    #         # Get the uploaded file
+            
+    #         uploaded_file1 = request.FILES['signature']
+    #         uploaded_file2 = request.FILES['pi']
+
+    #         print(uploaded_file1)
+    #         print(uploaded_file2)
+    #         # Create a Photo instance using the uploaded file
+    #         # photo = Photo(image=uploaded_file, caption='My photo')
+    #         # photo.save()
+    #         # form = ImageForm(request.POST, request.FILES)
+    #         # if form.is_valid():
+    #         #     form.save()
+    #         # Do something with the file...
+            
+    #         funcDesig="others"
+    #         if response["EmpFunctionalDesignation"] in FunctionalDesignations:
+    #             funcDesig=response["EmpFunctionalDesignation"]
+    #         email = domainMailCheck(request.POST['email'])
+
+    #         if ldapcheck(email,request.POST['password']):
+                
+    #             User.objects.create_user(
+    #                 username=request.POST['email'], 
+    #                 EmployeeName=response["EmployeeName"],
+    #                 EmployeeDesignation=response["EmpDesignation"],
+    #                 EmpFunctionalDesignation=funcDesig,
+    #                 Placeofposting=response["POP"],
+    #                 EmployeeID=response["EmployeeID"],
+    #                 password=request.POST['password'],
+    #                 signature=uploaded_file1,
+    #                 pi=uploaded_file2,
+    #                 )
+                
+    #             messages.success(request, 'User Creation Successful')
+                
+    #         else:
+    #             # User.objects.create_user(
+    #             #     username=request.POST['email'], 
+    #             #     EmployeeName=response["EmployeeName"],
+    #             #     EmployeeDesignation=response["EmpDesignation"],
+    #             #     EmpFunctionalDesignation=funcDesig,
+    #             #     Placeofposting=response["POP"],
+    #             #     EmployeeID=response["EmployeeID"],
+    #             #     password=request.POST['password'],
+    #             #     signature=uploaded_file1,
+    #             #     pi=uploaded_file2,
+    #             #     )
+    #             messages.success(request, 'Domain Does not match')
+    #             return redirect('create_profile')
+    #         return redirect('login')
+            
+
+    #     else:
+    #         messages.success(request, 'Unable to find the user ID !')
+    #         return redirect('create_profile')
+    # else:
+    #     return render(request,'create_profile.html')
 
 def checkId(request):
     if (request.method == "POST"):
@@ -211,6 +243,22 @@ def service_request(request):
 
     return redirect('index')    
 
+def approved_request(request):
+
+
+    if(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='ciso').exists()):
+        user_requests = Service_request.objects.filter(Q(approved_by_CISO="Yes")).order_by('-date')
+        return render(request,'access_request_user_approved.html',{'access_request':user_requests})
+    elif(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='cto').exists()):
+        user_requests = Service_request.objects.filter(approved_by_CTO="Yes").order_by('-date')
+        return render(request,'access_request_user_approved.html',{'access_request':user_requests})
+
+
+
+    obj = Service_request.objects.filter(submitted_by=request.user.EmployeeID,application_status__gte=300).order_by('-date')
+    return render(request,'access_request_user_approved.html',{'access_request':obj})
+
+
 
 
 def access_request(request):
@@ -218,22 +266,76 @@ def access_request(request):
     #IF user is Authorizer
     if(request.user.EmpFunctionalDesignation in FunctionalDesignations):
         
-        if(request.user.EmployeeID=='20091007002'):
+        # if(request.user.EmployeeID=='20091007002'):
+        if(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='ciso').exists()):
             #CISO
-            user_requests = Service_request.objects.filter(application_status__gte=100).all()
-            return render(request,'access_request_ciso.html',{'user_requests': user_requests})
+            print('ciso')
+            # user_requests = Service_request.objects.filter(application_status__gte=100).order_by('-date')
+            user_requests = Service_request.objects.filter(Q(application_status=100) | Q(application_status=0, branch_division_name='Head Office - Information Security & Governance Division')).order_by('-date')
+            paginator = Paginator(user_requests, 15)  # 10 rows per page
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
 
-        elif(request.user.EmployeeID=='20210701001'):
+            context = {
+                'user_requests': page_obj,
+                'page_obj': page_obj,
+              
+            }
+            return render(request,'access_request_ciso.html',context)
+            # return render(request,'access_request_ciso.html',{'user_requests': user_requests})
+
+        # elif(request.user.EmployeeID=='20210701001'):
+        elif(ApproverList.objects.filter(employee_id=request.user.EmployeeID,role='cto').exists()):
             #CTO
-            user_requests = Service_request.objects.filter(application_status__gte=200).all()
-            return render(request,'access_request_cto.html',{'user_requests': user_requests})
+            print('cto')
+
+            user_requests = Service_request.objects.filter(application_status=200).order_by('-date')
+            paginator = Paginator(user_requests, 15)  # 10 rows per page
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+
+            context = {
+                'user_requests': page_obj,
+                'page_obj': page_obj,
+              
+            }
+            return render(request,'access_request_cto.html',context)
+            # return render(request,'access_request_cto.html',{'user_requests': user_requests})
         else:
             #HOB
-            user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).all()
+            print('hob')
+            if str(request.user) == 'ruheenchowy@mblbd.com':
+                # user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Head Office - Digital Banking & Innovation Department')).order_by('-date')
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting)).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            if str(request.user) == 'darpan@mblbd.com':
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Mobile Banking Division')).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            if str(request.user) == 'khorshed.alam@mblbd.com':
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Head Office - Central Customer Service & Complaints Management Cells')).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            if str(request.user) == 'sohel@mblbd.com':
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Head Office - Credit Division (Cmsme Credit Unit)')).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            if str(request.user) == 'msh@mblbd.com':
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='Head Office - Ctpc - Chattogram Hub')).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            if str(request.user) == 'aharoon1971@mblbd.com':
+                user_requests = Service_request.objects.filter(Q(branch_division_name=request.user.Placeofposting) |Q(branch_division_name='AML & CFT Division')).order_by('-date')
+                return render(request,'access_request_hob.html',{'user_requests': user_requests})
+
+            user_requests = Service_request.objects.filter(branch_division_name=request.user.Placeofposting).order_by('-date')
             return render(request,'access_request_hob.html',{'user_requests': user_requests})
     #IF user is Maker
     else:
-        obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
+        print('regular')
+        # obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
+        obj = Service_request.objects.filter(submitted_by=request.user.EmployeeID,application_status__lt=300).order_by('-date')
         obj_others = Service_request.objects.filter(submitted_by=request.user.EmployeeID).exclude(employee_id=request.user.EmployeeID).all()
         return render(request,'access_request_user.html',{'access_request':obj,'access_request_others':obj_others})
 
@@ -241,33 +343,50 @@ def access_request(request):
 
 def access_request_user(request):
 
-    obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).all()
+    obj = Service_request.objects.filter(employee_id=request.user.EmployeeID).order_by('-date')
 
     return render(request,'access_request_user.html',{'access_request':obj})
 
 
 def actions(request,variable_1):
+    request_no = variable_1
+    obj = get_object_or_404(Service_request, request_no=request_no)
+    empid = str(obj.employee_id)
 
-    if(request.user.EmployeeID=='20091007002'):
-        request_no = variable_1
-        obj = get_object_or_404(Service_request, request_no=request_no)
-        obj.approved_by_CISO = 'Yes'
-        obj.application_status = '200'
-        obj.save()
+    if(request.user.EmployeeID==ApproverList.objects.get(role='ciso').employee_id):
+        if obj.branch_division_name=='Head Office - Information Security & Governance Division':
+            obj.approved_by_HOB = 'Yes'
+            obj.approved_by_CISO = 'Yes'
+            obj.application_status = '200'
+            obj.save()
+            add_time_stamp(request_no,'hod',empid)
+            add_time_stamp(request_no,'ciso',empid)
+        else:
+            obj.approved_by_CISO = 'Yes'
+            obj.application_status = '200'
+            obj.save()
+            add_time_stamp(request_no,'ciso',empid)
+
+        send_email('mahmud.hasan@mblbd.com')
         return redirect('access_request')
-    elif(request.user.EmployeeID=='20210701001'):
-        request_no = variable_1
-        obj = get_object_or_404(Service_request, request_no=request_no)
+    elif(request.user.EmployeeID==ApproverList.objects.get(role='cto').employee_id):
+        # request_no = variable_1
+        # obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_CTO = 'Yes'
         obj.application_status='300'
         obj.save()
+        add_time_stamp(request_no,'cto',empid)
+        send_email('monzurul@mblbd.com')
         return redirect('access_request')
     else:
-        request_no = variable_1
-        obj = get_object_or_404(Service_request, request_no=request_no)
+        # request_no = variable_1
+        # obj = get_object_or_404(Service_request, request_no=request_no)
         obj.approved_by_HOB = 'Yes'
         obj.application_status = '100'
         obj.save()
+        add_time_stamp(request_no,'hod',empid)
+        send_email('mahmud@mblbd.com')
+
         return redirect('access_request')
 
 
@@ -316,10 +435,17 @@ def user_list(request):
             if network_analysts_group.objects.filter(network_analyst_employee_id=user.EmployeeID).exists():
                 # If exists, add a field 'analyst' with value True to the user object
                 user.analyst = True
+                # print('Analyst')
+                # print(user.EmployeeID)
             else:
                 # If not exists, add a field 'analyst' with value False to the user object
+
                 user.analyst = False
-        print(users)
+                # print('Non Analyst')
+                # print(user)
+
+
+        # print(users)
     context = {'users': users, 'query': query}
     return render(request, 'user_list.html', context)
 
@@ -374,21 +500,25 @@ def reg_test(request):
 ###----------------------------------------------------------###
 def show_entries(request):
     # Fetch data from the models
-    service_requests = Service_request.objects.filter(application_status=300)
-    all_submission = Service_request.objects.all()
+    
+    all_submission = Service_request.objects.all().order_by('-date')
     form_67_entries = Service_request_form_67.objects.all()
-    exec_log = execution_log.objects.values_list('job_id', flat=True)
-    executed_submission = Service_request.objects.filter(request_no__in=exec_log)
-
-    print(exec_log)
+    exec_log = execution_log.objects.values_list('request_no', flat=True)
+    service_requests = Service_request.objects.filter(application_status=300).exclude(request_no__in=exec_log).order_by('-date')
+    try:
+        executed_submission = Service_request.objects.filter(request_no__in=exec_log).order_by('-date')
+    except Exception as e:
+        executed_submission = None
+    # print(exec_log)
     # Render the HTML page with the data
-    return render(request, 'form_submissions.html', {
+    context={
         'service_requests': service_requests,
         'form_67_entries': form_67_entries,
         'exec_log': exec_log,
         'all_submission': all_submission,
         'executed_submission': executed_submission,
-    })
+    }
+    return render(request, 'form_submissions.html',context )
 
 def delete_entry(request, entry_id):
     
@@ -423,7 +553,23 @@ def view_only(request,pid):
     obj = User.objects.get(EmployeeID=request.user.EmployeeID)
     applicant_instance = get_object_or_404(Service_request, request_no=pid)
     form = RequestForm(instance=applicant_instance)
+    x=find_CTO_status(pid)
+    print(x)
     # hod_signature = find_HOX(obj.Placeofposting,pid)
+    try:
+        execution_instance=get_object_or_404(execution_log,request_no=pid)
+        user_instance=User.objects.get(EmployeeID=execution_instance.executed_by)
+        user_instance_approvedby = User.objects.filter(username=execution_instance.approved_by).first()
+        execution_instance.employeename=user_instance.EmployeeName
+        execution_instance.employeename_approvedby=user_instance_approvedby.EmployeeName if user_instance_approvedby else None
+        # local_time = localtime(obj.executed_by_timestamp)
+
+    except:
+        # execution_instance=get_object_or_404(execution_log,request_no=pid)
+        # user_instance=User.objects.get(EmployeeID=execution_instance.executed_by)
+        # execution_instance.employeename=user_instance.EmployeeName
+        execution_instance=None
+
     if(obj.EmpFunctionalDesignation in FunctionalDesignations):
         Check = True
     context = {'hod':find_HOX(applicant_instance.branch_division_name,pid),
@@ -431,6 +577,7 @@ def view_only(request,pid):
                   'ciso':find_CISO_status(pid),
                   'form': form,
                   'user_object':obj,
+                  'exe_obj':execution_instance,
                   'check':Check}
     # print(hod_signature)
     
@@ -442,43 +589,103 @@ def view_only(request,pid):
 
 def approver_list(request):
     if request.method == 'POST':
-        form = ApproverListForm(request.POST)
-        if form.is_valid():
-            # Process the form data
-            form.save()
-    else:
-        form = ApproverListForm()
+        data = json.loads(request.body)
+        employee_id = data.get('employee_id')
 
-    return render(request, 'approver_list.html', {'form': form})
+        selected_role = data.get('selected_role')
+        try:
+            user_obj=get_object_or_404(User,EmployeeID=employee_id)
+            user_obj.EmpFunctionalDesignation = selected_role
+            user_obj.save()
+            alert_msg='Role Changed Successfully!'
+            return JsonResponse({'success': True,'alert_msg':alert_msg})
+            # if ApproverList.objects.filter(employee_id=employee_id).exists():
+            #     alert_msg='Role Already Exists!'
+            # else:
+            #     ApproverList.objects.create(
+            #         employee_id=user_obj.EmployeeID,
+            #         name=user_obj.EmployeeName,
+            #         designation=user_obj.EmployeeDesignation,
+            #         role=selected_role,
+            #         approver_level='Primary')
+            #     alert_msg='Role Changed Successfully!'
+            #     # messages.success(request, 'Role Changed Successfully !')
+            #     print('Role Changed Successfully !')
+            # return JsonResponse({'success': True,'alert_msg':alert_msg})
+        except Exception as e:
+            print(e)
+            messages.error(request, f'{e}')
+            return JsonResponse({'success': False, 'error': f'{e}'})
+  
+    
+    users = User.objects.all()
+    # print(users)
+    for user in users:
+        try:
+            approver = ApproverList.objects.filter(employee_id=user.EmployeeID).first()
+            user.Role = approver.role
+            print(approver.role)
+        except:
+            user.Role = 'None'
+            print('Not found')
+    context = {'users':users}
+    return render(request, 'approver_list.html', context)
+
+def task_revoke(request,entry_id):
+    request_no= entry_id
+    if execution_log.objects.filter(request_no=request_no).exists():
+        execution_log.objects.filter(request_no=request_no).update(revoked_by=str(request.user),revoke_date_time=datetime.now())
+        messages.success(request, 'Task Revoked Successfully')
+        return redirect('master_view')
+
+    messages.success(request, 'Something Went Wrong. Please Try Again !')
+    return redirect('master_view')
 
 def task_execute(request):
-    
-    if execution_log.objects.filter(Q(job_id=request.GET.get('id'))).exists():
+    request_no=request.GET.get('id')
+    print(request.GET.get('id'))
+    if execution_log.objects.filter(request_no=request_no).exists():
 
         messages.success(request, 'Task Already Executed !')
         return redirect('form_submissions')
     else :
-        execution_log_obj = execution_log(
+        job_description = request.GET.get('details','')
+        job_description = job_description[:100]
+        try:
+            execution_log_obj = execution_log(
 
-            # job_ref = request.GET.get('id'),
-            job_ref = Service_request.objects.get(request_no=request.GET.get('id')),
-            executed_by = request.user.EmployeeID,
-            job_description = request.GET.get('details'),
-            execution_status = request.GET.get('status'),
-            execution_remarks = "None"
-                            )
-        execution_log_obj.save()
-        messages.success(request, 'Successfully Executed the task')
-
-        return redirect('form_submissions')
-   
+                # job_ref = request.GET.get('id'),
+                request_no = Service_request.objects.get(request_no=request.GET.get('id')).request_no,
+                request_no_empid = Service_request.objects.get(request_no=request.GET.get('id')).employee_id,
+                executed_by = request.user.EmployeeID,
+                job_description = job_description,
+                execution_status = request.GET.get('status'),
+                execution_remarks = "None"
+                                )
+            execution_log_obj.save()
+            messages.success(request, 'Successfully Executed the task')
+        except Exception as e:
+            messages.success(request, e)
+    return redirect('form_submissions')
+    
+def task_approve(request,entry_id):
+    request_no= entry_id
+    if execution_log.objects.filter(request_no=request_no).exists():
+        execution_log.objects.filter(request_no=request_no).update(approved_by=str(request.user),approved_by_timestamp=datetime.now(),execution_remarks='approved')
+        messages.success(request, 'Task Approved Successfully')
+        return redirect('master_view')
+ 
 
 def requestaslist(request):
     
-    events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
-
-    context = {'events': events}
-    
+    try:
+        events = sorted(Service_request.objects.all(), key=lambda event: event.days_left())
+        print(type(events))
+        context = {'events': events}
+    except Exception as e:
+        print(e)
+        context = {'events': None}
+        
     return render(request,'admin/listOfRequests.html',context)
 
 from urllib.parse import urlparse, parse_qs
@@ -519,7 +726,7 @@ def delete_category(request, entry_id):
 
 def oracle_db_test(request):
     
-    data = check_oracle_connection(20210714001)
+    data = check_oracle_connection(20151228002)
 
     return HttpResponse(data)
     
@@ -531,6 +738,9 @@ def user_profile(request):
 def execution_logs(request):
     
     data = execution_log.objects.all()
+    
+    for each in data:
+        each.executor_name= User.objects.get(EmployeeID=each.executed_by).EmployeeName
     
     return render(request,'admin/executions.html',{'data':data})
 
@@ -569,3 +779,123 @@ def other_user(request,form_no):
     
     return render(request,'user/other_user.html')
     
+
+def auto_create_profile(empid,domain,pwd):
+   
+    url = str(employeeURL) + str(empid)
+    response = requests.post(url)
+ 
+    response = response.json()
+    print(response)
+
+    if response["EmployeeID"] is not None:
+        
+        uploaded_file1 = 'None'
+        uploaded_file2 = 'None'
+        
+        funcDesig="others"
+        if response["EmpFunctionalDesignation"] in FunctionalDesignations:
+            funcDesig=response["EmpFunctionalDesignation"]
+        email = domainMailCheck(domain)
+            
+        User.objects.create_user(
+            username=email, 
+            EmployeeName=response["EmployeeName"],
+            EmployeeDesignation=response["EmpDesignation"],
+            EmpFunctionalDesignation=funcDesig,
+            Placeofposting=response["POP"],
+            EmployeeID=response["EmployeeID"],
+            Mobile=clean_phone_numbers(response["PhoneNumber"]),
+            password=pwd,
+            )
+                    
+        
+def clean_phone_numbers(phone_numbers):
+    """
+    Cleans a string of phone numbers by removing duplicates 
+    and ensuring consistent formatting.
+    """
+    if not phone_numbers:
+        return None
+
+    # Split the phone numbers into a list
+    phone_list = phone_numbers.split(',')
+
+    # Remove duplicates and strip any extra whitespace
+    unique_phones = set(phone.strip() for phone in phone_list)
+
+    # Return a comma-separated string of unique phone numbers
+    return ','.join(unique_phones)
+    
+def upload_signature(request):
+    instance = get_object_or_404(User, username=request.user)
+    if request.method == 'POST':
+        
+        form = SignatureUploadForm(request.POST, request.FILES , instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('upload_signature')
+    else:
+        form = SignatureUploadForm()
+        # print(instance.signature)
+    return render(request, 'user/upload_signature.html', {'form': form,'instance':instance})
+
+
+from django.core.paginator import Paginator
+
+def master_view(request):
+    
+    service_request=Service_request.objects.filter(application_status__gte=300).order_by('-date')
+    # execution_log_obj=execution_log.objects.all()
+    execution_log_obj = execution_log.objects.filter(approved_by__isnull=True)
+    is_approver = ApproverList.objects.filter(Q(employee_id=request.user.EmployeeID) & Q(role='approver')).exists()
+    # Step 2: Create a set of request_no from execution_log_obj for quick lookup
+    print(request.user.EmployeeID)
+    execution_log_request_nos = set(execution_log_obj.values_list('request_no', flat=True))
+
+    for item in service_request:
+        if item.request_no in execution_log_request_nos:
+            item.execution_status = 'Pending' 
+        else:
+            item.execution_status = 'Complete' 
+
+    service_request = sorted(service_request, key=lambda x: x.execution_status != 'Pending')
+
+    paginator = Paginator(service_request, 15)  # 20 rows per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'service_requests': page_obj,
+        'page_obj': page_obj,
+        'is_approver': is_approver,
+    }
+    # context={'service_requests':service_request,'is_approver':is_approver}
+    
+    return render(request,'admin/masterView.html',context)
+
+
+
+def test_mail(request):
+    send_email('najmus@mblbd.com')
+
+    return HttpResponse('Successful')
+
+def get_request_details(request):
+    request_no = request.GET.get('request_no')
+    if not request_no:
+        return JsonResponse({'error': 'No request_no provided'}, status=400)
+
+    try:
+        obj = operations_log.objects.get(service_request_id=request_no)
+        return JsonResponse({
+            'req_time': obj.service_request_time.strftime('%Y-%m-%d, %I:%M %p') if obj.service_request_time else "No Records Found",
+            'hod_time': obj.approved_hod_at.strftime('%Y-%m-%d, %I:%M %p') if obj.approved_hod_at else "Not Approved",
+            'ciso_time': obj.approved_ciso_at.strftime('%Y-%m-%d, %I:%M %p') if obj.approved_ciso_at else "Not Approved",
+            'cto_time': obj.approved_cto_at.strftime('%Y-%m-%d, %I:%M %p') if obj.approved_cto_at else "Not Approved",
+            # 'created_at': obj.service_request_time.strftime('%Y-%m-%d %H:%M:%S'),
+            # 'approved_by': obj.approved_by if obj.approved_by else None
+        })
+    except Exception as e:
+
+        return JsonResponse({'error': e}, status=404)

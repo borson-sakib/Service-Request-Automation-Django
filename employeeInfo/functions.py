@@ -10,15 +10,17 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from  .utils import *
 from  .views import *
+from  .emailservices import *
 from  .oracle_db import *
 from  .backends import *
 from django.db.models import Q
 
 from django.utils.crypto import get_random_string
-from datetime import datetime
+from datetime import datetime,date
 from .models import *
 from django.apps import apps
 from django.http import JsonResponse
+from django.utils import timezone
 
 def form_navigator(uid,form_no):
     
@@ -27,7 +29,7 @@ def form_navigator(uid,form_no):
     if obj.EmpFunctionalDesignation in FunctionalDesignations:
         authorizer = True
 
-    form = RequestForm(initial={'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting})
+    form = RequestForm(initial={'date':date.today,'employee_name': obj.EmployeeName,'designation':obj.EmployeeDesignation,'employee_id':obj.EmployeeID,'branch_division_name':obj.Placeofposting,'email':obj.username,'mobile_no':obj.Mobile})
         
     return {'form': form,'user_object':obj,'authorizer':authorizer,'form_no':form_no}
 
@@ -151,7 +153,16 @@ def store_request(request):
 
     try:
         Service_request_OBJ.save()
+        new_request_no = Service_request_OBJ.request_no
+        operations_log.objects.create(
+            service_request_employee_id= Service_request_OBJ.employee_id,
+            service_request_id= new_request_no,
+            service_request_time= datetime.now()
+        )
         messages.success(request, 'Form Successfully Submitted and Waiting For Approval')
+        hox_email = find_HOX_email(request.POST['branch_division_name'])
+        if hox_email != None:
+            send_email(hox_email)
         
     except:
         messages.success(request, 'Something went wrong. Try again with correct information')
@@ -177,3 +188,35 @@ def delete_any(model_name, entry_id):
     
     except Exception as e:
         return JsonResponse({'success': False, 'message': str(e)})
+
+
+def add_time_stamp(request_no,approver,employee_id):
+
+    try:
+        time_stamp_obj = get_object_or_404(operations_log, service_request_id=request_no)
+    except:
+        operations_log.objects.create(
+            service_request_employee_id=employee_id,
+            service_request_id= request_no,
+            service_request_time= datetime.now()
+        )
+        time_stamp_obj = get_object_or_404(operations_log, service_request_id=request_no)
+
+    if approver=='hod':
+        time_stamp_obj.approved_hod = 'Yes' 
+        time_stamp_obj.approved_hod_at = datetime.now()
+        time_stamp_obj.save()
+    if approver=='ciso':
+        time_stamp_obj.approved_ciso = 'Yes' 
+        time_stamp_obj.approved_ciso_at = datetime.now()
+        time_stamp_obj.save()
+    if approver=='cto':
+        time_stamp_obj.approved_cto = 'Yes' 
+        time_stamp_obj.approved_cto_at = datetime.now()
+        time_stamp_obj.save()
+    if approver=='executor':
+        time_stamp_obj.executed = 'Yes' 
+        time_stamp_obj.executed_at = datetime.now()
+        time_stamp_obj.save()
+
+    

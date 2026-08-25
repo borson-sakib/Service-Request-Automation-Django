@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .table {
+        margin: auto;
+        padding: 10px;
+    }
+
+    .table th {
+
+        font-size: small;
+        padding: 8px 0;
+        margin: 0 0 10px;
+    }
+
+    .table td {
+        font-size: 12px;
+        padding: 1px;
+        word-wrap: break-word;      /* Legacy support for older browsers */
+        overflow-wrap: break-word;  /* Modern browsers */
+        max-width: 150px; 
+    }
+
+    .table tr:hover {
+        font-size: 12px;
+        padding: 1px;
+        background-color: rgba(128, 128, 128, 0.22);
+    }
+
+    .side-bar {
+        display: none;
+    }
+
+    .content-bar {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .Complete {
+        color: green;
+        font-weight: 700;
+    }
+
+    .Pending {
+        color: red;
+        font-weight: 700;
+
+    }
+
+    .search-bar {
+        margin: 10px 0 10px;
+    }
+</style>
+<div class="container">
+    <input class="search-bar" type="text" id="searchInput" placeholder="Search for employees..."
+        onkeyup="searchTable()" />
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>Date</th>
+                <!-- <th>Req.No</th> -->
+                <th>FormNo</th>
+                <!-- <th>Email</th> -->
+                <th>Name</th>
+                <th>ID</th>
+                <!-- <th>Designation</th> -->
+                <th>Details</th>
+                <th>Status</th>
+                <th>Execution Status</th>
+                <th>Actions</th>
+                {% if is_approver %}
+                <th>Approve</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in service_requests %}
+
+            <tr>
+
+                <td>{{ entry.date }}</td>
+                <td><a href="{% url 'view_only' entry.request_no %}">{{ entry.form_no }}</a></td>
+                <!-- <td>{{ entry.form_no }}</td> -->
+                <td>{{ entry.employee_name }}</td>
+                <td>{{ entry.employee_id }}</td>
+                <!-- <td>{{ entry.designation }}</td> -->
+                <td>{{ entry.details }}</td>
+                <td>{{ entry.application_status }}</td>
+                <td class="{{ entry.execution_status }}">{{ entry.execution_status }}</td>
+                <td>
+                    <!-- Button to trigger the collapse -->
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="collapse"
+                        data-bs-target="#collapseButtons{{ entry.request_no }}" aria-expanded="false"
+                        aria-controls="collapseButtons{{ entry.request_no }}">
+                        +
+                    </button>
+
+                    <!-- Collapsible container -->
+                    <div class="collapse mt-2" id="collapseButtons{{ entry.request_no }}">
+                        <button type="button" class="btn btn-outline-success btn-sm">
+                            <a href="{% url 'view_only' entry.request_no %}">View Form</a>
+                        </button>
+
+                        <!-- <a href="{% url 'task_execute' %}?id={{ entry.request_no }}&details={{ entry.details }}&status=1"
+                            class="btn btn-sm btn-primary" {% if entry.id in exec_log %} disabled {% endif %}>
+                            Task Executed
+                        </a> -->
+
+                        <a href="{% url 'task_revoke' entry.request_no %}" class="btn btn-sm btn-danger">Revoke</a>
+                        <!-- <a href="{% url 'delete_entry' entry.request_no %}" class="btn btn-sm btn-danger">Delete</a> -->
+                        <!-- <a href="{% url 'update_entry' entry.request_no %}" class="btn btn-sm btn-success">Update</a> -->
+                    </div>
+                </td>
+                {% if is_approver %}
+                {% if entry.execution_status == 'Pending' %}
+                <td><a href="{% url 'task_approve' entry.request_no %}" class="btn btn-sm btn-success" >Approve</a></td>
+                {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
+
+    </table>
+
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-3">
+    
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+    
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+    
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+            {% endif %}
+    
+        </ul>
+    </nav>
+
+
+
+
+
+
+</div>
+
+
+
+<script>
+    function searchTable() {
+        // Declare variables
+        let input = document.getElementById('searchInput');
+        let filter = input.value.toLowerCase();
+        let table = document.querySelector('table');
+        let trs = table.getElementsByTagName('tr');
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (let i = 1; i < trs.length; i++) { // Start at 1 to skip the table header
+            let tds = trs[i].getElementsByTagName('td');
+            let rowContainsSearchTerm = false;
+
+            for (let j = 0; j < tds.length; j++) {
+                if (tds[j].textContent.toLowerCase().includes(filter)) {
+                    rowContainsSearchTerm = true;
+                    break;
+                }
+            }
+
+            trs[i].style.display = rowContainsSearchTerm ? '' : 'none';
+        }
+    }
+
+</script>
+
+
+{% endblock content %}

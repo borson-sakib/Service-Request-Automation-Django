@@ -14,8 +14,13 @@
             </div>
             <div class="col-md-4">
                 <div class="jumbotron" style="margin: 10px auto;text-align: center;">
-                    <h3>Mercantil Bank PLC</h3>
-                    <p class="display-8">(Access/Service Request Form) </p>                  
+                    <h4>Mercantile Bank PLC.</h4>
+                    {% if form_no == 'MBPLC-ISMS-FR-67' %}
+                    <p class="display-8">(Firewall Access Request Form) </p> 
+                    {% else %}  
+                    <p class="display-8">(Access/Service Request Form) </p> 
+
+                    {% endif %}               
                   </div>
             </div>
 
@@ -80,6 +85,8 @@
                                             <div class="input-group input-group-sm">
                                                 <span class="input-group-text" id="addon-wrapping" style="width: 33%;">Department:</span>
                                                 {{form.department}}
+                                                <datalist id="departmentSuggestions"></datalist>
+
                                             </div>
                                         </div>
                                          <div class="col-sm-5">
@@ -225,7 +232,7 @@
                          </div>
                          <div class="card" style="padding: 5px;">
                            
-                           {% if form_no == 'MBL-ISMS-FR-67' %}
+                           {% if form_no == 'MBPLC-ISMS-FR-67' %}
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="input-group input-group-sm">
@@ -382,7 +389,31 @@
         </div>
      </div>
 
-
+     <script>
+        document.getElementById('id_department').addEventListener('focus', function () {
+            const branchDivision = document.getElementById('id_branch_division_name').value.trim();
+            const datalist = document.getElementById('departmentSuggestions');
+        
+            // Clear previous options
+            datalist.innerHTML = '';
+        
+            // Define suggestions for different divisions
+            const suggestionsMap = {
+                'Head Office - Information Technology Division': ['Database','Software Development', 'Systems', 'Payment Systems','Network','Hardware'],
+                'Head Office - Digital Banking & Innovation Department': ['DBID'],
+                'Head Office - Information Security & Governance Division': ['ISGD']
+            };
+        
+            const suggestions = suggestionsMap[branchDivision] || [];
+        
+            // Populate datalist options
+            suggestions.forEach(function (item) {
+                const option = document.createElement('option');
+                option.value = item;
+                datalist.appendChild(option);
+            });
+        });
+        </script>
     <script>
     document.getElementById('to-date-check').onchange = function() {
     document.getElementById('to-date-check').value = 'True';

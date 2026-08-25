@@ -10,7 +10,7 @@
     }
     .registration-box {
         backdrop-filter: blur(4px);
-        width: 70%;
+        width: 50%;
         background-color: #ffffff;
         /* border: 1px solid white; */
         border-radius: 10px;
@@ -95,15 +95,15 @@
 
     .login-box {
         backdrop-filter: blur(4px);
-        width: 70%;
+        width: 50%;
         background-color: #f1f1f1;
-        border: 2px solid #1c39bb;
+        /* border: 2px solid #1c39bb; */
         /* border-right: 5px solid #1c39bb; */
-        /* border-radius: 10px; */
+        border-radius: 30px;
         margin: auto;
         padding: 20px;
         text-align: center;
-        box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.171);
+        box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.190);
 
 
         /* opacity: 80%; */
@@ -310,7 +310,7 @@
     
 }
 .basic-reg input[type="text"], .basic-reg input[type="email"], .basic-reg input[type="password"] {
-        width: 75%;
+        width: 100%;
 
         padding: 15px;
     
@@ -321,8 +321,8 @@
         margin-top: 10px;
         border-radius: 0;
         border: none;
-        border-left: 4px solid #1C39BB;
-        
+        /* border-bottom: 2px solid #1C39BB; */
+        box-shadow: 1px 1px 3px 3px rgba(122, 121, 121, 0.171);
         /* border: 1px solid black; */
     }
 .basic-reg label{
@@ -330,6 +330,7 @@
     display: inline-block;
     font-weight: 1000;
     margin-left: 0px;
+    padding-top: 10px;
 }
 table {
 border-collapse: collapse;

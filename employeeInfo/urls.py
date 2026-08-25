@@ -16,12 +16,13 @@ urlpatterns = [
     path('form/', index, name="index"),
     
     path('form67', form67, name="form67"),
+    path('master_view', master_view, name="master_view"),
     path('approver_list', approver_list, name="approver_list"),
     path('form_submissions', show_entries, name="form_submissions"),
     path('', landing, name="landing"),
     path('create_profile', create_profile, name="create_profile"),
     path('login', loginView, name="login"),
-    path('logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout', logout_view, name='logout'),
     path('checkId', checkId, name="checkId"),
     path('service_request', service_request, name="service_request"),
     path('access_request', access_request, name="access_request"),
@@ -35,9 +36,14 @@ urlpatterns = [
     path('update/<int:user_id>/', user_update, name='user_update'),
     path('delete/<int:user_id>/', user_delete, name='user_delete'),
     path('set_user_another_table/<int:user_id>/', set_user_another_table, name='set_user_another_table'),
+	path('task_revoke/<str:entry_id>/', task_revoke, name='task_revoke'),
+    path('task_approve/<str:entry_id>/', task_approve, name='task_approve'),
+
     path('delete-entry/<str:entry_id>/', delete_entry, name='delete_entry'),
     path('update-entry/<str:entry_id>/', update_entry, name='update_entry'),
     path('requestaslist', requestaslist, name='requestaslist'),
+    path('approved_request', approved_request, name='approved_request'),
+    
     
     
     # Admin
@@ -55,6 +61,13 @@ urlpatterns = [
     path('oracle_db_test', oracle_db_test, name="oracle_db_test"),
     path('execution_logs', execution_logs, name="execution_logs"),
     path('fake_user', fake_user, name="fake_user"),
+    
+    
+    path('upload_signature', upload_signature, name='upload_signature'),
+    path('send_email', send_email, name='send_email'),
+    path('test_mail', test_mail, name='test_mail'),
+
+    path('get-request-details/', get_request_details, name='get_request_details'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

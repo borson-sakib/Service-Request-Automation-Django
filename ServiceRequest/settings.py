@@ -36,7 +36,9 @@ SECRET_KEY = 'django-insecure-g-q+sqghziy&3g)1cngcwed*9b1ak3(ilepvzl3iwpky726%te
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['10.99.99.201']
+ALLOWED_HOSTS = ['127.0.0.1','127.0.0.2', 'localhost','10.99.99.201']
 
 
 # Application definition
@@ -63,12 +65,49 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ServiceRequest.urls'
 TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+LOG_ROOT = os.path.join(BASE_DIR,"logs")
 AUTH_USER_MODEL = 'employeeInfo.User'
 LOGIN_URL = "login/"
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL ='/'
+LOGOUT_REDIRECT_URL ='login'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # SESSION_COOKIE_AGE = 10 * 60
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'email_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_ROOT, 'email_logs.log'),
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOG_ROOT, 'access_logs.log'),
+        },
+    },
+    'loggers': {
+        'email_logger': {
+            'handlers': ['email_handler'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+
+    },
+      'loggers': {
+        'ops_logger': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        }
+
+    },
+}
+
+
+
 
 TEMPLATES = [
     {
@@ -88,6 +127,27 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'ServiceRequest.wsgi.application'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '10.10.100.24'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'itservicedesk@mblbd.com'
+EMAIL_HOST_PASSWORD = 'Master#808918' 
+#20-04-26
+
+
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False  # Usually not used if no authentication
+
+
+import ssl
+EMAIL_SSL_KEYFILE = None
+EMAIL_SSL_CERTFILE = None
+EMAIL_SSL_TRUST = '*'
+
+# Custom SSL context
+EMAIL_SSL_CONTEXT = ssl.create_default_context()
 
 
 # Database
@@ -115,9 +175,9 @@ DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "db_service_request_automation",
-        "USER": "borson_new",
-        "PASSWORD": "1234",
-        "HOST": "HO-IT-110\SQLEXPRESS",
+        "USER": "sa",
+        "PASSWORD": "Mbl@1234",
+        "HOST": "GASUTILITYNEW",
         "PORT": "",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },
@@ -152,11 +212,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
-USE_I18N = True
+# USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

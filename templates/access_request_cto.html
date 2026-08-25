@@ -1,9 +1,9 @@
-{% extends 'base.html' %}  
-  
-{% block content %}  
+{% extends 'base.html' %}
+
+{% block content %}
 
 <style>
-   /* table {
+    /* table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -14,73 +14,102 @@ th, td {
     text-align: center;
 } */
 
-th {
-    /* background-color: #026492;
+    th {
+        /* background-color: #026492;
     color: white; */
-    font-size: 16px;
-}
+        font-size: small;
+    }
 
-td {
-    font-size: 12px;
-}
+    td {
+        font-size: small;
+    }
+
+    .table {
+        margin: auto;
+        padding: 20px;
+    }
+    .side-bar{
+        display: none;
+    }
+    .content-bar{
+        width: 100%;
+        margin-left: 0;
+    }
 </style>
 
 <div class="table">
-    <div class="row">
-        <div class="col-md-4">
-            <div id="logo" class="logo-container">
-                <img src="https://www.mblbd.com/style/images/mbl_logo.jpg" class="img-responsive" alt="" style="width: 50%;">            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="jumbotron" style="margin: 10px auto;">
-                <h3 class="display-8">Access/Service Requests </h3>
-              
-                
-              
-              
-              </div>
-        </div>
-        <hr class="my-3">
-     </div>
+    <p>CTO View</p>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Designation</th>
+                <th>Place of Posting</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in user_requests %}
+            <tr>
+                <td>{{ user.date }}</td>
+                <td>{{ user.employee_name }}</td>
+                <td>{{ user.department }}</td>
+                <td>{{ user.designation }}</td>
+                <td>{{ user.branch_division_name }}</td>
+                <td>
+                    {% if user.approved_by_CTO == 'Yes' %}
 
-     
-    <table class="table table-sm">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Department</th>
-            <th>Designation</th>
-            <th>Place of Posting</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in user_requests %}
-        <tr>
-            <td>{{ user.employee_name }}</td>
-            <td>{{ user.department }}</td>
-            <td>{{ user.designation }}</td>
-            <td>{{ user.branch_division_name }}</td>
-            <td>
-                {% if user.approved_by_CTO == 'Yes' %}
-                
-                <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user.request_no %}">View Only</a></button>
+                    <button type="button" class="btn btn-outline-primary btn-sm">Approved</button>
+                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                            href="{% url 'view_only' user.request_no %}">View Only</a></button>
 
-                {% else %}
-                <button type="button" class="btn btn-outline-success btn-sm"><a href="{% url 'view_only' user.request_no %}">View Only</a></button>
+                    {% else %}
+                    <button type="button" class="btn btn-outline-success btn-sm"><a
+                            href="{% url 'view_only' user.request_no %}">View Only</a></button>
 
-                <a href="{% url 'actions' user.request_no %}" type="button" class="btn btn-outline-success btn-sm">Accept</a>
-                <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
-               {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+                    <a href="{% url 'actions' user.request_no %}" type="button"
+                        class="btn btn-outline-success btn-sm">Accept</a>
+                    <button type="button" class="btn btn-outline-danger btn-sm">Deny</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mb-3">
+    
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+    
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+    
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            </li>
+            {% endif %}
+    
+        </ul>
+    </nav>
 
 </div>
 
 
-{% endblock content %}  
+{% endblock content %}
