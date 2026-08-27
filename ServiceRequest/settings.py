@@ -175,9 +175,9 @@ DATABASES = {
     "default": {
         "ENGINE": "mssql",
         "NAME": "db_service_request_automation",
-        "USER": "sa",
-        "PASSWORD": "Mbl@1234",
-        "HOST": "GASUTILITYNEW",
+        "USER": "borson_new",
+        "PASSWORD": "1234",
+        "HOST": "HO-IT-110\SQLEXPRESS",
         "PORT": "",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         },
